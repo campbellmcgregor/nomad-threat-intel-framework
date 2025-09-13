@@ -2,6 +2,8 @@
 
 An AI-powered, multi-agent threat intelligence orchestration system designed for rapid processing and actionable insights from diverse security sources.
 
+> **Flexible Implementation**: This framework provides both prompt templates for LLM-based agents AND a Python implementation that can be run directly or through Claude Code.
+
 ## 🎯 Overview
 
 NOMAD is a modular threat intelligence framework that automates the collection, enrichment, deduplication, and routing of security threats using specialized AI agents. It transforms raw threat data from RSS feeds, vendor advisories, and security bulletins into prioritized, actionable intelligence for security teams.
@@ -107,11 +109,19 @@ RSS Feeds → RSS Agent → Orchestrator → Routing Decision
 
 ## 🚀 Getting Started
 
+### Implementation Options
+
+NOMAD can be used in three ways:
+
+1. **Prompt Templates Only**: Use the `*-prompt.md` files with any LLM to implement agents in any language
+2. **Python Implementation**: Run the provided Python agents directly with `nomad.py`
+3. **Claude Code Integration**: Use Claude Code to orchestrate and extend the framework
+
 ### Prerequisites
 
-- Python 3.9+ or Node.js 18+
-- API access to threat intelligence sources
-- LLM API credentials (OpenAI/Anthropic)
+- Python 3.9+ (for Python implementation)
+- API access to threat intelligence sources (optional for enrichment)
+- LLM API credentials (optional for AI-powered processing)
 
 ### Installation
 
@@ -188,6 +198,8 @@ Each agent operates with a specific prompt template that defines its behavior:
 - Admiralty credibility ratings (A-F for source, 1-6 for information)
 - Rule-based decision making
 - Evidence preservation requirements
+
+**📖 See [PROMPTS_USAGE.md](PROMPTS_USAGE.md) for detailed instructions on using the prompt templates with any LLM.**
 
 ## 🔧 Customization
 
