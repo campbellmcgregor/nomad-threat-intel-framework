@@ -244,4 +244,4 @@ For questions, suggestions, or collaboration opportunities, please open an issue
 
 ---
 
-**NOMAD**: *Networked Operations for Managing Adversarial Disruptions*
+**NOMAD**: *Notable Object Monitoring And Analysis Director*:
