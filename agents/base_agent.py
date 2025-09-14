@@ -10,6 +10,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional
 import yaml
+from dotenv import load_dotenv
+import anthropic
+from anthropic import Anthropic
+import time
 
 class BaseAgent:
     """Base class for all NOMAD agents"""
@@ -20,8 +24,23 @@ class BaseAgent:
         Args:
             agent_name: Name of the agent (e.g., 'rss_feed', 'orchestrator')
         """
+        # Load environment variables
+        load_dotenv()
+
         self.agent_name = agent_name
         self.logger = self._setup_logger()
+
+        # Initialize Claude client if API key is available
+        self.claude_client = None
+        api_key = os.getenv('ANTHROPIC_API_KEY')
+        if api_key:
+            try:
+                self.claude_client = Anthropic(api_key=api_key)
+                self.logger.info("Claude API client initialized")
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize Claude client: {e}")
+        else:
+            self.logger.warning("No ANTHROPIC_API_KEY found - LLM processing will use placeholder mode")
 
         # Look for prompt in root directory first, then prompts folder
         root_prompt = Path(__file__).parent.parent / f"{agent_name}-prompt.md"
@@ -150,32 +169,165 @@ class BaseAgent:
         """
         raise NotImplementedError("Subclasses must implement run() method")
 
-    def process_with_llm(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_with_llm(self, input_data: Dict[str, Any], max_retries: int = 3) -> Dict[str, Any]:
         """Process data using LLM with agent's prompt
-
-        This method would integrate with Claude Code's Task tool
-        or an LLM API directly
 
         Args:
             input_data: Input data for the agent
+            max_retries: Maximum number of API call retries
 
         Returns:
             Processed output from LLM
         """
-        prompt = self.load_prompt()
+        prompt_template = self.load_prompt()
 
-        # This is where Claude Code would process the data
-        # For now, return a placeholder
-        self.logger.info(f"Processing with LLM using prompt from {self.prompt_path}")
+        if not prompt_template:
+            self.logger.error(f"No prompt template found for {self.agent_name}")
+            return {"error": "No prompt template available", "agent": self.agent_name}
 
-        # In actual implementation, this would:
-        # 1. Format input_data according to prompt requirements
-        # 2. Call LLM API or Claude Code Task tool
-        # 3. Parse and validate the response
-        # 4. Return structured output
+        # Format the full prompt with input data
+        full_prompt = self._format_prompt(prompt_template, input_data)
 
+        if not self.claude_client:
+            self.logger.warning("No Claude client available - returning placeholder")
+            return {
+                "status": "no_api_key",
+                "agent": self.agent_name,
+                "timestamp": self.get_timestamp(),
+                "input_received": bool(input_data)
+            }
+
+        # Process with Claude API
+        return self._call_claude_api(full_prompt, max_retries)
+
+    def _format_prompt(self, template: str, input_data: Dict[str, Any]) -> str:
+        """Format prompt template with input data
+
+        Args:
+            template: The prompt template
+            input_data: Data to insert into template
+
+        Returns:
+            Formatted prompt string
+        """
+        # For NOMAD agents, input data is typically JSON that should be inserted
+        # into the INPUT section of the prompt
+        if input_data:
+            input_json = json.dumps(input_data, indent=2, default=str)
+            # Look for INPUT section and replace or append
+            if "INPUT" in template and "{" in template:
+                # Replace placeholder JSON in template
+                import re
+                # Find JSON blocks in template and replace with actual data
+                json_pattern = r'\{[\s\S]*?\}'
+                template = re.sub(json_pattern, input_json, template, count=1)
+            else:
+                # Append input data to template
+                template += f"\n\nINPUT:\n{input_json}"
+
+        return template
+
+    def _call_claude_api(self, prompt: str, max_retries: int) -> Dict[str, Any]:
+        """Make API call to Claude with retry logic
+
+        Args:
+            prompt: Formatted prompt to send
+            max_retries: Maximum retry attempts
+
+        Returns:
+            Parsed response from Claude
+        """
+        for attempt in range(max_retries):
+            try:
+                self.logger.info(f"Calling Claude API (attempt {attempt + 1}/{max_retries})")
+
+                response = self.claude_client.messages.create(
+                    model="claude-3-sonnet-20240229",
+                    max_tokens=4096,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ]
+                )
+
+                # Extract response content
+                response_text = response.content[0].text if response.content else ""
+
+                # Try to parse JSON response
+                parsed_response = self._parse_response(response_text)
+
+                self.logger.info(f"Successfully processed with Claude API")
+                return {
+                    "status": "success",
+                    "agent": self.agent_name,
+                    "timestamp": self.get_timestamp(),
+                    "response": parsed_response,
+                    "raw_response": response_text
+                }
+
+            except anthropic.APITimeoutError as e:
+                self.logger.warning(f"Claude API timeout (attempt {attempt + 1}): {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(2 ** attempt)  # Exponential backoff
+                    continue
+
+            except anthropic.APIError as e:
+                self.logger.error(f"Claude API error (attempt {attempt + 1}): {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(2 ** attempt)
+                    continue
+
+            except Exception as e:
+                self.logger.error(f"Unexpected error calling Claude API: {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(1)
+                    continue
+
+        # All retries failed
         return {
-            "status": "pending_implementation",
+            "status": "api_error",
             "agent": self.agent_name,
-            "timestamp": self.get_timestamp()
+            "timestamp": self.get_timestamp(),
+            "error": "Failed to get response from Claude API after all retries"
         }
+
+    def _parse_response(self, response_text: str) -> Dict[str, Any]:
+        """Parse Claude's response, handling both JSON and text
+
+        Args:
+            response_text: Raw response from Claude
+
+        Returns:
+            Parsed response data
+        """
+        # Try to extract JSON from response
+        try:
+            # Look for JSON blocks in markdown code fences
+            import re
+            json_match = re.search(r'```(?:json)?\s*\n(.*?)\n```', response_text, re.DOTALL)
+            if json_match:
+                json_text = json_match.group(1)
+                return json.loads(json_text)
+
+            # Try to parse the entire response as JSON
+            return json.loads(response_text)
+
+        except json.JSONDecodeError:
+            # If not valid JSON, look for JSON-like content
+            json_start = response_text.find('{')
+            json_end = response_text.rfind('}')
+
+            if json_start >= 0 and json_end > json_start:
+                try:
+                    json_content = response_text[json_start:json_end + 1]
+                    return json.loads(json_content)
+                except json.JSONDecodeError:
+                    pass
+
+            # Return as text if no JSON found
+            return {
+                "text_response": response_text,
+                "parsed": False
+            }
