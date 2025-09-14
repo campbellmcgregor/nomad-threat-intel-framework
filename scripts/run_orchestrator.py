@@ -13,8 +13,8 @@ from pathlib import Path
 # Add parent directory to path so we can import agents
 sys.path.append(str(Path(__file__).parent.parent))
 
-from agents.base_agent import BaseAgent
-from config.environment import config
+from src.agents.base_agent import BaseAgent
+from src.config.environment import config
 
 class OrchestratorAgent(BaseAgent):
     """Orchestrator agent for routing intelligence items"""

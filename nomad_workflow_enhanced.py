@@ -11,7 +11,7 @@ import subprocess
 import time
 from pathlib import Path
 from datetime import datetime, timedelta
-from config.environment import config
+from src.config.environment import config
 
 class NomadWorkflow:
     """Enhanced workflow runner for both Claude Code and direct agent execution"""

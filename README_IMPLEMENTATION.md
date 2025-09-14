@@ -8,14 +8,14 @@ The NOMAD framework now supports **both** Claude Code orchestration (original de
 
 ### Core Changes
 
-#### 1. LLM Integration (`agents/base_agent.py`)
+#### 1. LLM Integration (`src/agents/base_agent.py`)
 - **Real Claude API Integration**: The `process_with_llm()` method now makes actual API calls to Claude
 - **Prompt Processing**: Automatically formats prompt templates with input data
 - **Response Parsing**: Handles both JSON and text responses from Claude
 - **Error Handling**: Retry logic with exponential backoff for API failures
 - **Environment Loading**: Automatic detection of ANTHROPIC_API_KEY
 
-#### 2. Environment Configuration (`config/environment.py`)
+#### 2. Environment Configuration (`src/config/environment.py`)
 - **Centralized Config**: Single place for all environment variables
 - **API Key Management**: Secure handling of multiple API keys
 - **Directory Management**: Automatic creation of required directories
@@ -42,7 +42,7 @@ Each script includes:
 - **Progress Tracking**: Real-time status updates during execution
 - **Checkpointing**: Saves intermediate results for debugging
 
-#### 5. Workflow Validation (`utils/workflow_validator.py`)
+#### 5. Workflow Validation (`src/utils/workflow_validator.py`)
 - **Input Validation**: Ensures agent inputs meet schema requirements
 - **Output Validation**: Verifies agent outputs are properly structured
 - **Error Recovery**: Automatic fixes for common data issues

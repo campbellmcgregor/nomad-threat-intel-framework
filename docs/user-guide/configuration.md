@@ -655,7 +655,7 @@ python scripts/run_rss_agent.py --config-path $NOMAD_CONFIG_PATH
 #### Version Control Strategy
 ```bash
 # Track configuration changes
-git add config/
+git add src/config/
 git commit -m "Update RSS feeds for Q4 threat landscape"
 
 # Environment-specific branches
@@ -666,8 +666,8 @@ git merge staging  # After testing in staging
 #### Configuration Validation
 ```bash
 # Validate configuration before deployment
-python utils/validate_config.py --env production
-python utils/test_feeds.py --config environments/production/rss_feeds.yaml
+python src/utils/validate_config.py --env production
+python src/utils/test_feeds.py --config environments/production/rss_feeds.yaml
 ```
 
 ### Deployment Automation
@@ -681,12 +681,12 @@ ENVIRONMENT=$1
 CONFIG_PATH="environments/${ENVIRONMENT}"
 
 # Validate configuration
-python utils/validate_config.py --config-path $CONFIG_PATH
+python src/utils/validate_config.py --config-path $CONFIG_PATH
 
 # Deploy configuration
 cp ${CONFIG_PATH}/.env .env
-cp ${CONFIG_PATH}/rss_feeds.yaml config/
-cp ${CONFIG_PATH}/agent_config.yaml config/
+cp ${CONFIG_PATH}/rss_feeds.yaml src/config/
+cp ${CONFIG_PATH}/agent_config.yaml src/config/
 
 # Restart services
 systemctl restart nomad-scheduler

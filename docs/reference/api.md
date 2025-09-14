@@ -852,7 +852,7 @@ except anthropic.AuthenticationError:
 ### Rate Limit Configuration
 
 ```yaml
-# config/rate_limits.yml
+# src/config/rate_limits.yml
 rate_limits:
   anthropic:
     requests_per_minute: 100
@@ -1116,7 +1116,7 @@ curl -X POST https://nomad-api.company.com/api/v1/intelligence/collect \
 
 # Get agent status
 curl -H "Authorization: Bearer $NOMAD_API_KEY" \
-  https://nomad-api.company.com/api/v1/agents/status
+  https://nomad-api.company.com/api/v1/src/agents/status
 
 # Generate CISO report
 curl -X POST https://nomad-api.company.com/api/v1/reports/ciso \

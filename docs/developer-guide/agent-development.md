@@ -48,7 +48,7 @@ All NOMAD agents share these characteristics:
 Create a new agent by inheriting from `BaseAgent`:
 
 ```python
-# agents/threat_hunter.py
+# src/agents/threat_hunter.py
 """
 Threat Hunter Agent - Identifies potential threats from intelligence data
 """
