@@ -967,7 +967,7 @@ When reporting issues, collect these logs:
 # Create support bundle
 mkdir nomad_support_bundle
 cp .env.example nomad_support_bundle/  # Don't include real .env with API keys
-cp config/*.yaml nomad_support_bundle/
+cp src/config/*.yaml nomad_support_bundle/
 cp data/logs/*.log nomad_support_bundle/ 2>/dev/null || echo "No logs found"
 ls -la data/output/ > nomad_support_bundle/output_files.txt
 

@@ -693,19 +693,19 @@ resource_management:
 #### Execution Metrics
 ```bash
 # View workflow metrics
-python utils/workflow_metrics.py --workflow morning_check --days 7
+python src/utils/workflow_metrics.py --workflow morning_check --days 7
 
 # Performance analysis
-python utils/performance_analyzer.py --analyze-all
+python src/utils/performance_analyzer.py --analyze-all
 ```
 
 #### Health Checks
 ```bash
 # Validate workflow definitions
-python utils/workflow_validator.py config/claude_agent_config.yaml
+python src/utils/workflow_validator.py config/claude_agent_config.yaml
 
 # Test workflow connectivity
-python utils/workflow_tester.py --workflow morning_check --dry-run
+python src/utils/workflow_tester.py --workflow morning_check --dry-run
 ```
 
 #### Alerting and Notifications
@@ -741,13 +741,13 @@ python nomad_workflow_enhanced.py debug morning_check --interactive
 **Workflow Won't Start**:
 ```bash
 # Check configuration
-python utils/config_validator.py
+python src/utils/config_validator.py
 
 # Verify agent availability
-python utils/agent_health.py --check-all
+python src/utils/agent_health.py --check-all
 
 # Review prerequisites
-python utils/dependency_checker.py
+python src/utils/dependency_checker.py
 ```
 
 **Agent Timeouts**:
@@ -756,7 +756,7 @@ python utils/dependency_checker.py
 timeout_minutes: 30
 
 # Check API connectivity
-python utils/api_tester.py
+python src/utils/api_tester.py
 
 # Monitor resource usage
 htop
@@ -765,7 +765,7 @@ htop
 **Data Flow Issues**:
 ```bash
 # Validate data schemas
-python utils/schema_validator.py data/output/rss_feed_result_*.json
+python src/utils/schema_validator.py data/output/rss_feed_result_*.json
 
 # Check file permissions
 ls -la data/output/
@@ -796,13 +796,13 @@ performance_optimization:
 #### Resource Monitoring
 ```bash
 # Monitor memory usage
-python utils/memory_monitor.py --workflow morning_check
+python src/utils/memory_monitor.py --workflow morning_check
 
 # Track API usage
-python utils/api_usage_tracker.py --report daily
+python src/utils/api_usage_tracker.py --report daily
 
 # Analyze bottlenecks
-python utils/bottleneck_analyzer.py --workflow full_pipeline
+python src/utils/bottleneck_analyzer.py --workflow full_pipeline
 ```
 
 ## Best Practices
@@ -857,7 +857,7 @@ python nomad_workflow_enhanced.py plan new_workflow --mode=direct
 python nomad_workflow_enhanced.py execute new_workflow --dry-run
 
 # Validate with sample data
-python utils/workflow_tester.py --sample-data test_data.json
+python src/utils/workflow_tester.py --sample-data test_data.json
 ```
 
 #### Documentation Requirements

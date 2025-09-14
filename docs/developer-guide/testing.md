@@ -241,7 +241,7 @@ if __name__ == "__main__":
 
 **Example: RSS Feed Agent Tests**
 ```python
-# tests/agents/test_rss_feed_agent.py
+# tests/src/agents/test_rss_feed_agent.py
 import pytest
 from unittest.mock import Mock, patch, MagicMock
 from agents.rss_feed_agent import RSSFeedAgent
@@ -403,7 +403,7 @@ class TestRSSFeedAgent:
 
 **Example: Environment Configuration Tests**
 ```python
-# tests/config/test_environment.py
+# tests/src/config/test_environment.py
 import pytest
 import os
 from unittest.mock import patch, MagicMock
@@ -483,7 +483,7 @@ class TestEnvironmentConfig:
 
 **Example: Data Validation Tests**
 ```python
-# tests/utils/test_validation.py
+# tests/src/utils/test_validation.py
 import pytest
 from datetime import datetime
 from utils.validation import DataValidator
@@ -1122,7 +1122,7 @@ class NomadAPIUser(HttpUser):
     def get_agent_status(self):
         """Test agent status endpoint"""
         self.client.get(
-            '/api/v1/agents/status',
+            '/api/v1/src/agents/status',
             headers=self.headers
         )
 
@@ -1353,7 +1353,7 @@ class TestSecurityVulnerabilities:
 
         sensitive_files = [
             '.env',
-            'config/secrets.yml',
+            'src/config/secrets.yml',
             'logs/security_audit.log'
         ]
 
@@ -1397,7 +1397,7 @@ class TestSecurityVulnerabilities:
 
         # Run bandit security analysis
         result = subprocess.run(
-            ['bandit', '-r', 'agents/', 'config/', 'utils/', '-f', 'json'],
+            ['bandit', '-r', 'src/agents/', 'src/config/', 'src/utils/', '-f', 'json'],
             capture_output=True,
             text=True
         )
@@ -1944,9 +1944,9 @@ jobs:
 ```
 tests/
 ├── unit/                   # Unit tests
-│   ├── agents/
-│   ├── config/
-│   └── utils/
+│   ├── src/agents/
+│   ├── src/config/
+│   └── src/utils/
 ├── integration/            # Integration tests
 │   ├── test_agent_integration.py
 │   └── test_workflow_integration.py

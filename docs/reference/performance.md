@@ -2268,7 +2268,7 @@ class NomadLoadTester:
             },
             {
                 'method': 'GET',
-                'path': '/api/v1/agents/status',
+                'path': '/api/v1/src/agents/status',
                 'think_time': 1
             },
             {

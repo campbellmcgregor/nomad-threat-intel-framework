@@ -188,7 +188,7 @@ python -c "from config.environment import config; config.validate_api_access()"
 python scripts/run_rss_agent.py --single-feed https://feeds.feedburner.com/eset/blog --dry-run
 
 # Validate configuration
-python utils/config_validator.py
+python src/utils/config_validator.py
 ```
 
 ## 📈 What's New

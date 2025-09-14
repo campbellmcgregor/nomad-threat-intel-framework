@@ -13,8 +13,8 @@ from pathlib import Path
 # Add parent directory to path so we can import agents
 sys.path.append(str(Path(__file__).parent.parent))
 
-from agents.rss_feed import RSSFeedAgent
-from config.environment import config
+from src.agents.rss_feed import RSSFeedAgent
+from src.config.environment import config
 
 def main():
     parser = argparse.ArgumentParser(description="Run NOMAD RSS Feed Agent directly")

@@ -155,7 +155,7 @@ def setup_development_environment():
         'data/output',
         'data/cache',
         'logs',
-        'config/local',
+        'src/config/local',
         'tests/fixtures'
     ]
 
@@ -319,7 +319,7 @@ services:
       # Data persistence
       - nomad-data:/app/data
       - nomad-logs:/app/logs
-      - nomad-config:/app/config/local:ro
+      - nomad-config:/app/src/config/local:ro
 
     # Resource limits
     deploy:
@@ -365,7 +365,7 @@ services:
     volumes:
       - nomad-data:/app/data
       - nomad-logs:/app/logs
-      - nomad-config:/app/config/local:ro
+      - nomad-config:/app/src/config/local:ro
 
     depends_on:
       nomad-core:
@@ -1253,7 +1253,7 @@ WantedBy=multi-user.target
 
 ### Configuration Management
 
-**config/production.yml**
+**src/config/production.yml**
 ```yaml
 nomad:
   environment: production
@@ -1313,7 +1313,7 @@ nomad:
 
 ### Secret Management Integration
 
-**config/secrets.py**
+**src/config/secrets.py**
 ```python
 import os
 import boto3

@@ -200,7 +200,7 @@ mkdir -p {data/{dev-output,dev-input,dev-cache,logs,checkpoints},tests/{unit,int
 mkdir -p tests/fixtures/{rss-feeds,api-responses,sample-data}
 
 # Create development utility directories
-mkdir -p utils/{dev-tools,test-helpers,mock-servers}
+mkdir -p src/utils/{dev-tools,test-helpers,mock-servers}
 ```
 
 ## IDE Configuration
@@ -540,7 +540,7 @@ fi
 echo "📁 Creating development directories..."
 mkdir -p data/{dev-output,dev-input,dev-cache,logs,checkpoints}
 mkdir -p tests/{unit,integration,fixtures}
-mkdir -p utils/{dev-tools,test-helpers}
+mkdir -p src/utils/{dev-tools,test-helpers}
 
 # Test basic functionality
 echo "🧪 Testing basic functionality..."
@@ -592,12 +592,12 @@ flake8 .
 
 # Type checking
 echo "📝 Type checking with mypy..."
-mypy agents/ config/ utils/ --ignore-missing-imports
+mypy src/agents/ src/config/ src/utils/ --ignore-missing-imports
 
 # Security check (optional)
 if command -v bandit &> /dev/null; then
     echo "🔒 Security check with bandit..."
-    bandit -r agents/ config/ utils/ -x tests/
+    bandit -r src/agents/ src/config/ src/utils/ -x tests/
 fi
 
 echo "✅ All quality checks passed!"
@@ -840,7 +840,7 @@ def sample_rss_data():
 
 ### Logging Configuration for Development
 
-Create `utils/dev_logging.py`:
+Create `src/utils/dev_logging.py`:
 ```python
 """Development logging configuration."""
 
@@ -903,7 +903,7 @@ def debug_agent_execution(agent_name: str, input_data: dict, output_data: dict):
 
 ### Debug Utilities
 
-Create `utils/debug_helpers.py`:
+Create `src/utils/debug_helpers.py`:
 ```python
 """Debugging utilities for development."""
 

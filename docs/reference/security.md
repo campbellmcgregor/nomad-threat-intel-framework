@@ -67,7 +67,7 @@ def get_secret(secret_name):
     response = client.get_secret_value(SecretId=secret_name)
     return response['SecretString']
 
-# config/environment.py
+# src/config/environment.py
 class SecureConfig:
     def __init__(self):
         if os.getenv('ENVIRONMENT') == 'production':
@@ -330,7 +330,7 @@ sudo ufw default allow outgoing
 
 **Egress Filtering**
 ```python
-# config/allowed_domains.py
+# src/config/allowed_domains.py
 ALLOWED_DOMAINS = {
     'anthropic.com',          # Claude API
     'api.anthropic.com',
@@ -846,7 +846,7 @@ chmod +x /etc/cron.daily/security-check
 
 **Production Secret Management**
 ```python
-# config/secrets.py
+# src/config/secrets.py
 import boto3
 import hvac
 from typing import Dict, Any
@@ -1110,7 +1110,7 @@ class IncidentResponsePlaybook:
 
 **Production Security Config**
 ```yaml
-# config/security.yml
+# src/config/security.yml
 security:
   # Encryption settings
   encryption:
@@ -1220,7 +1220,7 @@ class SecurityValidator:
         """Check file and directory permissions"""
         result = {'status': True, 'issues': []}
 
-        sensitive_files = ['.env', 'config/', 'data/']
+        sensitive_files = ['.env', 'src/config/', 'data/']
 
         for file_path in sensitive_files:
             if os.path.exists(file_path):
