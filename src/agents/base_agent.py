@@ -6,7 +6,7 @@ Provides common functionality for all agents
 import json
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional
 import yaml
@@ -156,7 +156,7 @@ class BaseAgent:
 
     def get_timestamp(self) -> str:
         """Get current UTC timestamp in standard format"""
-        return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     def run(self, **kwargs) -> Dict[str, Any]:
         """Run the agent - to be implemented by subclasses
