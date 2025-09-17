@@ -1,8 +1,13 @@
 # NOMAD Threat Intelligence Framework
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Defensive Security](https://img.shields.io/badge/Purpose-Defensive%20Security-green.svg)](https://github.com/yourusername/nomad-threat-intel-framework)
+[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Contributor%20Covenant-orange.svg)](CODE_OF_CONDUCT.md)
+
 An AI-powered, multi-agent threat intelligence orchestration system designed for rapid processing and actionable insights from diverse security sources.
 
-> **Flexible Implementation**: This framework provides both prompt templates for LLM-based agents AND a Python implementation that can be run directly or through Claude Code.
+> **Flexible Implementation**: This framework provides both prompt templates for LLM-based agents AND a Python implementation that can be run directly or through AI coding assistants.
 
 ## 🎯 Overview
 
@@ -232,11 +237,15 @@ Edit `orchestrator-system-prompt.md` to adjust:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Areas of interest:
+Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+Areas of interest:
 - Additional threat source integrations
 - Enhanced enrichment capabilities
 - ML-based threat scoring
 - Integration with SOAR platforms
+
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
 ## 📝 License
 

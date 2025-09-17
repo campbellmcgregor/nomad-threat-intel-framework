@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding assistants like Claude Code when working with code in this repository.
 
 ## Repository Overview
 
@@ -179,4 +179,4 @@ When implementing, key policy parameters to configure:
 - `sla_hours_critical`: Default 48 hours
 - `asset_exposure`: Organization-specific asset mapping
 - `legal_sector_keywords`: Industry-specific terms for CISO reports
-- ensure you use virtualenv only do not use the system python install
+- Ensure you use virtualenv only, do not use the system python install

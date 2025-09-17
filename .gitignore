@@ -136,3 +136,18 @@ cython_debug/
 config/local/
 *.local.yaml
 *.local.yml
+
+# Example output files (keep template/examples but not actual outputs)
+weekly-threat-report-*.json
+daily-alert-*.json
+ciso-report-*.json
+technical-alert-*.json
+watchlist-digest-*.json
+
+# Runtime data directories
+data/runtime/
+data/processing/
+
+# User-specific configuration
+user-config.yaml
+user-config.yml
