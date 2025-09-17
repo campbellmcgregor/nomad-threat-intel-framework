@@ -6,7 +6,7 @@ Collects and normalizes threat intelligence from RSS/Atom feeds
 import re
 import hashlib
 import feedparser
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List, Optional
 from .base_agent import BaseAgent
 
@@ -32,7 +32,7 @@ class RSSFeedAgent(BaseAgent):
         """
         # Set default time range
         if not since:
-            since_date = datetime.utcnow() - timedelta(days=7)
+            since_date = datetime.now(timezone.utc) - timedelta(days=7)
             since = since_date.strftime("%Y-%m-%dT%H:%M:%SZ")
         else:
             since = f"{since}T00:00:00Z"
@@ -114,10 +114,17 @@ class RSSFeedAgent(BaseAgent):
                 self.logger.warning(f"Feed parsing issue for {feed_name}: {feed.bozo_exception}")
 
             # Process entries
+            total_entries = len(feed.entries)
+            filtered_entries = 0
             for entry in feed.entries:
                 item = self._normalize_entry(entry, feed_config, since, until)
                 if item:
                     items.append(item)
+                else:
+                    filtered_entries += 1
+
+            if total_entries > 0:
+                self.logger.info(f"Feed {feed_name}: {len(items)}/{total_entries} entries passed date filter (filtered: {filtered_entries})")
 
         except Exception as e:
             self.logger.error(f"Error processing feed {feed_name}: {e}")
@@ -144,28 +151,57 @@ class RSSFeedAgent(BaseAgent):
 
         # Get published date
         published = None
-        if hasattr(entry, 'published_parsed'):
-            published = datetime(*entry.published_parsed[:6])
-        elif hasattr(entry, 'updated_parsed'):
-            published = datetime(*entry.updated_parsed[:6])
+        if hasattr(entry, 'published_parsed') and entry.published_parsed:
+            published = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+        elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
+            published = datetime(*entry.updated_parsed[:6], tzinfo=timezone.utc)
 
         # Apply date filter
         if published:
             published_str = published.strftime("%Y-%m-%dT%H:%M:%SZ")
-            if published_str < since or published_str > until:
+            # Parse since and until for proper comparison
+            since_dt = datetime.strptime(since, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            until_dt = datetime.strptime(until, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+
+            if published < since_dt or published > until_dt:
                 return None
         else:
+            # No date found, include by default with current timestamp
             published_str = self.get_timestamp()
 
-        # Extract CVEs
+        # Extract CVEs from title, summary, and raw content
         text = f"{title} {summary}"
+
+        # Also check content field and other text fields
+        if hasattr(entry, 'content') and entry.content:
+            for content_item in entry.content:
+                if hasattr(content_item, 'value'):
+                    text += f" {content_item.value}"
+
+        # Check description field
+        if entry.get('description'):
+            text += f" {entry.get('description')}"
+
         cves = list(set(self.cve_pattern.findall(text)))
 
         # Generate dedupe key
         dedupe_key = self._generate_dedupe_key(title, link)
 
-        # Determine Admiralty ratings based on source type
+        # Determine Admiralty ratings based on source type and URL
         source_type = feed_config.get('source_type', 'unknown')
+
+        # For manual feeds, try to detect source from URL
+        if feed_config.get('name') == 'Manual Feed':
+            if 'cisa.gov' in link or 'cisa.gov' in feed_config.get('url', ''):
+                source_type = 'cert'
+                feed_config['name'] = 'CISA Cybersecurity Advisories'
+            elif 'nvd.nist.gov' in link or 'nvd.nist.gov' in feed_config.get('url', ''):
+                source_type = 'database'
+                feed_config['name'] = 'NVD Vulnerability Database'
+            elif 'bleepingcomputer.com' in link or 'bleepingcomputer.com' in feed_config.get('url', ''):
+                source_type = 'news'
+                feed_config['name'] = 'BleepingComputer'
+
         source_reliability, info_credibility, admiralty_reason = self._get_admiralty_ratings(
             source_type, feed_config.get('name', '')
         )
@@ -299,14 +335,28 @@ class RSSFeedAgent(BaseAgent):
         Returns:
             Normalized intelligence items from feed
         """
+        # Try to determine feed details from URL
+        feed_name = 'Manual Feed'
+        source_type = 'unknown'
+
+        if 'cisa.gov' in feed_url:
+            feed_name = 'CISA Cybersecurity Advisories'
+            source_type = 'cert'
+        elif 'nvd.nist.gov' in feed_url:
+            feed_name = 'NVD Vulnerability Database'
+            source_type = 'database'
+        elif 'bleepingcomputer.com' in feed_url:
+            feed_name = 'BleepingComputer'
+            source_type = 'news'
+
         feed_config = {
-            'name': 'Manual Feed',
+            'name': feed_name,
             'url': feed_url,
-            'source_type': 'unknown',
+            'source_type': source_type,
             'priority': 'medium'
         }
 
-        since = (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        since = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
         until = self.get_timestamp()
 
         items = self._process_feed(feed_config, since, until)
