@@ -107,7 +107,7 @@ NOMAD supports multiple deployment patterns to accommodate different organizatio
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/nomad-threat-intel-framework.git
+git clone https://github.com/yourusername/nomad-threat-intel-framework.git
 cd nomad-threat-intel-framework
 
 # Create virtual environment
@@ -602,7 +602,7 @@ Resources:
 
           # Clone NOMAD repository
           cd /opt
-          git clone https://github.com/your-org/nomad-threat-intel-framework.git
+          git clone https://github.com/yourusername/nomad-threat-intel-framework.git
           cd nomad-threat-intel-framework
 
           # Set up environment
