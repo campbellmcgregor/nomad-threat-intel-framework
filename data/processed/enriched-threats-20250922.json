@@ -1,0 +1,49 @@
+{
+  "processing_metadata": {
+    "agent_type": "intelligence-processor",
+    "processed_at_utc": "2025-09-22T14:30:00Z",
+    "threats_analyzed": 8,
+    "enrichment_sources": ["nvd", "epss", "kev"],
+    "processing_duration_seconds": 12
+  },
+  "processed_threats": [
+    {
+      "threat_id": "CVE-2025-4427",
+      "enrichment": {
+        "cvss_v3_score": 9.1,
+        "epss_score": 0.45,
+        "kev_listed": false,
+        "exploit_status": "PoC"
+      },
+      "risk_assessment": {
+        "priority_level": "critical",
+        "routing_decision": "CISO_REPORT",
+        "risk_score": 9.1,
+        "business_impact": "high"
+      },
+      "user_context": {
+        "affects_crown_jewels": ["Authentication Systems", "Customer Database"],
+        "asset_exposure_match": ["Internet-facing services", "Remote access systems"]
+      }
+    },
+    {
+      "threat_id": "CVE-2025-4428",
+      "enrichment": {
+        "cvss_v3_score": 8.8,
+        "epss_score": 0.72,
+        "kev_listed": false,
+        "exploit_status": "ITW"
+      },
+      "risk_assessment": {
+        "priority_level": "critical",
+        "routing_decision": "TECHNICAL_ALERT",
+        "risk_score": 8.8,
+        "business_impact": "high"
+      },
+      "user_context": {
+        "affects_crown_jewels": ["Customer Database", "Intellectual Property"],
+        "asset_exposure_match": ["Cloud infrastructure", "Internet-facing services"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "_comment": "NOMAD v2.0 Threat Intelligence Sources - Configure RSS feeds and intelligence sources",
+  "rss_feeds": [
+    {
+      "name": "CISA Cybersecurity Advisories",
+      "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+      "priority": "critical",
+      "source_reliability": "A",
+      "description": "Official US government cybersecurity advisories"
+    },
+    {
+      "name": "CISA Known Exploited Vulnerabilities",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "priority": "critical",
+      "source_reliability": "A",
+      "description": "CISA's catalog of vulnerabilities actively exploited in the wild"
+    },
+    {
+      "name": "US-CERT Current Activity",
+      "url": "https://www.cisa.gov/uscert/ncas/current-activity.xml",
+      "priority": "high",
+      "source_reliability": "A",
+      "description": "Current cybersecurity activities and alerts"
+    },
+    {
+      "name": "NCSC UK Advisories",
+      "url": "https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml",
+      "priority": "high",
+      "source_reliability": "A",
+      "description": "UK National Cyber Security Centre advisories"
+    },
+    {
+      "name": "Microsoft Security Response Center",
+      "url": "https://api.msrc.microsoft.com/update-guide/rss",
+      "priority": "high",
+      "source_reliability": "A",
+      "description": "Microsoft security updates and vulnerabilities"
+    },
+    {
+      "name": "Microsoft Security Blog",
+      "url": "https://www.microsoft.com/en-us/security/blog/feed/",
+      "priority": "medium",
+      "source_reliability": "B",
+      "description": "Microsoft security research and threat intelligence"
+    },
+    {
+      "name": "Cisco Security Advisories",
+      "url": "https://sec.cloudapps.cisco.com/security/center/publicationService.x?i=100",
+      "priority": "high",
+      "source_reliability": "A",
+      "description": "Cisco product security advisories"
+    },
+    {
+      "name": "CERT-EU Latest News",
+      "url": "https://cert.europa.eu/cert/Data/newsletter/reviewlatest-rss.xml",
+      "priority": "medium",
+      "source_reliability": "A",
+      "description": "European Union CERT cybersecurity news"
+    },
+    {
+      "name": "Canadian Centre for Cyber Security",
+      "url": "https://www.cyber.gc.ca/webservice/en/rss/alerts",
+      "priority": "medium",
+      "source_reliability": "A",
+      "description": "Canadian government cybersecurity alerts"
+    },
+    {
+      "name": "Australian Cyber Security Centre",
+      "url": "https://www.cyber.gov.au/rss.xml",
+      "priority": "medium",
+      "source_reliability": "A",
+      "description": "Australian government cybersecurity advisories"
+    }
+  ],
+  "api_sources": [
+    {
+      "name": "EPSS API",
+      "url": "https://api.first.org/data/v1/epss",
+      "description": "Exploit Prediction Scoring System for vulnerability prioritization",
+      "enabled": true
+    },
+    {
+      "name": "NVD CVE API",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+      "description": "National Vulnerability Database CVE details",
+      "enabled": true
+    }
+  ],
+  "feed_settings": {
+    "fetch_interval_hours": 2,
+    "max_age_days": 7,
+    "enable_caching": true,
+    "parallel_fetch": true,
+    "timeout_seconds": 30,
+    "retry_attempts": 3
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "_comment": "NOMAD v2.0 User Preferences - Customize these settings for personalized threat intelligence",
+  "organization": {
+    "name": "Your Organization",
+    "industry": "Technology",
+    "business_sectors": [
+      "Technology",
+      "Software Development",
+      "Cloud Services"
+    ]
+  },
+  "crown_jewels": [
+    "Customer Database",
+    "Authentication Systems",
+    "Payment Processing",
+    "Intellectual Property",
+    "Email Systems"
+  ],
+  "asset_exposure": [
+    "Internet-facing services",
+    "Cloud infrastructure",
+    "Internal networks",
+    "Remote access systems"
+  ],
+  "threat_preferences": {
+    "minimum_severity": "medium",
+    "focus_areas": [
+      "Remote code execution",
+      "Authentication bypass",
+      "Data exfiltration",
+      "Supply chain attacks"
+    ],
+    "exclude_categories": [
+      "DoS/DDoS",
+      "Physical security"
+    ],
+    "alert_thresholds": {
+      "cvss_critical": 9.0,
+      "cvss_high": 7.0,
+      "epss_threshold": 0.7,
+      "kev_priority": true
+    }
+  },
+  "reporting_preferences": {
+    "executive_summary": true,
+    "technical_details": true,
+    "remediation_guidance": true,
+    "threat_actor_attribution": false,
+    "business_impact_focus": true
+  },
+  "customization": {
+    "timezone": "UTC",
+    "date_format": "YYYY-MM-DD",
+    "response_style": "professional",
+    "max_threats_per_query": 10,
+    "cache_duration_hours": 6
+  }
+}

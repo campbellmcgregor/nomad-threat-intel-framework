@@ -1,0 +1,40 @@
+{
+  "_comment": "NOMAD v2.0 Threat Intelligence Cache - Processed and enriched threat data",
+  "cache_metadata": {
+    "last_updated": "2025-09-22T14:30:00Z",
+    "cache_version": "2.0",
+    "total_threats": 8,
+    "data_sources_last_check": {
+      "CISA Cybersecurity Advisories": "2025-09-22T00:00:00Z"
+    },
+    "next_scheduled_update": "2025-09-22T20:30:00Z"
+  },
+  "threats": [
+    {
+      "threat_id": "CVE-2025-4427",
+      "title": "Malicious Listener for Ivanti Endpoint Mobile Management Systems",
+      "priority_level": "critical",
+      "cvss_score": 9.1,
+      "affects_crown_jewels": ["Authentication Systems", "Customer Database"],
+      "published_utc": "2025-09-18T12:00:00Z"
+    },
+    {
+      "threat_id": "CVE-2025-4428",
+      "title": "Remote Code Execution in Cloud Infrastructure",
+      "priority_level": "critical",
+      "cvss_score": 8.8,
+      "affects_crown_jewels": ["Customer Database", "Intellectual Property"],
+      "published_utc": "2025-09-18T12:00:00Z"
+    }
+  ],
+  "intelligence_summary": {
+    "critical_count": 2,
+    "high_count": 5,
+    "medium_count": 1,
+    "low_count": 0,
+    "kev_threats": 0,
+    "trending_cves": ["CVE-2025-4427", "CVE-2025-4428", "CVE-2025-46418"],
+    "top_affected_vendors": ["Ivanti", "Microsoft", "Apache"],
+    "emerging_threat_actors": ["APT29", "Lazarus Group"]
+  }
+}
