@@ -34,49 +34,22 @@ The framework uses a multi-agent pipeline with specialized agents defined as mar
 - **data/threats-cache.json**: Cached threat intelligence data
 - **data/feed-quality-metrics.json**: Feed performance tracking
 
-## Common Commands
+## Usage (Claude Code v2.0)
 
-### Python Environment Setup
+### Zero Setup Required
 ```bash
-# Create virtual environment
-python3 -m venv venv
-
-# Activate virtual environment
-source venv/bin/activate  # macOS/Linux
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run tests
-pytest tests/
+# Clone and launch - that's it!
+git clone <repository-url>
+cd nomad-threat-intel-framework
+claude code
 ```
 
-### Running Scripts
-```bash
-# Run RSS collection agent
-python scripts/run_rss_agent.py
-
-# Run orchestrator
-python scripts/run_orchestrator.py
-
-# Generate CISO report
-python scripts/run_ciso_report.py
-
-# Debug RSS feeds
-python scripts/debug_rss.py
-```
-
-### Package Installation
-```bash
-# Install in development mode
-pip install -e .
-
-# Use console commands after installation
-nomad                  # Main workflow
-nomad-rss             # RSS agent
-nomad-orchestrator    # Orchestrator
-nomad-ciso            # CISO report generator
-```
+### Core Interaction
+NOMAD v2.0 runs entirely within Claude Code using natural language:
+- No Python installation required
+- No dependencies to manage
+- No command-line scripts to run
+- Pure conversational interface
 
 ## Natural Language Query Patterns
 
@@ -133,10 +106,10 @@ The system responds to these query types:
 
 ## Testing Approach
 
-- Unit tests in `tests/` directory (when present)
-- Use `pytest` for running tests
-- Agent prompt templates can be tested via mock LLM responses
-- Feed collection can be tested with `scripts/debug_rss.py`
+- Agent behavior is defined by markdown prompt templates in `agents/`
+- Test by making natural language queries to Claude Code
+- Feed quality monitoring built into the system
+- No external testing framework required
 
 ## Important Implementation Notes
 
@@ -166,9 +139,9 @@ The system responds to these query types:
 4. Test with example queries
 
 ### Debugging Feed Issues
-```bash
-python scripts/debug_rss.py  # Test individual feed parsing
-```
+- Ask: "Show feed quality" for performance analysis
+- Ask: "Check feed status" for accessibility issues
+- Ask: "Optimize my feeds" for recommendations
 
 ## Performance Considerations
 
