@@ -40,6 +40,12 @@ Classify user queries into these categories:
 - "Add new industry focus" → Help modify user-preferences.json
 - "Change threat sources" → Assist with threat-sources.json updates
 
+**Feed Management Queries**:
+- "Add healthcare feeds" → Execute feed-manager agent with industry template
+- "Import my feeds" → Process OPML/JSON/CSV imports via feed-manager
+- "Show feed quality" → Display feed performance metrics and recommendations
+- "Optimize my feeds" → Run feed-manager optimization analysis
+
 ### Workflow Orchestration
 
 **Standard Query Flow**:

@@ -1,0 +1,321 @@
+{
+  "_comment": "NOMAD v2.0 Premium Threat Intelligence Sources - Curated collection of 30+ high-quality feeds",
+  "feed_categories": {
+    "government_certs": [
+      {
+        "name": "CISA Cybersecurity Advisories",
+        "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+        "priority": "critical",
+        "source_reliability": "A",
+        "description": "Official US government cybersecurity advisories",
+        "update_frequency": "daily",
+        "focus_areas": ["vulnerabilities", "incident_response", "threat_actors"]
+      },
+      {
+        "name": "CISA Known Exploited Vulnerabilities",
+        "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "priority": "critical",
+        "source_reliability": "A",
+        "description": "CISA's catalog of vulnerabilities actively exploited in the wild",
+        "update_frequency": "weekly",
+        "focus_areas": ["active_exploits", "prioritization"]
+      },
+      {
+        "name": "US-CERT Current Activity",
+        "url": "https://www.cisa.gov/uscert/ncas/current-activity.xml",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Current cybersecurity activities and alerts",
+        "update_frequency": "daily",
+        "focus_areas": ["current_campaigns", "alerts"]
+      },
+      {
+        "name": "NCSC UK Advisories",
+        "url": "https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "UK National Cyber Security Centre advisories",
+        "update_frequency": "daily",
+        "focus_areas": ["vulnerabilities", "threat_intelligence"]
+      },
+      {
+        "name": "CERT-EU Latest News",
+        "url": "https://cert.europa.eu/cert/Data/newsletter/reviewlatest-rss.xml",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "European Union CERT cybersecurity news",
+        "update_frequency": "weekly",
+        "focus_areas": ["european_threats", "policy"]
+      },
+      {
+        "name": "Canadian Centre for Cyber Security",
+        "url": "https://www.cyber.gc.ca/webservice/en/rss/alerts",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "Canadian government cybersecurity alerts",
+        "update_frequency": "weekly",
+        "focus_areas": ["vulnerabilities", "advisories"]
+      },
+      {
+        "name": "Australian Cyber Security Centre",
+        "url": "https://www.cyber.gov.au/rss.xml",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "Australian government cybersecurity advisories",
+        "update_frequency": "weekly",
+        "focus_areas": ["vulnerabilities", "threat_intelligence"]
+      },
+      {
+        "name": "JPCERT/CC Japan",
+        "url": "https://www.jpcert.or.jp/rss/jpcert.rdf",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "Japan Computer Emergency Response Team advisories",
+        "update_frequency": "weekly",
+        "focus_areas": ["asia_pacific_threats", "vulnerabilities"]
+      },
+      {
+        "name": "BSI Germany",
+        "url": "https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed_WID.xml",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "German Federal Office for Information Security",
+        "update_frequency": "weekly",
+        "focus_areas": ["german_threats", "industrial_security"]
+      },
+      {
+        "name": "ANSSI France",
+        "url": "https://www.cert.ssi.gouv.fr/rss/",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "French National Cybersecurity Agency",
+        "update_frequency": "weekly",
+        "focus_areas": ["european_threats", "government"]
+      }
+    ],
+    "vendor_advisories": [
+      {
+        "name": "Microsoft Security Response Center",
+        "url": "https://api.msrc.microsoft.com/update-guide/rss",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Microsoft security updates and vulnerabilities",
+        "update_frequency": "weekly",
+        "focus_areas": ["microsoft_products", "patches"]
+      },
+      {
+        "name": "Microsoft Security Blog",
+        "url": "https://www.microsoft.com/en-us/security/blog/feed/",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Microsoft security research and threat intelligence",
+        "update_frequency": "weekly",
+        "focus_areas": ["threat_research", "microsoft_insights"]
+      },
+      {
+        "name": "Cisco Security Advisories",
+        "url": "https://sec.cloudapps.cisco.com/security/center/publicationService.x?i=100",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Cisco product security advisories",
+        "update_frequency": "weekly",
+        "focus_areas": ["network_security", "cisco_products"]
+      },
+      {
+        "name": "Oracle Critical Patch Updates",
+        "url": "https://www.oracle.com/security-alerts/rss.xml",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Oracle security bulletins and critical patches",
+        "update_frequency": "quarterly",
+        "focus_areas": ["database_security", "enterprise_software"]
+      },
+      {
+        "name": "VMware Security Advisories",
+        "url": "https://www.vmware.com/security/advisories.xml",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "VMware product security advisories",
+        "update_frequency": "monthly",
+        "focus_areas": ["virtualization", "cloud_infrastructure"]
+      },
+      {
+        "name": "Adobe Security Bulletins",
+        "url": "https://helpx.adobe.com/security.rss",
+        "priority": "medium",
+        "source_reliability": "A",
+        "description": "Adobe product security updates",
+        "update_frequency": "monthly",
+        "focus_areas": ["creative_software", "document_security"]
+      },
+      {
+        "name": "Red Hat Security Advisories",
+        "url": "https://access.redhat.com/security/data/oval/com.redhat.rhsa-all.xml.bz2",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Red Hat Enterprise Linux security advisories",
+        "update_frequency": "weekly",
+        "focus_areas": ["linux_security", "enterprise_os"]
+      },
+      {
+        "name": "AWS Security Bulletins",
+        "url": "https://aws.amazon.com/security/security-bulletins/RSS/",
+        "priority": "high",
+        "source_reliability": "A",
+        "description": "Amazon Web Services security notifications",
+        "update_frequency": "monthly",
+        "focus_areas": ["cloud_security", "aws_services"]
+      },
+      {
+        "name": "Google Security Blog",
+        "url": "https://security.googleblog.com/feeds/posts/default",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Google security research and product updates",
+        "update_frequency": "weekly",
+        "focus_areas": ["cloud_security", "android", "chrome"]
+      }
+    ],
+    "security_research": [
+      {
+        "name": "SANS Internet Storm Center",
+        "url": "https://isc.sans.edu/rssfeed.xml",
+        "priority": "high",
+        "source_reliability": "B",
+        "description": "SANS ISC threat intelligence and security research",
+        "update_frequency": "daily",
+        "focus_areas": ["threat_intelligence", "security_research"]
+      },
+      {
+        "name": "Qualys Security Blog",
+        "url": "https://blog.qualys.com/feed",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Qualys vulnerability research and threat intelligence",
+        "update_frequency": "weekly",
+        "focus_areas": ["vulnerability_research", "compliance"]
+      },
+      {
+        "name": "Rapid7 Labs",
+        "url": "https://blog.rapid7.com/rss/",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Rapid7 security research and threat analysis",
+        "update_frequency": "weekly",
+        "focus_areas": ["penetration_testing", "vulnerability_research"]
+      },
+      {
+        "name": "CrowdStrike Blog",
+        "url": "https://www.crowdstrike.com/blog/feed/",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "CrowdStrike threat intelligence and research",
+        "update_frequency": "weekly",
+        "focus_areas": ["threat_actors", "incident_response"]
+      },
+      {
+        "name": "FireEye Threat Research",
+        "url": "https://www.fireeye.com/blog/threat-research/_jcr_content.feed",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "FireEye advanced threat research and analysis",
+        "update_frequency": "weekly",
+        "focus_areas": ["apt_groups", "malware_analysis"]
+      },
+      {
+        "name": "Kaspersky Securelist",
+        "url": "https://securelist.com/feed/",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Kaspersky security research and threat intelligence",
+        "update_frequency": "weekly",
+        "focus_areas": ["malware", "threat_actors"]
+      },
+      {
+        "name": "Symantec Security Response",
+        "url": "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/feed",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "Symantec threat intelligence and security research",
+        "update_frequency": "weekly",
+        "focus_areas": ["malware", "threat_intelligence"]
+      }
+    ],
+    "threat_intelligence": [
+      {
+        "name": "AlienVault OTX",
+        "url": "https://otx.alienvault.com/api/v1/pulses/subscribed?limit=50",
+        "priority": "medium",
+        "source_reliability": "C",
+        "description": "Open Threat Exchange community intelligence",
+        "update_frequency": "daily",
+        "focus_areas": ["community_intel", "indicators"]
+      },
+      {
+        "name": "ThreatConnect Research",
+        "url": "https://threatconnect.com/blog/feed/",
+        "priority": "medium",
+        "source_reliability": "B",
+        "description": "ThreatConnect threat intelligence research",
+        "update_frequency": "weekly",
+        "focus_areas": ["threat_intelligence", "analytics"]
+      },
+      {
+        "name": "Unit 42 Palo Alto",
+        "url": "https://unit42.paloaltonetworks.com/feed/",
+        "priority": "high",
+        "source_reliability": "B",
+        "description": "Palo Alto Networks Unit 42 threat research",
+        "update_frequency": "weekly",
+        "focus_areas": ["apt_analysis", "malware_research"]
+      },
+      {
+        "name": "Talos Intelligence",
+        "url": "https://blog.talosintelligence.com/feeds/posts/default",
+        "priority": "high",
+        "source_reliability": "B",
+        "description": "Cisco Talos threat intelligence and research",
+        "update_frequency": "weekly",
+        "focus_areas": ["threat_intelligence", "vulnerability_research"]
+      }
+    ]
+  },
+  "api_sources": [
+    {
+      "name": "EPSS API",
+      "url": "https://api.first.org/data/v1/epss",
+      "description": "Exploit Prediction Scoring System for vulnerability prioritization",
+      "enabled": true,
+      "priority": "high"
+    },
+    {
+      "name": "NVD CVE API",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+      "description": "National Vulnerability Database CVE details",
+      "enabled": true,
+      "priority": "high"
+    },
+    {
+      "name": "CIRCL CVE Search",
+      "url": "https://cve.circl.lu/api/",
+      "description": "Alternative CVE database with enhanced metadata",
+      "enabled": false,
+      "priority": "medium"
+    },
+    {
+      "name": "VulnDB",
+      "url": "https://vulndb.cyberriskanalytics.com/",
+      "description": "Commercial vulnerability database",
+      "enabled": false,
+      "priority": "medium"
+    }
+  ],
+  "feed_metadata": {
+    "total_sources": 30,
+    "premium_sources": 25,
+    "community_sources": 5,
+    "update_frequency": "2_hours",
+    "quality_threshold": 0.8,
+    "last_curated": "2025-09-22T00:00:00Z"
+  }
+}

@@ -52,6 +52,8 @@ Update your organization details in `config/user-preferences.json`:
 - "What's critical today?"
 - "Threats to my customer database"
 - "Tell me about CVE-2024-12345"
+- "Add healthcare feeds"
+- "Import my existing feeds"
 
 🎯 **Personalized Intelligence**
 - Filtered by your industry and crown jewels
@@ -59,11 +61,18 @@ Update your organization details in `config/user-preferences.json`:
 - Executive and technical briefings
 - Actionable remediation guidance
 
-🔄 **Auto-Updating Feeds**
-- CISA cybersecurity advisories
-- Vendor security bulletins (Microsoft, Cisco, etc.)
-- Government CERT feeds (US, UK, EU, Canada, Australia)
-- Automatic enrichment with vulnerability databases
+🔄 **Premium Feed Collection (30+ Sources)**
+- **Government CERTs**: CISA, NCSC UK, CERT-EU, BSI Germany, ANSSI France
+- **Vendor Advisories**: Microsoft, Cisco, Oracle, VMware, Adobe, AWS
+- **Security Research**: SANS ISC, Qualys, Rapid7, CrowdStrike, FireEye
+- **Threat Intelligence**: Unit 42, Talos, AlienVault OTX
+- **Industry Templates**: Healthcare, Financial, Manufacturing, Technology
+
+🏭 **Industry-Specific Packages**
+- **Healthcare**: HHS, FDA device security, ICS-CERT medical
+- **Financial**: FS-ISAC, FinCEN, PCI standards, SWIFT security
+- **Manufacturing**: ICS-CERT, Schneider Electric, Siemens, Rockwell
+- **Technology**: GitHub Security, npm/PyPI advisories, cloud security
 
 ## Example Interactions
 
@@ -112,6 +121,8 @@ PROTECTIVE MEASURES:
 - **CVE Lookup**: "Tell me about CVE-2024-12345"
 - **Configuration**: "Update my preferences", "Add new crown jewel"
 - **Data Refresh**: "Update threat feeds", "Refresh intelligence"
+- **Feed Management**: "Add healthcare feeds", "Import my OPML", "Show feed quality"
+- **Setup Assistance**: "Configure for healthcare", "Setup wizard", "Optimize feeds"
 
 ### Configuration Options
 Customize threat filtering in `config/user-preferences.json`:
@@ -120,10 +131,20 @@ Customize threat filtering in `config/user-preferences.json`:
 - **Alert Thresholds**: CVSS/EPSS scoring preferences
 - **Response Style**: Technical vs executive briefings
 
+### Feed Management Features
+NOMAD v2.0 includes advanced feed management capabilities:
+- **30+ Premium Sources**: Government CERTs, vendor advisories, security research
+- **Industry Templates**: Pre-configured packages for Healthcare, Financial, Manufacturing, Technology
+- **Import/Export**: OPML, JSON, CSV support for existing feed collections
+- **Quality Monitoring**: Automatic feed health checks and optimization recommendations
+- **Smart Recommendations**: AI-suggested feeds based on your crown jewels and industry
+
 ### Data Sources
 NOMAD v2.0 monitors these premium sources:
-- **Government**: CISA, NCSC UK, CERT-EU, Canadian CCCS, Australian ACSC
-- **Vendors**: Microsoft MSRC, Cisco Security, Oracle Critical Patch Updates
+- **Government CERTs**: CISA, NCSC UK, CERT-EU, BSI Germany, ANSSI France, JPCERT/CC
+- **Vendor Advisories**: Microsoft, Cisco, Oracle, VMware, Adobe, AWS, Google, Red Hat
+- **Security Research**: SANS ISC, Qualys, Rapid7, CrowdStrike, FireEye, Kaspersky
+- **Threat Intelligence**: Unit 42, Talos Intelligence, AlienVault OTX, ThreatConnect
 - **Standards**: NVD (CVSS scores), FIRST.org (EPSS), CISA KEV catalog
 
 ## Architecture Benefits
@@ -160,6 +181,15 @@ A: Request "Executive briefing on this week's threats" for leadership
 **Q: How to add new crown jewel?**
 A: Say "Add [system name] to my crown jewels" and NOMAD will guide you
 
+**Q: How to add industry-specific feeds?**
+A: Say "Add healthcare feeds" or "Configure for financial services"
+
+**Q: Can I import my existing feeds?**
+A: Yes! Say "Import my OPML" or "Import feeds from JSON/CSV"
+
+**Q: How to check feed quality?**
+A: Ask "Show feed quality" or "Optimize my feeds" for performance analysis
+
 ## What Makes v2.0 Different
 
 | Traditional TI Tools | NOMAD v2.0 |
@@ -169,16 +199,30 @@ A: Say "Add [system name] to my crown jewels" and NOMAD will guide you
 | Generic reports | Personalized intelligence |
 | Manual correlation | Automated crown jewel analysis |
 | Static configurations | Learning preferences |
+| Limited feed sources | 30+ premium sources |
+| Manual feed management | Intelligent feed optimization |
+| One-size-fits-all | Industry-specific templates |
 
 ## Next Steps
 
 1. **Try basic queries** to get familiar with NOMAD's capabilities
 2. **Customize your profile** for more relevant intelligence
-3. **Set up regular briefings** by asking for weekly summaries
-4. **Explore advanced features** like supply chain analysis
+3. **Add industry-specific feeds** with "Add [industry] feeds"
+4. **Import existing feeds** if you have OPML/feed collections
+5. **Set up regular briefings** by asking for weekly summaries
+6. **Monitor feed quality** with "Show feed quality" for optimization
 
 ---
 
 🚀 **You're ready!** NOMAD v2.0 transforms complex threat intelligence into conversational, actionable insights that help you make informed security decisions quickly and confidently.
 
-*Questions? Just ask NOMAD: "How do I configure preferences?" or "What can you help me with?"*
+## Enhanced Features Summary
+
+✅ **30+ Premium Threat Feeds** - Government CERTs, vendor advisories, security research
+✅ **Industry-Specific Templates** - Pre-configured for Healthcare, Financial, Manufacturing, Technology
+✅ **Smart Feed Management** - Import OPML/JSON/CSV, quality monitoring, optimization
+✅ **Natural Language Interface** - "Add healthcare feeds", "Show feed quality", "Import my OPML"
+✅ **Intelligent Recommendations** - AI-suggested feeds based on your crown jewels and industry
+✅ **Quality Assurance** - Automatic feed validation and performance optimization
+
+*Questions? Just ask NOMAD: "Setup wizard", "Add industry feeds", or "Import my existing feeds"*
