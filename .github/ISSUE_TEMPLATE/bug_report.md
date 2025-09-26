@@ -12,10 +12,10 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Configure agent with '...'
-2. Run command '....'
-3. Process data '....'
-4. See error
+1. Query: '...' (the exact natural language query used)
+2. Expected agent response: '...'
+3. Actual agent response: '...'
+4. Configuration used: [default/custom]
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -23,25 +23,29 @@ A clear and concise description of what you expected to happen.
 **Actual behavior**
 What actually happened instead.
 
-**Logs/Error Messages**
+**Claude Code Query**
 ```
-Paste any relevant logs or error messages here
+Paste the exact natural language query that caused the issue
+```
+
+**Agent Response**
+```
+Paste the full agent response (redact any sensitive information)
 ```
 
 **Environment (please complete the following):**
- - OS: [e.g. Ubuntu 22.04]
- - Python Version: [e.g. 3.9.5]
- - NOMAD Version: [e.g. 1.0.0]
- - LLM Provider: [e.g. Anthropic Claude, OpenAI]
+ - OS: [e.g. macOS, Windows, Linux]
+ - Claude Code Version: [if available]
+ - NOMAD Version: [e.g. v2.0]
 
 **Configuration**
 Relevant configuration settings (redact sensitive information):
-```yaml
-# Paste relevant config here
+```json
+// From config/user-preferences.json or relevant config files
 ```
 
 **Additional context**
 Add any other context about the problem here.
 
 **Security Note**
-If this bug has security implications, please report it privately to security@nomad-framework.example instead of creating a public issue.
+If this bug has security implications, please report it privately following our [Security Policy](../../SECURITY.md) instead of creating a public issue.
