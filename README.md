@@ -115,14 +115,46 @@ PROTECTIVE MEASURES:
 
 ## Advanced Usage
 
-### Query Types You Can Ask
+### Slash Commands Available
+NOMAD v2.0 now includes 19 powerful slash commands for instant access:
+
+**🎯 Threat Intelligence:**
+- `/threats` - Latest personalized threat briefing
+- `/critical` - Critical and KEV-listed threats only
+- `/crown-jewel [system]` - Threats to specific crown jewel systems
+- `/cve [CVE-ID]` - Detailed analysis of specific vulnerability
+- `/trending` - Trending threats and attack vectors
+
+**📡 Feed Management:**
+- `/add-feeds [industry]` - Add industry-specific feed packages
+- `/feed-quality` - Feed performance dashboard and recommendations
+- `/import-feeds [file]` - Import feeds from OPML/JSON/CSV files
+
+**⚙️ Configuration:**
+- `/setup` - Interactive setup wizard for first-time config
+- `/configure [setting]` - Quick configuration updates
+- `/add-crown-jewel [name]` - Add critical system to your profile
+- `/update-profile [field]` - Update organization profile information
+
+**🔧 System & Utility:**
+- `/refresh` - Force refresh of threat intelligence data
+- `/status` - Display system health and configuration
+- `/export [format]` - Export data and configuration
+- `/help [command]` - Show command reference and detailed help
+
+**📊 Reporting:**
+- `/executive-brief` - Generate executive summary report
+- `/technical-alert` - Create technical security alert
+- `/weekly-summary` - Weekly threat landscape summary
+
+### Natural Language Interface
+You can also use natural conversation:
 - **Current Intelligence**: "Latest threats", "What's critical?"
 - **Asset-Specific**: "Threats to [crown jewel]", "Email system vulnerabilities"
 - **CVE Lookup**: "Tell me about CVE-2024-12345"
 - **Configuration**: "Update my preferences", "Add new crown jewel"
 - **Data Refresh**: "Update threat feeds", "Refresh intelligence"
 - **Feed Management**: "Add healthcare feeds", "Import my OPML", "Show feed quality"
-- **Setup Assistance**: "Configure for healthcare", "Setup wizard", "Optimize feeds"
 
 ### Configuration Options
 Customize threat filtering in `config/user-preferences.json`:
