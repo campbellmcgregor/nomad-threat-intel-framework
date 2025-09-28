@@ -1,0 +1,375 @@
+{
+  "_comment": "NOMAD v2.0 Smart Defaults - Industry-specific intelligent configuration suggestions",
+  "smart_defaults_version": "2.0",
+  "default_generation_rules": {
+    "crown_jewels": {
+      "max_suggestions": 5,
+      "min_suggestions": 3,
+      "priority_order": ["data", "access", "operations", "infrastructure", "compliance"]
+    },
+    "threat_sources": {
+      "premium_feeds_per_industry": 25,
+      "include_baseline_feeds": true,
+      "include_regional_feeds": false
+    },
+    "alert_thresholds": {
+      "conservative": {"cvss_critical": 9.0, "cvss_high": 7.0, "epss_threshold": 0.7},
+      "moderate": {"cvss_critical": 8.5, "cvss_high": 6.5, "epss_threshold": 0.5},
+      "aggressive": {"cvss_critical": 8.0, "cvss_high": 6.0, "epss_threshold": 0.3}
+    }
+  },
+  "industry_defaults": {
+    "technology": {
+      "display_name": "Technology & Software",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Customer Database",
+          "description": "User accounts, personal data, and customer information",
+          "priority": "critical",
+          "risk_areas": ["data_breach", "privacy_violation", "compliance"]
+        },
+        {
+          "name": "Source Code Repositories",
+          "description": "Intellectual property, proprietary algorithms, and development assets",
+          "priority": "critical",
+          "risk_areas": ["ip_theft", "supply_chain", "backdoors"]
+        },
+        {
+          "name": "API Systems",
+          "description": "Public and internal APIs serving customers and partners",
+          "priority": "high",
+          "risk_areas": ["data_exposure", "service_disruption", "injection_attacks"]
+        },
+        {
+          "name": "Cloud Infrastructure",
+          "description": "AWS, Azure, or GCP environments hosting applications",
+          "priority": "high",
+          "risk_areas": ["misconfiguration", "unauthorized_access", "data_exposure"]
+        },
+        {
+          "name": "Authentication Systems",
+          "description": "Identity providers, SSO, and user access management",
+          "priority": "critical",
+          "risk_areas": ["account_takeover", "privilege_escalation", "lateral_movement"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Supply chain attacks",
+        "Code vulnerabilities",
+        "Cloud misconfigurations",
+        "API security",
+        "Container security"
+      ],
+      "business_keywords": ["software", "saas", "platform", "api", "cloud", "mobile", "web"],
+      "recommended_alert_threshold": "moderate"
+    },
+    "healthcare": {
+      "display_name": "Healthcare & Life Sciences",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Electronic Health Records (EHR)",
+          "description": "Patient medical records and protected health information",
+          "priority": "critical",
+          "risk_areas": ["hipaa_violation", "patient_safety", "data_breach"]
+        },
+        {
+          "name": "Medical Device Networks",
+          "description": "Connected medical equipment and IoT health devices",
+          "priority": "critical",
+          "risk_areas": ["patient_safety", "device_malfunction", "network_intrusion"]
+        },
+        {
+          "name": "Patient Portal Systems",
+          "description": "Online patient access and appointment scheduling",
+          "priority": "high",
+          "risk_areas": ["data_breach", "account_takeover", "privacy_violation"]
+        },
+        {
+          "name": "Laboratory Information Systems",
+          "description": "Lab results, diagnostic data, and test management",
+          "priority": "high",
+          "risk_areas": ["data_integrity", "misdiagnosis", "data_breach"]
+        },
+        {
+          "name": "Imaging Systems (PACS)",
+          "description": "Medical imaging storage and diagnostic systems",
+          "priority": "medium",
+          "risk_areas": ["data_breach", "system_availability", "image_integrity"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Medical device vulnerabilities",
+        "HIPAA compliance threats",
+        "Patient safety risks",
+        "Healthcare IoT security",
+        "Ransomware targeting hospitals"
+      ],
+      "business_keywords": ["hospital", "clinic", "medical", "health", "patient", "device", "pharmaceutical"],
+      "recommended_alert_threshold": "conservative"
+    },
+    "financial": {
+      "display_name": "Financial Services & Banking",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Core Banking Systems",
+          "description": "Account management, transaction processing, and financial records",
+          "priority": "critical",
+          "risk_areas": ["financial_fraud", "system_disruption", "data_breach"]
+        },
+        {
+          "name": "Payment Processing",
+          "description": "Credit card, ACH, and electronic payment systems",
+          "priority": "critical",
+          "risk_areas": ["payment_fraud", "pci_violation", "financial_loss"]
+        },
+        {
+          "name": "Customer Financial Data",
+          "description": "Account information, transaction history, and personal data",
+          "priority": "critical",
+          "risk_areas": ["identity_theft", "financial_fraud", "regulatory_violation"]
+        },
+        {
+          "name": "Trading Platforms",
+          "description": "Investment trading systems and market access",
+          "priority": "high",
+          "risk_areas": ["market_manipulation", "financial_loss", "system_disruption"]
+        },
+        {
+          "name": "Regulatory Reporting Systems",
+          "description": "Compliance data and regulatory submission systems",
+          "priority": "high",
+          "risk_areas": ["regulatory_violation", "fine_penalties", "audit_failure"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Financial fraud schemes",
+        "Payment card security",
+        "Regulatory compliance",
+        "Banking malware",
+        "Cryptocurrency threats"
+      ],
+      "business_keywords": ["bank", "financial", "payment", "trading", "investment", "loan", "credit"],
+      "recommended_alert_threshold": "conservative"
+    },
+    "manufacturing": {
+      "display_name": "Manufacturing & Industrial",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Industrial Control Systems (ICS)",
+          "description": "SCADA, PLCs, and production control equipment",
+          "priority": "critical",
+          "risk_areas": ["production_disruption", "safety_incidents", "equipment_damage"]
+        },
+        {
+          "name": "Manufacturing Execution Systems",
+          "description": "Production planning, scheduling, and quality control",
+          "priority": "high",
+          "risk_areas": ["production_delays", "quality_issues", "data_corruption"]
+        },
+        {
+          "name": "Supply Chain Management",
+          "description": "Vendor management, logistics, and inventory systems",
+          "priority": "high",
+          "risk_areas": ["supply_disruption", "counterfeit_parts", "data_breach"]
+        },
+        {
+          "name": "Product Design Data",
+          "description": "CAD files, specifications, and intellectual property",
+          "priority": "critical",
+          "risk_areas": ["ip_theft", "competitive_loss", "product_counterfeiting"]
+        },
+        {
+          "name": "Safety Systems",
+          "description": "Emergency shutdown systems and safety monitoring",
+          "priority": "critical",
+          "risk_areas": ["worker_safety", "environmental_incident", "regulatory_violation"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Industrial IoT vulnerabilities",
+        "Supply chain attacks",
+        "SCADA security",
+        "Operational technology threats",
+        "Safety system compromises"
+      ],
+      "business_keywords": ["manufacturing", "factory", "production", "industrial", "automotive", "aerospace"],
+      "recommended_alert_threshold": "conservative"
+    },
+    "government": {
+      "display_name": "Government & Public Sector",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Citizen Services Systems",
+          "description": "Public portals, benefits systems, and citizen data",
+          "priority": "critical",
+          "risk_areas": ["privacy_violation", "service_disruption", "public_trust"]
+        },
+        {
+          "name": "Critical Infrastructure",
+          "description": "Essential services and public safety systems",
+          "priority": "critical",
+          "risk_areas": ["national_security", "public_safety", "service_disruption"]
+        },
+        {
+          "name": "Government Networks",
+          "description": "Internal communication and classified systems",
+          "priority": "critical",
+          "risk_areas": ["espionage", "data_breach", "operational_disruption"]
+        },
+        {
+          "name": "Emergency Services",
+          "description": "911 systems, first responder communications",
+          "priority": "critical",
+          "risk_areas": ["public_safety", "emergency_response", "life_safety"]
+        },
+        {
+          "name": "Public Records Systems",
+          "description": "Legal documents, permits, and administrative data",
+          "priority": "medium",
+          "risk_areas": ["data_integrity", "privacy_violation", "process_disruption"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Nation-state attacks",
+        "Critical infrastructure threats",
+        "Election security",
+        "Public safety systems",
+        "Government espionage"
+      ],
+      "business_keywords": ["government", "federal", "state", "municipal", "public", "agency"],
+      "recommended_alert_threshold": "conservative"
+    },
+    "education": {
+      "display_name": "Education & Research",
+      "crown_jewel_suggestions": [
+        {
+          "name": "Student Information Systems",
+          "description": "Academic records, personal data, and educational history",
+          "priority": "high",
+          "risk_areas": ["ferpa_violation", "identity_theft", "privacy_breach"]
+        },
+        {
+          "name": "Research Data",
+          "description": "Scientific research, intellectual property, and grant data",
+          "priority": "critical",
+          "risk_areas": ["ip_theft", "research_integrity", "competitive_loss"]
+        },
+        {
+          "name": "Learning Management Systems",
+          "description": "Online courses, assignments, and educational content",
+          "priority": "medium",
+          "risk_areas": ["service_disruption", "academic_integrity", "data_breach"]
+        },
+        {
+          "name": "Financial Aid Systems",
+          "description": "Student financial information and payment processing",
+          "priority": "high",
+          "risk_areas": ["financial_fraud", "privacy_violation", "system_disruption"]
+        },
+        {
+          "name": "Campus Networks",
+          "description": "IT infrastructure supporting academic operations",
+          "priority": "medium",
+          "risk_areas": ["network_intrusion", "service_disruption", "data_breach"]
+        }
+      ],
+      "threat_focus_areas": [
+        "Student data protection",
+        "Research security",
+        "Campus network threats",
+        "Educational technology risks",
+        "Academic integrity"
+      ],
+      "business_keywords": ["university", "school", "education", "research", "academic", "campus"],
+      "recommended_alert_threshold": "moderate"
+    },
+    "retail": {
+      "display_name": "Retail & E-commerce",
+      "crown_jewel_suggestions": [
+        {
+          "name": "E-commerce Platform",
+          "description": "Online store, shopping cart, and customer experience",
+          "priority": "critical",
+          "risk_areas": ["revenue_loss", "customer_trust", "brand_damage"]
+        },
+        {
+          "name": "Payment Systems",
+          "description": "Credit card processing and financial transactions",
+          "priority": "critical",
+          "risk_areas": ["payment_fraud", "pci_violation", "financial_loss"]
+        },
+        {
+          "name": "Customer Database",
+          "description": "Personal information, purchase history, and preferences",
+          "priority": "high",
+          "risk_areas": ["identity_theft", "privacy_violation", "customer_churn"]
+        },
+        {
+          "name": "Inventory Management",
+          "description": "Stock levels, supply chain, and warehouse systems",
+          "priority": "medium",
+          "risk_areas": ["supply_disruption", "operational_loss", "customer_satisfaction"]
+        },
+        {
+          "name": "Point of Sale Systems",
+          "description": "In-store payment processing and transaction systems",
+          "priority": "high",
+          "risk_areas": ["payment_fraud", "store_operations", "customer_data"]
+        }
+      ],
+      "threat_focus_areas": [
+        "E-commerce security",
+        "Payment card industry",
+        "Supply chain attacks",
+        "Customer data protection",
+        "Retail malware"
+      ],
+      "business_keywords": ["retail", "ecommerce", "store", "shopping", "marketplace", "sales"],
+      "recommended_alert_threshold": "moderate"
+    }
+  },
+  "business_description_mappings": {
+    "cloud_services": {
+      "additional_crown_jewels": ["Cloud Infrastructure", "API Gateway", "Microservices"],
+      "additional_threat_areas": ["Container security", "Serverless vulnerabilities", "Cloud misconfigurations"]
+    },
+    "mobile_apps": {
+      "additional_crown_jewels": ["Mobile Application", "App Store Assets", "Push Notification Systems"],
+      "additional_threat_areas": ["Mobile malware", "App store security", "Device management"]
+    },
+    "fintech": {
+      "additional_crown_jewels": ["Digital Wallet", "Cryptocurrency Systems", "Fraud Detection"],
+      "additional_threat_areas": ["Cryptocurrency threats", "Digital payment fraud", "RegTech compliance"]
+    },
+    "iot_devices": {
+      "additional_crown_jewels": ["IoT Device Fleet", "Edge Computing", "Device Management"],
+      "additional_threat_areas": ["IoT vulnerabilities", "Edge security", "Device lifecycle management"]
+    },
+    "ai_ml": {
+      "additional_crown_jewels": ["AI/ML Models", "Training Data", "Model APIs"],
+      "additional_threat_areas": ["AI poisoning attacks", "Model theft", "Adversarial examples"]
+    }
+  },
+  "organization_size_adjustments": {
+    "small": {
+      "max_crown_jewels": 3,
+      "focus_on_basics": true,
+      "alert_threshold_adjustment": "moderate"
+    },
+    "medium": {
+      "max_crown_jewels": 5,
+      "include_compliance": true,
+      "alert_threshold_adjustment": "moderate"
+    },
+    "large": {
+      "max_crown_jewels": 7,
+      "include_advanced_threats": true,
+      "alert_threshold_adjustment": "conservative"
+    },
+    "enterprise": {
+      "max_crown_jewels": 10,
+      "include_nation_state": true,
+      "alert_threshold_adjustment": "conservative"
+    }
+  }
+}

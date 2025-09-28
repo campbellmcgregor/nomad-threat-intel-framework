@@ -1,0 +1,78 @@
+{
+  "_comment": "NOMAD v2.0 Setup State Management - Tracks progressive setup conversation state",
+  "setup_version": "2.0",
+  "current_phase": "not_started",
+  "setup_started": null,
+  "setup_completed": null,
+  "phases": {
+    "not_started": {
+      "description": "User hasn't begun setup process",
+      "completed": false,
+      "next_phase": "welcome"
+    },
+    "welcome": {
+      "description": "Initial welcome and context setting",
+      "completed": false,
+      "next_phase": "industry_selection",
+      "collected_data": {}
+    },
+    "industry_selection": {
+      "description": "Industry/sector identification for threat relevance",
+      "completed": false,
+      "next_phase": "crown_jewels",
+      "collected_data": {},
+      "available_options": [
+        "technology",
+        "healthcare",
+        "financial",
+        "manufacturing",
+        "energy",
+        "government",
+        "education",
+        "retail",
+        "other"
+      ]
+    },
+    "crown_jewels": {
+      "description": "Critical asset identification for personalized threat filtering",
+      "completed": false,
+      "next_phase": "business_context",
+      "collected_data": {},
+      "smart_suggestions": []
+    },
+    "business_context": {
+      "description": "Organization description for threat relevance filtering",
+      "completed": false,
+      "next_phase": "confirmation",
+      "collected_data": {}
+    },
+    "confirmation": {
+      "description": "Review and confirm setup before activation",
+      "completed": false,
+      "next_phase": "completed",
+      "collected_data": {}
+    },
+    "completed": {
+      "description": "Setup fully completed and system activated",
+      "completed": true,
+      "next_phase": null
+    }
+  },
+  "user_preferences": {
+    "setup_pace": "quick",
+    "detail_level": "standard",
+    "skip_explanations": false,
+    "previous_experience": "none"
+  },
+  "session_metadata": {
+    "total_interactions": 0,
+    "time_spent_seconds": 0,
+    "abandonment_points": [],
+    "completion_rate": 0
+  },
+  "recovery_data": {
+    "can_resume": false,
+    "last_valid_phase": null,
+    "partial_config": {}
+  }
+}
