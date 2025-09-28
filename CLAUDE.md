@@ -1,182 +1,151 @@
 # CLAUDE.md
 
-This file provides guidance to AI coding assistants like Claude Code when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Overview
 
-NOMAD (Notable Object Monitoring And Analysis Director) is an AI-powered threat intelligence orchestration framework consisting of specialized agent prompt templates. The framework processes security threats from RSS feeds, vendor advisories, and security bulletins through a pipeline of AI agents to produce actionable intelligence.
+NOMAD (Notable Object Monitoring And Analysis Director) v2.0 is a Claude Code-native threat intelligence framework designed for conversational interaction. It processes threat data from RSS feeds, vendor advisories, and security bulletins into actionable intelligence using a multi-agent architecture.
 
-## Architecture
+## Core Architecture
 
-The framework follows a pipeline architecture where each agent has a specific role in the intelligence processing workflow:
+The framework uses a multi-agent pipeline with specialized agents defined as markdown prompt templates in the `agents/` directory:
 
+### Primary Agents
+- **query-handler.md**: Main orchestration agent that routes natural language queries
+- **threat-collector.md**: Collects and normalizes threat data from configured sources
+- **intelligence-processor.md**: Enriches and validates collected threats
+- **threat-synthesizer.md**: Generates personalized briefings and responses
+- **feed-manager.md**: Manages RSS/threat feed subscriptions and optimizations
+- **feed-quality-monitor.md**: Tracks feed performance and health metrics
+- **setup-wizard.md**: Guides initial configuration and customization
+
+### Data Flow
+1. User query → Query Handler (routes to appropriate agents)
+2. Threat collection → RSS feeds parsed → Intelligence processing
+3. Enrichment → Deduplication → Asset correlation
+4. Synthesis → Personalized response generation
+
+## Key Configuration Files
+
+- **config/user-preferences.json**: Organization profile, crown jewels, alert preferences
+- **config/threat-sources.json**: Active RSS/threat feed configurations
+- **config/threat-sources-premium.json**: 30+ premium feed templates
+- **config/threat-sources-templates.json**: Industry-specific feed packages
+- **data/threats-cache.json**: Cached threat intelligence data
+- **data/feed-quality-metrics.json**: Feed performance tracking
+
+## Usage (Claude Code v2.0)
+
+### Zero Setup Required
+```bash
+# Clone and launch - that's it!
+git clone <repository-url>
+cd nomad-threat-intel-framework
+claude code
 ```
-RSS Feeds → RSS Agent → Orchestrator → Routing Decision
-                ↓             ↓              ↓
-         Vendor Parser → Enrichment → Deduplication
-                              ↓              ↓
-                     Evidence Vault    Watchlist Digest
-                              ↓              ↓
-                     Technical Alert   CISO Report
-```
 
-### Agent Routing Logic
+### Core Interaction
+NOMAD v2.0 runs entirely within Claude Code using natural language:
+- No Python installation required
+- No dependencies to manage
+- No command-line scripts to run
+- Pure conversational interface
 
-The Orchestrator applies strict routing rules in order:
-1. **DROP**: Source reliability E/F or info credibility ≥5
-2. **TECHNICAL_ALERT**: KEV-listed OR EPSS ≥0.70 OR exploit_status=ITW with HIGH/MEDIUM asset exposure
-3. **CISO_REPORT**: CVSS ≥9.0 or significant business impact
-4. **WATCHLIST**: Credible but not immediately actionable
+## Natural Language Query Patterns
 
-## Agent Specifications
+The system responds to these query types:
 
-### Core Processing Agents
+### Data Collection
+- "Update threat feeds" / "Refresh intelligence" / "Check for new threats"
 
-**RSS Feed Agent** (`rss-agent-prompt.md`)
-- Parses RSS/Atom feeds between specified time ranges
-- Assigns Admiralty credibility ratings (A-F source, 1-6 information)
-- Extracts CVEs via regex pattern: `CVE-\d{4}-\d{4,7}`
-- Creates dedupe_key from hash of title + source_url
-- Output: Normalized JSON with strict schema
+### Current Intelligence
+- "Show latest threats" / "What's critical?" / "Brief me on threats"
 
-**Orchestrator** (`orchestrator-system-prompt.md`)
-- Central routing engine applying gating rules
-- Routes to: DROP, WATCHLIST, TECHNICAL_ALERT, or CISO_REPORT
-- Assigns owner_team (SOC, Vuln Mgmt, IT Ops)
-- Sets SLA requirements based on criticality
-- Uses asset_exposure context for routing decisions
+### Specific Searches
+- "Tell me about CVE-YYYY-XXXXX" / "[Vendor] threats" / "[Threat type] this week"
 
-**Vendor Parser Agent** (`vendor-parser-agent-prompt.md`)
-- Specialized parsing for vendor-specific formats
-- Extracts structured vulnerability data
-- Identifies patch information and mitigation steps
+### Asset-Specific
+- "Threats to [crown jewel]" / "[Technology] vulnerabilities" / "Internet-facing risks"
 
-### Enhancement Agents
+### Feed Management
+- "Add [industry] feeds" / "Import my OPML" / "Show feed quality" / "Optimize feeds"
 
-**Enrichment Agent** (`enrichment-agent-prompt.md`)
-- Augments with CVSS scores, EPSS probability, KEV status
-- Adds threat actor attribution when available
-- Queries external threat intelligence sources
+### Configuration
+- "Update preferences" / "Add crown jewel" / "Configure for [industry]"
 
-**Deduplication Agent** (`dedup-agent-prompt.md`)
-- Prevents duplicate alerts across sources
-- Uses similarity matching algorithms
-- Maintains dedupe keys for tracking
+## Key Data Schemas
 
-### Output Generation Agents
-
-**Technical Alert** (`technical-alert-prompt.md`)
-- Creates actionable SOC/IT team alerts
-- Includes remediation steps and patch links
-- Formats for ticket system integration
-
-**CISO Report** (`ciso-report-generator-prompt.md`)
-- Executive-level threat summaries
-- Business impact focus
-- Weekly rollup format
-
-**Watchlist Digest** (`watchlist-digest-agent-prompt.md`)
-- Tracks lower-priority threats
-- Monitors for escalation triggers
-- Periodic summary generation
-
-**Evidence Vault Writer** (`evidence-vault-writer-prompt.md`)
-- Archives threat intelligence artifacts
-- Maintains chain of custody
-- Stores evidence for future reference
-
-## Data Schemas
-
-### Standard Intelligence Item Schema
+### Threat Intelligence Item
 ```json
 {
+  "id": "unique-id",
   "source_type": "rss|vendor|cert",
   "source_name": "string",
-  "source_url": "https://...",
   "title": "string",
-  "summary": "string (≤60 words)",
-  "published_utc": "YYYY-MM-DDTHH:MM:SSZ",
-  "cves": ["CVE-YYYY-XXXX"],
-  "cvss_v3": null|float,
-  "cvss_v4": null|float,
-  "epss": null|float,
-  "kev_listed": true|false|null,
-  "kev_date_added": "YYYY-MM-DD"|null,
-  "exploit_status": "ITW|PoC|None|null",
-  "affected_products": [{"vendor":"", "product":"", "versions":[]}],
-  "evidence_excerpt": "direct quote",
-  "admiralty_source_reliability": "A-F",
-  "admiralty_info_credibility": 1-6,
-  "admiralty_reason": "justification",
-  "dedupe_key": "stable hash"
+  "cves": ["CVE-YYYY-XXXXX"],
+  "cvss_v3": 0.0,
+  "epss": 0.0,
+  "kev_listed": true|false,
+  "affected_products": [...],
+  "admiralty_credibility": "A1-F6"
 }
 ```
 
-### Admiralty Grading System
+### Routing Decision Logic
+- **CRITICAL**: KEV-listed, EPSS ≥0.70, or CVSS ≥9.0 with exposure
+- **HIGH**: CVSS ≥7.0 with asset correlation
+- **WATCHLIST**: Credible but not immediately actionable
+- **DROP**: Low reliability (E/F rating) or credibility ≥5
 
-**Source Reliability:**
-- A: Official vendor advisory, CERT/NCSC/CISA
-- B: Major security org (MSRC, Talos, Unit42)
-- C: Reputable media/researcher blog
-- D: Community forum/unverified blog
-- E-F: Unreliable sources (auto-DROP)
+## Development Workflow
 
-**Information Credibility:**
-- 1: Primary evidence with vendor confirmation
-- 2: Advisory/CERT with cited evidence
-- 3: Newsroom/researcher report
-- 4: Social/unverified
-- 5-6: Unreliable (auto-DROP)
+1. **User makes natural language query** → Query handler interprets intent
+2. **Agents are invoked** → Each agent follows its markdown prompt template
+3. **Data flows through pipeline** → Collection → Processing → Synthesis
+4. **Response generated** → Personalized to user's organization profile
 
-## Implementation Notes
+## Testing Approach
 
-### Current State
-- Repository contains only prompt templates (`.md` files)
-- No implementation code present yet
-- Designed for LLM-based agent execution
+- Agent behavior is defined by markdown prompt templates in `agents/`
+- Test by making natural language queries to Claude Code
+- Feed quality monitoring built into the system
+- No external testing framework required
 
-### Integration Points
-When implementing agents:
-- Each agent requires strict JSON input/output validation
-- Agents should never guess unknown values (use null)
-- Deduplication must occur before routing
-- Evidence preservation is mandatory for audit trails
+## Important Implementation Notes
 
-### Performance Targets
-- Process 1000+ items/hour
-- Sub-second routing decisions
-- 70% reduction in duplicate alerts
-- Scalable agent architecture
+1. **v2.0 Design**: Optimized for Claude Code interaction, not standalone Python execution
+2. **Agent Templates**: Markdown files in `agents/` define behavior, not Python code
+3. **Conversational Interface**: Primary interaction through natural language, not CLI commands
+4. **Feed Management**: 30+ premium feeds pre-configured, industry templates available
+5. **Crown Jewels Focus**: Intelligence filtering based on critical business assets
+6. **Admiralty Grading**: All intelligence rated A-F (source) and 1-6 (information)
 
-## Commands
+## Common Development Tasks
 
-Since this is currently a specification repository with no implementation:
+### Adding New Threat Feeds
+1. Edit `config/threat-sources.json` or use "Add [source] feed" query
+2. Premium templates available in `config/threat-sources-premium.json`
+3. Industry packages in `config/threat-sources-templates.json`
 
-```bash
-# No build/test commands yet - framework is in design phase
-# When implementing, suggested structure:
+### Customizing Organization Profile
+1. Update `config/user-preferences.json`
+2. Define crown jewels (critical systems)
+3. Set industry sectors for targeted intelligence
 
-# Python implementation
-pip install -r requirements.txt  # Install dependencies
-python -m agents.orchestrator    # Run orchestrator
-python -m agents.rss_feed       # Run RSS agent
+### Implementing New Agent
+1. Create markdown prompt template in `agents/`
+2. Define clear input/output schemas
+3. Update query-handler routing logic
+4. Test with example queries
 
-# Node.js implementation
-npm install                      # Install dependencies
-npm run orchestrator            # Run orchestrator
-npm run rss-agent              # Run RSS agent
+### Debugging Feed Issues
+- Ask: "Show feed quality" for performance analysis
+- Ask: "Check feed status" for accessibility issues
+- Ask: "Optimize my feeds" for recommendations
 
-# Testing (when implemented)
-pytest tests/                   # Python tests
-npm test                        # Node.js tests
-```
+## Performance Considerations
 
-## Policy Configuration
-
-When implementing, key policy parameters to configure:
-- `alert_epss_threshold`: Default 0.70
-- `alert_cvss_threshold`: Default 9.0
-- `sla_hours_critical`: Default 48 hours
-- `asset_exposure`: Organization-specific asset mapping
-- `legal_sector_keywords`: Industry-specific terms for CISO reports
-- Ensure you use virtualenv only, do not use the system python install
+- Designed for 1000+ items/hour processing
+- Threat cache refreshed every 4 hours by default
+- Deduplication reduces alerts by ~70%
+- Feed quality monitoring identifies problematic sources

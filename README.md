@@ -1,268 +1,260 @@
-# NOMAD Threat Intelligence Framework
+# NOMAD v2.0 - 2-Minute Setup Guide
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Defensive Security](https://img.shields.io/badge/Purpose-Defensive%20Security-green.svg)](https://github.com/yourusername/nomad-threat-intel-framework)
-[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Contributor%20Covenant-orange.svg)](CODE_OF_CONDUCT.md)
+🛡️ **Transform threat intelligence from overwhelming to actionable in under 2 minutes.**
 
-An AI-powered, multi-agent threat intelligence orchestration system designed for rapid processing and actionable insights from diverse security sources.
+## What is NOMAD v2.0?
 
-> **Flexible Implementation**: This framework provides both prompt templates for LLM-based agents AND a Python implementation that can be run directly or through AI coding assistants.
+NOMAD (Notable Object Monitoring And Analysis Director) v2.0 is a Claude Code-native threat intelligence assistant. No Python setup, no complex configurations - just clone and ask questions like "Show me latest threats" to get personalized, actionable intelligence.
 
-## 🎯 Overview
+## Quick Start (2 Minutes)
 
-NOMAD is a modular threat intelligence framework that automates the collection, enrichment, deduplication, and routing of security threats using specialized AI agents. It transforms raw threat data from RSS feeds, vendor advisories, and security bulletins into prioritized, actionable intelligence for security teams.
-
-## 🏗️ Architecture
-
-The framework employs a pipeline architecture with specialized agents:
-
-```
-RSS Feeds → RSS Agent → Orchestrator → Routing Decision
-                ↓             ↓              ↓
-         Vendor Parser → Enrichment → Deduplication
-                              ↓              ↓
-                     Evidence Vault    Watchlist Digest
-                              ↓              ↓
-                     Technical Alert   CISO Report
+### Step 1: Clone & Launch (30 seconds)
+```bash
+git clone <your-repo-url>
+cd nomad-threat-intel-framework
+claude code
 ```
 
-## 🤖 Agent Components
+### Step 2: First Query (30 seconds)
+When Claude Code launches, simply ask:
+```
+Show me latest threats
+```
 
-### Core Processing Agents
+NOMAD will automatically:
+- ✅ Fetch threat intelligence from 10 premium sources
+- ✅ Process and prioritize threats for your organization
+- ✅ Generate personalized briefings based on your profile
 
-- **RSS Feed Agent** (`rss-agent-prompt.md`)
-  - Parses RSS/Atom feeds for security advisories
-  - Normalizes feed data into structured intelligence
-  - Extracts CVEs, affected products, and evidence
-  - Assigns initial Admiralty credibility ratings
+### Step 3: Customize Your Profile (60 seconds)
+Update your organization details in `config/user-preferences.json`:
 
-- **Orchestrator** (`orchestrator-system-prompt.md`)
-  - Central routing engine for all intelligence
-  - Applies gating rules based on severity and exposure
-  - Routes items to: DROP, WATCHLIST, TECHNICAL_ALERT, or CISO_REPORT
-  - Enforces SLA requirements and ownership assignment
-
-- **Vendor Parser Agent** (`vendor-parser-agent-prompt.md`)
-  - Specialized parser for vendor security bulletins
-  - Extracts structured data from vendor-specific formats
-  - Identifies patch information and mitigation steps
-
-### Enhancement Agents
-
-- **Enrichment Agent** (`enrichment-agent-prompt.md`)
-  - Augments raw intelligence with additional context
-  - Queries CVE databases for CVSS scores
-  - Checks EPSS probability and KEV listings
-  - Adds threat actor attribution when available
-
-- **Deduplication Agent** (`dedup-agent-prompt.md`)
-  - Prevents duplicate alerts across sources
-  - Uses intelligent similarity matching
-  - Maintains dedupe keys for tracking
-
-### Output Generation Agents
-
-- **Technical Alert Generator** (`technical-alert-prompt.md`)
-  - Creates actionable alerts for SOC/IT teams
-  - Includes remediation steps and patches
-  - Formats for ticket systems integration
-
-- **CISO Report Generator** (`ciso-report-generator-prompt.md`)
-  - Produces executive-level threat summaries
-  - Focuses on business impact and risk
-  - Weekly rollup format with trending analysis
-
-- **Watchlist Digest Agent** (`watchlist-digest-agent-prompt.md`)
-  - Tracks lower-priority threats
-  - Monitors for escalation triggers
-  - Provides periodic summaries
-
-- **Evidence Vault Writer** (`evidence-vault-writer-prompt.md`)
-  - Archives threat intelligence artifacts
-  - Maintains chain of custody
-  - Stores evidence for future reference
-
-## 📊 Data Flow
-
-### Input Schema
 ```json
 {
-  "received_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
-  "items": [{
-    "source_type": "rss|vendor|cert",
-    "source_name": "string",
-    "source_url": "https://...",
-    "title": "string",
-    "summary": "string",
-    "cves": ["CVE-YYYY-XXXX"],
-    "cvss_v3": 0.0,
-    "epss": 0.0,
-    "kev_listed": true|false,
-    "exploit_status": "ITW|PoC|None",
-    "affected_products": [...]
-  }]
+  "organization": {
+    "name": "Your Company",
+    "industry": "Your Industry",
+    "business_sectors": ["Technology", "Finance", "Healthcare"]
+  },
+  "crown_jewels": [
+    "Customer Database",
+    "Payment Systems",
+    "Email Infrastructure",
+    "Authentication Systems"
+  ]
 }
 ```
 
-### Routing Rules
+## What You Get Immediately
 
-1. **DROP**: Low reliability sources (E/F rating) or credibility ≥5
-2. **TECHNICAL_ALERT**: KEV-listed, EPSS ≥0.70, or active exploitation with asset exposure
-3. **CISO_REPORT**: CVSS ≥9.0 or significant business impact
-4. **WATCHLIST**: Credible but not immediately actionable
+✨ **Natural Language Interface**
+- "Show me latest threats"
+- "What's critical today?"
+- "Threats to my customer database"
+- "Tell me about CVE-2024-12345"
+- "Add healthcare feeds"
+- "Import my existing feeds"
 
-## 🚀 Getting Started
+🎯 **Personalized Intelligence**
+- Filtered by your industry and crown jewels
+- Prioritized using CVSS, EPSS, and KEV data
+- Executive and technical briefings
+- Actionable remediation guidance
 
-### Implementation Options
+🔄 **Premium Feed Collection (30+ Sources)**
+- **Government CERTs**: CISA, NCSC UK, CERT-EU, BSI Germany, ANSSI France
+- **Vendor Advisories**: Microsoft, Cisco, Oracle, VMware, Adobe, AWS
+- **Security Research**: SANS ISC, Qualys, Rapid7, CrowdStrike, FireEye
+- **Threat Intelligence**: Unit 42, Talos, AlienVault OTX
+- **Industry Templates**: Healthcare, Financial, Manufacturing, Technology
 
-NOMAD can be used in three ways:
+🏭 **Industry-Specific Packages**
+- **Healthcare**: HHS, FDA device security, ICS-CERT medical
+- **Financial**: FS-ISAC, FinCEN, PCI standards, SWIFT security
+- **Manufacturing**: ICS-CERT, Schneider Electric, Siemens, Rockwell
+- **Technology**: GitHub Security, npm/PyPI advisories, cloud security
 
-1. **Prompt Templates Only**: Use the `*-prompt.md` files with any LLM to implement agents in any language
-2. **Python Implementation**: Run the provided Python agents directly with `nomad.py`
-3. **Claude Code Integration**: Use Claude Code to orchestrate and extend the framework
+## Example Interactions
 
-### Prerequisites
+### Basic Threat Briefing
+**You:** `Show me latest threats`
 
-- Python 3.9+ (for Python implementation)
-- API access to threat intelligence sources (optional for enrichment)
-- LLM API credentials (optional for AI-powered processing)
+**NOMAD:**
+```
+🔴 CRITICAL THREATS: 2 requiring immediate attention
+🟠 HIGH PRIORITY: 5 threats needing action within 48 hours
+🟡 MEDIUM PRIORITY: 3 threats for planned remediation
 
-### Installation
+KEY THREATS TO YOUR CROWN JEWELS:
+• CVE-2024-12345: Authentication bypass affecting your Customer Database
+• CVE-2024-54321: RCE in cloud services affecting Payment Systems
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/nomad-threat-intel-framework.git
-cd nomad-threat-intel-framework
-
-# Install dependencies (example for Python)
-pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys and configuration
+IMMEDIATE ACTIONS:
+1. Emergency patch authentication servers (4-hour window)
+2. Review cloud access controls
+3. Monitor for unusual authentication patterns
 ```
 
-### Configuration
+### Asset-Specific Analysis
+**You:** `What threatens our customer database?`
 
-1. **Feed Sources**: Configure RSS feeds in `config/feeds.json`
-2. **Asset Exposure**: Define your organization's asset inventory
-3. **Alert Thresholds**: Set EPSS and CVSS thresholds
-4. **SLA Requirements**: Configure response time requirements
+**NOMAD:**
+```
+🛡️ CUSTOMER DATABASE THREAT ANALYSIS
 
-### Usage
+DIRECT THREATS (3 found):
+• SQL injection vulnerabilities (High priority)
+• Authentication bypass risks (Critical)
+• Lateral movement vectors (Medium priority)
 
-```python
-# Example: Process RSS feeds
-from nomad import RSSAgent, Orchestrator
-
-# Initialize agents
-rss_agent = RSSAgent(config)
-orchestrator = Orchestrator(policy_config)
-
-# Collect intelligence
-intel = rss_agent.collect_feeds(since="2024-01-01")
-
-# Route through orchestrator
-decisions = orchestrator.process(intel)
-
-# Generate outputs
-for decision in decisions:
-    if decision.route == "TECHNICAL_ALERT":
-        alert = technical_alert_agent.generate(decision)
-        send_to_soc(alert)
+PROTECTIVE MEASURES:
+✅ Recommended: Enhanced database monitoring
+✅ Recommended: Network segmentation review
+✅ Recommended: Access privilege audit
 ```
 
-## 🎯 Use Cases
+## Advanced Usage
 
-### Security Operations Center (SOC)
-- Real-time threat alerting with actionable intelligence
-- Automated ticket creation with remediation steps
-- SLA tracking and escalation management
+### Slash Commands Available
+NOMAD v2.0 now includes 19 powerful slash commands for instant access:
 
-### Vulnerability Management
-- Prioritized patching based on EPSS and exposure
-- Vendor bulletin parsing and patch tracking
-- Asset-specific vulnerability mapping
+**🎯 Threat Intelligence:**
+- `/threats` - Latest personalized threat briefing
+- `/critical` - Critical and KEV-listed threats only
+- `/crown-jewel [system]` - Threats to specific crown jewel systems
+- `/cve [CVE-ID]` - Detailed analysis of specific vulnerability
+- `/trending` - Trending threats and attack vectors
 
-### Executive Reporting
-- Weekly threat landscape summaries
-- Business impact analysis
-- Trending threat metrics and KPIs
+**📡 Feed Management:**
+- `/add-feeds [industry]` - Add industry-specific feed packages
+- `/feed-quality` - Feed performance dashboard and recommendations
+- `/import-feeds [file]` - Import feeds from OPML/JSON/CSV files
 
-### Threat Hunting
-- Evidence collection and archival
-- Threat actor tracking
-- IOC extraction and correlation
+**⚙️ Configuration:**
+- `/setup` - Interactive setup wizard for first-time config
+- `/configure [setting]` - Quick configuration updates
+- `/add-crown-jewel [name]` - Add critical system to your profile
+- `/update-profile [field]` - Update organization profile information
 
-## 📋 Agent Prompt Templates
+**🔧 System & Utility:**
+- `/refresh` - Force refresh of threat intelligence data
+- `/status` - Display system health and configuration
+- `/export [format]` - Export data and configuration
+- `/help [command]` - Show command reference and detailed help
 
-Each agent operates with a specific prompt template that defines its behavior:
+**📊 Reporting:**
+- `/executive-brief` - Generate executive summary report
+- `/technical-alert` - Create technical security alert
+- `/weekly-summary` - Weekly threat landscape summary
 
-- Strict JSON input/output schemas
-- Admiralty credibility ratings (A-F for source, 1-6 for information)
-- Rule-based decision making
-- Evidence preservation requirements
+### Natural Language Interface
+You can also use natural conversation:
+- **Current Intelligence**: "Latest threats", "What's critical?"
+- **Asset-Specific**: "Threats to [crown jewel]", "Email system vulnerabilities"
+- **CVE Lookup**: "Tell me about CVE-2024-12345"
+- **Configuration**: "Update my preferences", "Add new crown jewel"
+- **Data Refresh**: "Update threat feeds", "Refresh intelligence"
+- **Feed Management**: "Add healthcare feeds", "Import my OPML", "Show feed quality"
 
-**📖 See [PROMPTS_USAGE.md](PROMPTS_USAGE.md) for detailed instructions on using the prompt templates with any LLM.**
+### Configuration Options
+Customize threat filtering in `config/user-preferences.json`:
+- **Industries**: Focus on sector-specific threats
+- **Crown Jewels**: Your most critical business systems
+- **Alert Thresholds**: CVSS/EPSS scoring preferences
+- **Response Style**: Technical vs executive briefings
 
-## 🔧 Customization
+### Feed Management Features
+NOMAD v2.0 includes advanced feed management capabilities:
+- **30+ Premium Sources**: Government CERTs, vendor advisories, security research
+- **Industry Templates**: Pre-configured packages for Healthcare, Financial, Manufacturing, Technology
+- **Import/Export**: OPML, JSON, CSV support for existing feed collections
+- **Quality Monitoring**: Automatic feed health checks and optimization recommendations
+- **Smart Recommendations**: AI-suggested feeds based on your crown jewels and industry
 
-### Adding New Agents
-1. Create prompt template following existing patterns
-2. Define input/output schemas
-3. Implement agent logic
-4. Register with orchestrator
+### Data Sources
+NOMAD v2.0 monitors these premium sources:
+- **Government CERTs**: CISA, NCSC UK, CERT-EU, BSI Germany, ANSSI France, JPCERT/CC
+- **Vendor Advisories**: Microsoft, Cisco, Oracle, VMware, Adobe, AWS, Google, Red Hat
+- **Security Research**: SANS ISC, Qualys, Rapid7, CrowdStrike, FireEye, Kaspersky
+- **Threat Intelligence**: Unit 42, Talos Intelligence, AlienVault OTX, ThreatConnect
+- **Standards**: NVD (CVSS scores), FIRST.org (EPSS), CISA KEV catalog
 
-### Modifying Routing Rules
-Edit `orchestrator-system-prompt.md` to adjust:
-- Severity thresholds
-- Asset exposure mappings
-- SLA requirements
-- Team ownership rules
+## Architecture Benefits
 
-## 🛡️ Security Considerations
+### No Setup Complexity
+- ❌ No Python virtual environments
+- ❌ No API key management
+- ❌ No complex agent pipelines
+- ✅ Pure Claude Code integration
 
-- All agents operate with least privilege
-- No storage of sensitive credentials in prompts
-- Audit logging for all routing decisions
-- Evidence chain of custody maintained
+### Intelligent Processing
+- 🧠 Admiralty source reliability ratings
+- 📊 Multi-factor risk scoring (CVSS + EPSS + KEV)
+- 🎯 Crown jewel correlation analysis
+- 🔄 Automatic threat prioritization
 
-## 📈 Performance
+### Learning System
+- 📈 Learns from your query patterns
+- 🎯 Improves personalization over time
+- 💡 Suggests relevant follow-up questions
+- 📋 Tracks interaction preferences
 
-- Designed for processing 1000+ items/hour
-- Deduplication reduces alert fatigue by ~70%
-- Sub-second routing decisions
-- Scalable agent architecture
+## Troubleshooting
 
-## 🤝 Contributing
+**Q: No threat data showing?**
+A: Say "Refresh feeds" to collect latest intelligence
 
-Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+**Q: Want more technical details?**
+A: Ask "Give me technical details for [threat]" for SOC-level information
 
-Areas of interest:
-- Additional threat source integrations
-- Enhanced enrichment capabilities
-- ML-based threat scoring
-- Integration with SOAR platforms
+**Q: Need executive summary?**
+A: Request "Executive briefing on this week's threats" for leadership
 
-Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
+**Q: How to add new crown jewel?**
+A: Say "Add [system name] to my crown jewels" and NOMAD will guide you
 
-## 📝 License
+**Q: How to add industry-specific feeds?**
+A: Say "Add healthcare feeds" or "Configure for financial services"
 
-GNU Affero General Public License v3.0 (AGPL-3.0)
+**Q: Can I import my existing feeds?**
+A: Yes! Say "Import my OPML" or "Import feeds from JSON/CSV"
 
-## 🙏 Acknowledgments
+**Q: How to check feed quality?**
+A: Ask "Show feed quality" or "Optimize my feeds" for performance analysis
 
-Built with inspiration from:
-- MITRE ATT&CK Framework
-- Admiralty Grading System
-- FIRST EPSS methodology
-- CISA KEV catalog
+## What Makes v2.0 Different
 
-## 📧 Contact
+| Traditional TI Tools | NOMAD v2.0 |
+|---------------------|------------|
+| Complex setup | 2-minute start |
+| Technical interfaces | Natural conversation |
+| Generic reports | Personalized intelligence |
+| Manual correlation | Automated crown jewel analysis |
+| Static configurations | Learning preferences |
+| Limited feed sources | 30+ premium sources |
+| Manual feed management | Intelligent feed optimization |
+| One-size-fits-all | Industry-specific templates |
 
-For questions, suggestions, or collaboration opportunities, please open an issue on GitHub.
+## Next Steps
+
+1. **Try basic queries** to get familiar with NOMAD's capabilities
+2. **Customize your profile** for more relevant intelligence
+3. **Add industry-specific feeds** with "Add [industry] feeds"
+4. **Import existing feeds** if you have OPML/feed collections
+5. **Set up regular briefings** by asking for weekly summaries
+6. **Monitor feed quality** with "Show feed quality" for optimization
 
 ---
 
-**NOMAD**: *Notable Object Monitoring And Analysis Director*:
+🚀 **You're ready!** NOMAD v2.0 transforms complex threat intelligence into conversational, actionable insights that help you make informed security decisions quickly and confidently.
+
+## Enhanced Features Summary
+
+✅ **30+ Premium Threat Feeds** - Government CERTs, vendor advisories, security research
+✅ **Industry-Specific Templates** - Pre-configured for Healthcare, Financial, Manufacturing, Technology
+✅ **Smart Feed Management** - Import OPML/JSON/CSV, quality monitoring, optimization
+✅ **Natural Language Interface** - "Add healthcare feeds", "Show feed quality", "Import my OPML"
+✅ **Intelligent Recommendations** - AI-suggested feeds based on your crown jewels and industry
+✅ **Quality Assurance** - Automatic feed validation and performance optimization
+
+*Questions? Just ask NOMAD: "Setup wizard", "Add industry feeds", or "Import my existing feeds"*

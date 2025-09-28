@@ -151,3 +151,13 @@ data/processing/
 # User-specific configuration
 user-config.yaml
 user-config.yml
+
+# Additional threat intelligence cache files
+data/threats-cache.json
+data/feed-quality-metrics.json
+data/user-context.json
+data/processed/
+data/cache/
+
+# Claude Code local settings (if any)
+.claude/settings.local.json

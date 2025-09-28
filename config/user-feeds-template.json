@@ -1,0 +1,104 @@
+{
+  "_comment": "NOMAD v2.0 User Feed Customization - Template for user-specific feed imports and configurations",
+  "user_configuration": {
+    "organization_profile": {
+      "selected_industry_template": null,
+      "selected_technology_stack": null,
+      "compliance_requirements": [],
+      "custom_focus_areas": []
+    },
+    "feed_preferences": {
+      "enabled_categories": ["government_certs", "vendor_advisories", "security_research"],
+      "disabled_feeds": [],
+      "priority_overrides": {},
+      "custom_update_frequencies": {}
+    }
+  },
+  "custom_feeds": {
+    "user_imported": [],
+    "custom_sources": []
+  },
+  "import_formats": {
+    "opml_import": {
+      "description": "Import feeds from OPML files (RSS readers, feed aggregators)",
+      "supported": true,
+      "example_usage": "Import from Feedly, Inoreader, or other RSS readers"
+    },
+    "json_import": {
+      "description": "Import feeds from JSON format",
+      "supported": true,
+      "schema": {
+        "feeds": [
+          {
+            "name": "Custom Feed Name",
+            "url": "https://example.com/feed.xml",
+            "priority": "medium",
+            "source_reliability": "C",
+            "description": "Description of feed content",
+            "focus_areas": ["custom_tags"]
+          }
+        ]
+      }
+    },
+    "csv_import": {
+      "description": "Import feeds from CSV file",
+      "supported": true,
+      "columns": ["name", "url", "priority", "description", "category"]
+    }
+  },
+  "export_formats": {
+    "opml_export": {
+      "description": "Export current feed configuration to OPML",
+      "includes": ["all_enabled_feeds", "categories", "priorities"]
+    },
+    "backup_export": {
+      "description": "Complete configuration backup in JSON format",
+      "includes": ["user_config", "custom_feeds", "preferences", "metadata"]
+    }
+  },
+  "feed_validation": {
+    "automatic_checks": {
+      "url_accessibility": true,
+      "feed_format_validation": true,
+      "update_frequency_monitoring": true,
+      "content_quality_scoring": true
+    },
+    "quality_thresholds": {
+      "minimum_update_frequency_days": 30,
+      "minimum_content_relevance_score": 0.6,
+      "maximum_duplicate_rate": 0.3,
+      "required_feed_format": ["rss", "atom", "json"]
+    }
+  },
+  "examples": {
+    "personal_security_researcher": {
+      "description": "Example configuration for an independent security researcher",
+      "additional_feeds": [
+        {
+          "name": "Personal Security Blog",
+          "url": "https://mysecurityblog.com/feed.xml",
+          "priority": "low",
+          "source_reliability": "D",
+          "description": "Personal research and findings"
+        }
+      ]
+    },
+    "threat_intel_team": {
+      "description": "Example configuration for a dedicated threat intelligence team",
+      "additional_feeds": [
+        {
+          "name": "Commercial TI Feed",
+          "url": "https://vendor.com/api/threats",
+          "priority": "high",
+          "source_reliability": "B",
+          "description": "Commercial threat intelligence subscription"
+        }
+      ]
+    },
+    "small_business": {
+      "description": "Streamlined configuration for small businesses",
+      "feed_limit": 10,
+      "focus": ["critical_only", "vendor_specific", "easy_to_understand"]
+    }
+  }
+}

@@ -1,193 +1,203 @@
-# Contributing to NOMAD Threat Intelligence Framework
+# Contributing to NOMAD v2.0
 
-Thank you for your interest in contributing to the NOMAD Threat Intelligence Framework! We welcome contributions from the security community to help improve and expand this defensive security tool.
+Thank you for your interest in contributing to NOMAD (Notable Object Monitoring And Analysis Director) v2.0! This project is designed to make threat intelligence accessible through natural conversation with Claude Code.
 
-## Code of Conduct
+## 🛡️ Security First
 
-By participating in this project, you agree to abide by our Code of Conduct:
+NOMAD is a **defensive security tool only**. All contributions must align with this principle:
 
-- **Be Respectful**: Treat all contributors with respect and professionalism
-- **Be Constructive**: Provide helpful feedback and suggestions
-- **Be Ethical**: This framework is for defensive security only
-- **Be Collaborative**: Work together to improve the framework
+✅ **Acceptable contributions:**
+- Threat intelligence feed improvements
+- Agent behavior enhancements
+- Documentation improvements
+- Bug fixes and performance optimizations
+- New defensive analysis features
 
-## How to Contribute
+❌ **Unacceptable contributions:**
+- Offensive security tools or techniques
+- Credential harvesting capabilities
+- Any malicious functionality
+- Tools that could be used to harm systems or individuals
 
-### Reporting Issues
+## 🚀 Getting Started
 
-1. **Check existing issues** first to avoid duplicates
-2. **Use issue templates** when available
-3. **Provide detailed information**:
-   - Clear description of the issue
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Environment details (OS, Python version, etc.)
-   - Relevant logs or error messages
+### Prerequisites
+- Claude Code (https://claude.ai/code)
+- Basic understanding of threat intelligence concepts
+- Familiarity with markdown for agent template editing
 
-### Security Vulnerabilities
+### Development Environment
+```bash
+git clone https://github.com/your-org/nomad-threat-intel-framework
+cd nomad-threat-intel-framework
+claude code
+```
 
-**DO NOT** open public issues for security vulnerabilities. Instead:
+No additional setup required - NOMAD v2.0 runs entirely within Claude Code!
 
-1. Email the maintainers privately at: security@nomad-framework.example
-2. Include:
-   - Description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-   - Suggested fix (if available)
+## 📋 Types of Contributions
 
-### Feature Requests
+### 1. Agent Template Improvements
+- Edit markdown files in `agents/` directory
+- Improve natural language understanding
+- Enhance response quality and accuracy
+- Add new analysis capabilities
 
-1. Open an issue with the `enhancement` label
-2. Describe the feature and its use case
-3. Explain how it benefits defensive security operations
-4. Consider how it fits with existing architecture
+### 2. Threat Feed Enhancements
+- Add new legitimate threat intelligence sources
+- Improve feed parsing logic
+- Enhance data quality validation
+- Update industry-specific templates
 
-### Pull Requests
+### 3. Configuration Templates
+- Update `config/threat-sources-templates.json`
+- Add new industry-specific feed packages
+- Improve default user preferences
 
-#### Before You Start
+### 4. Documentation
+- README improvements
+- Agent behavior documentation
+- Usage examples and tutorials
+- Troubleshooting guides
 
-1. **Fork the repository** and create a new branch
-2. **Discuss major changes** first by opening an issue
-3. **Follow the existing code style** and conventions
-4. **Ensure defensive use only** - no offensive capabilities
+## 🔧 Development Workflow
 
-#### Development Process
+### Making Changes
+1. **Fork** the repository
+2. **Create a branch** for your feature: `git checkout -b feature/your-feature-name`
+3. **Test locally** using Claude Code natural language queries
+4. **Commit changes** with clear, descriptive messages
+5. **Submit a Pull Request** with detailed description
 
-1. **Set up your environment**:
-   ```bash
-   git clone https://github.com/yourusername/nomad-threat-intel-framework.git
-   cd nomad-threat-intel-framework
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   pip install -r requirements-dev.txt  # If available
-   ```
-
-2. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-3. **Make your changes**:
-   - Write clean, documented code
-   - Add tests for new functionality
-   - Update documentation as needed
-   - Follow Python PEP 8 style guide
-
-4. **Test your changes**:
-   ```bash
-   # Run tests
-   pytest tests/
-
-   # Check code style
-   flake8 src/
-
-   # Type checking (if applicable)
-   mypy src/
-   ```
-
-5. **Commit your changes**:
-   - Use clear, descriptive commit messages
-   - Follow conventional commits format:
-     - `feat:` New feature
-     - `fix:` Bug fix
-     - `docs:` Documentation changes
-     - `style:` Code style changes
-     - `refactor:` Code refactoring
-     - `test:` Test additions/changes
-     - `chore:` Maintenance tasks
-
-6. **Push and create PR**:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-   - Open a pull request against the `main` branch
-   - Fill out the PR template completely
-   - Link related issues
-
-#### Pull Request Guidelines
-
-- **One feature per PR** - Keep PRs focused
-- **Include tests** - All new code should have tests
-- **Update documentation** - Keep docs in sync with code
-- **Pass CI checks** - Ensure all tests and linters pass
-- **Be responsive** - Address review feedback promptly
-
-### Contributing Agent Prompts
-
-When contributing new agent prompts:
-
-1. Follow the existing prompt structure
-2. Include clear input/output schemas
-3. Document the agent's purpose and workflow position
-4. Test with various input scenarios
-5. Ensure Admiralty grading consistency
-
-### Documentation Contributions
-
-- Fix typos or clarify existing documentation
-- Add examples and use cases
-- Improve installation or deployment guides
-- Translate documentation (coordinate first)
-
-## Development Guidelines
+### Testing Your Changes
+Since NOMAD v2.0 uses conversational interfaces:
+1. Launch Claude Code in your development environment
+2. Test queries like:
+   - "Show me latest threats"
+   - "Add healthcare feeds"
+   - "Configure my preferences"
+3. Verify agent responses match expected behavior
+4. Test edge cases and error handling
 
 ### Code Style
+- **Agent Templates**: Use clear, professional language in markdown
+- **Configuration Files**: Follow existing JSON structure and naming conventions
+- **Documentation**: Use GitHub-flavored markdown with clear headings
 
-- **Python**: Follow PEP 8
-- **Markdown**: Use consistent formatting
-- **YAML/JSON**: Maintain consistent indentation
+## 📝 Pull Request Guidelines
 
-### Testing
+### Before Submitting
+- [ ] Test your changes thoroughly with Claude Code
+- [ ] Update relevant documentation
+- [ ] Ensure no sensitive data is included
+- [ ] Verify all new threat sources are legitimate
+- [ ] Check that agent behavior aligns with defensive security principles
 
-- Write unit tests for new functions
-- Include integration tests for agent workflows
-- Test edge cases and error conditions
-- Maintain or improve test coverage
+### PR Description Template
+```markdown
+## Summary
+Brief description of changes
 
-### Security Considerations
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Configuration improvement
+- [ ] Agent template enhancement
 
-All contributions must:
-- Be designed for **defensive security only**
-- Not include any offensive capabilities
-- Follow secure coding practices
-- Not expose sensitive information
-- Validate all inputs
-- Handle errors gracefully
+## Testing
+Describe how you tested the changes using Claude Code queries
 
-### Agent Development
+## Security Considerations
+Confirm this change maintains defensive security focus
+```
 
-When creating or modifying agents:
+## 🎯 Priority Areas
 
-1. **Maintain Single Responsibility**: Each agent should have one clear purpose
-2. **Use Standard Schemas**: Follow existing data format conventions
-3. **Handle Edge Cases**: Account for missing or malformed data
-4. **Document Thoroughly**: Include usage examples and expected outputs
-5. **Test Extensively**: Verify with real-world threat data
+We especially welcome contributions in these areas:
 
-## Review Process
+1. **Industry-Specific Templates**
+   - Healthcare, Financial, Manufacturing, Government
+   - Sector-specific threat feeds and crown jewels
 
-1. **Maintainer Review**: All PRs are reviewed by maintainers
-2. **Community Feedback**: Larger changes may have community review period
-3. **Testing**: PRs must pass all automated tests
-4. **Security Review**: Security-sensitive changes get additional review
-5. **Documentation**: Changes must include appropriate documentation
+2. **Agent Intelligence Improvements**
+   - Better natural language understanding
+   - Enhanced threat prioritization logic
+   - Improved briefing generation
 
-## Recognition
+3. **Feed Quality Enhancements**
+   - Better source reliability detection
+   - Enhanced parsing for complex feeds
+   - Improved deduplication logic
+
+4. **User Experience**
+   - More intuitive natural language patterns
+   - Better error messages and guidance
+   - Improved onboarding experience
+
+## 🐛 Reporting Issues
+
+### Security Vulnerabilities
+**DO NOT** open public issues for security vulnerabilities. Instead, please email the security contact listed in [SECURITY.md](SECURITY.md).
+
+### General Issues
+Use our GitHub issue templates:
+- **Bug Report**: For unexpected behavior
+- **Feature Request**: For new functionality ideas
+- **Agent Improvement**: For conversational intelligence enhancements
+- **Feed Request**: For new threat intelligence sources
+
+Include:
+- Clear description of the issue
+- Steps to reproduce (for bugs)
+- Expected vs actual behavior
+- Relevant Claude Code queries used
+
+## 💡 Feature Requests
+
+When requesting new features:
+1. **Check existing issues** to avoid duplicates
+2. **Describe the use case** - who benefits and how?
+3. **Consider defensive security** - does this align with our principles?
+4. **Suggest implementation** if you have ideas
+5. **Provide examples** of expected interactions
+
+## 📚 Documentation Style Guide
+
+- Use clear, concise language
+- Include practical examples
+- Test all code snippets and queries
+- Use proper markdown formatting
+- Link to relevant resources
+
+## 🤝 Community Guidelines
+
+- **Be respectful** and professional
+- **Stay focused** on defensive security applications
+- **Help others** by sharing knowledge and examples
+- **Follow security best practices** in all contributions
+- **Report issues** constructively with helpful detail
+
+## 📄 License
+
+By contributing, you agree that your contributions will be licensed under the GNU Affero General Public License v3.0 with the same defensive security restrictions as the main project.
+
+## 🆘 Getting Help
+
+- **GitHub Discussions**: General questions and ideas
+- **GitHub Issues**: Specific bugs or feature requests
+- **Documentation**: Check README.md and agent templates
+- **Examples**: Look at existing agent templates and configurations
+
+## 🙏 Recognition
 
 Contributors will be recognized in:
-- The project's contributors list
 - Release notes for significant contributions
-- Annual contributor acknowledgments
+- CONTRIBUTORS.md file (maintained separately)
+- Documentation acknowledgments for major improvements
 
-## Questions?
+Thank you for helping make threat intelligence more accessible and actionable for security teams everywhere! 🛡️
 
-- Open a discussion in GitHub Discussions
-- Join our community chat (if available)
-- Review existing documentation and issues
+---
 
-## License
-
-By contributing, you agree that your contributions will be licensed under the project's GNU AGPL-3.0 license.
-
-Thank you for helping make NOMAD a better tool for the defensive security community!
+**Remember**: NOMAD v2.0 is designed to help security professionals defend their organizations. All contributions should support this mission while maintaining the highest ethical standards.

@@ -1,0 +1,350 @@
+{
+  "_comment": "NOMAD v2.0 Industry-Specific Feed Templates - Pre-configured packages for different sectors",
+  "industry_templates": {
+    "healthcare": {
+      "name": "Healthcare & Life Sciences",
+      "description": "Specialized feeds for healthcare organizations, medical devices, and patient data protection",
+      "feeds": [
+        {
+          "name": "HHS Healthcare Cybersecurity",
+          "url": "https://www.hhs.gov/about/news/rss/healthcare-cybersecurity.xml",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "US Department of Health & Human Services cybersecurity guidance",
+          "focus_areas": ["healthcare_compliance", "hipaa", "medical_devices"]
+        },
+        {
+          "name": "FDA Medical Device Security",
+          "url": "https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity",
+          "priority": "critical",
+          "source_reliability": "A",
+          "description": "FDA medical device cybersecurity communications",
+          "focus_areas": ["medical_devices", "fda_guidance"]
+        },
+        {
+          "name": "ICS-CERT Medical Advisories",
+          "url": "https://www.cisa.gov/uscert/ics/advisories/ICSMA",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "Industrial Control Systems medical device advisories",
+          "focus_areas": ["medical_devices", "ics_security"]
+        },
+        {
+          "name": "ECRI Institute",
+          "url": "https://www.ecri.org/rss/health-technology-safety-and-risk/cybersecurity",
+          "priority": "medium",
+          "source_reliability": "B",
+          "description": "Healthcare technology safety and cybersecurity research",
+          "focus_areas": ["healthcare_technology", "patient_safety"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Electronic Health Records (EHR)",
+        "Medical Device Networks",
+        "Patient Portal Systems",
+        "Laboratory Information Systems",
+        "Radiology Systems (PACS)"
+      ]
+    },
+    "financial": {
+      "name": "Financial Services & Banking",
+      "description": "Specialized feeds for banks, fintech, payment processors, and financial institutions",
+      "feeds": [
+        {
+          "name": "FS-ISAC Cybersecurity",
+          "url": "https://www.fsisac.com/hubfs/RSS%20Feeds/FSISAC_RSS_Feed.xml",
+          "priority": "critical",
+          "source_reliability": "A",
+          "description": "Financial Services Information Sharing and Analysis Center",
+          "focus_areas": ["financial_threats", "banking_security"]
+        },
+        {
+          "name": "FinCEN Cybersecurity",
+          "url": "https://www.fincen.gov/rss/news",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "Financial Crimes Enforcement Network security advisories",
+          "focus_areas": ["financial_crimes", "aml_compliance"]
+        },
+        {
+          "name": "FFIEC Cybersecurity",
+          "url": "https://www.ffiec.gov/rss/press.xml",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "Federal Financial Institutions Examination Council",
+          "focus_areas": ["banking_regulation", "examination_guidance"]
+        },
+        {
+          "name": "PCI Security Standards",
+          "url": "https://blog.pcisecuritystandards.org/rss.xml",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Payment Card Industry security standards and guidance",
+          "focus_areas": ["payment_security", "pci_compliance"]
+        },
+        {
+          "name": "SWIFT Security",
+          "url": "https://www.swift.com/rss/security-programme",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "SWIFT financial messaging security updates",
+          "focus_areas": ["financial_messaging", "swift_security"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Core Banking Systems",
+        "Payment Processing Networks",
+        "Customer Financial Data",
+        "Trading Platforms",
+        "SWIFT/Wire Transfer Systems",
+        "Mobile Banking Applications"
+      ]
+    },
+    "manufacturing": {
+      "name": "Manufacturing & Industrial",
+      "description": "Specialized feeds for manufacturing, industrial control systems, and operational technology",
+      "feeds": [
+        {
+          "name": "ICS-CERT Advisories",
+          "url": "https://www.cisa.gov/uscert/ics/advisories.xml",
+          "priority": "critical",
+          "source_reliability": "A",
+          "description": "Industrial Control Systems cybersecurity advisories",
+          "focus_areas": ["ics_security", "scada", "industrial_iot"]
+        },
+        {
+          "name": "NIST Manufacturing Security",
+          "url": "https://www.nist.gov/news-events/news/rss/manufacturing",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "NIST manufacturing cybersecurity frameworks and guidance",
+          "focus_areas": ["manufacturing_standards", "cybersecurity_framework"]
+        },
+        {
+          "name": "Schneider Electric Security",
+          "url": "https://www.schneider-electric.com/ww/en/download/document/SEVD-RSS/",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Schneider Electric industrial security bulletins",
+          "focus_areas": ["industrial_automation", "schneider_products"]
+        },
+        {
+          "name": "Siemens Security Advisories",
+          "url": "https://cert-portal.siemens.com/rss/cert_advisories.xml",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Siemens industrial product security advisories",
+          "focus_areas": ["industrial_automation", "siemens_products"]
+        },
+        {
+          "name": "Rockwell Automation Security",
+          "url": "https://www.rockwellautomation.com/en_NA/news/security-advisories.page",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Rockwell Automation security advisories",
+          "focus_areas": ["industrial_automation", "rockwell_products"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Production Control Systems",
+        "SCADA Networks",
+        "Industrial IoT Devices",
+        "Manufacturing Execution Systems (MES)",
+        "Quality Control Systems",
+        "Supply Chain Management Systems"
+      ]
+    },
+    "technology": {
+      "name": "Technology & Software Development",
+      "description": "Specialized feeds for tech companies, software developers, and cloud-native organizations",
+      "feeds": [
+        {
+          "name": "GitHub Security Advisories",
+          "url": "https://github.com/advisories.atom",
+          "priority": "high",
+          "source_reliability": "B",
+          "description": "GitHub security advisories for open source projects",
+          "focus_areas": ["open_source", "supply_chain", "software_dependencies"]
+        },
+        {
+          "name": "NPM Security Advisories",
+          "url": "https://github.com/advisories.atom?query=ecosystem%3Anpm",
+          "priority": "high",
+          "source_reliability": "B",
+          "description": "Node.js package manager security advisories",
+          "focus_areas": ["javascript", "nodejs", "package_dependencies"]
+        },
+        {
+          "name": "PyPI Security Advisories",
+          "url": "https://github.com/advisories.atom?query=ecosystem%3Apip",
+          "priority": "medium",
+          "source_reliability": "B",
+          "description": "Python Package Index security advisories",
+          "focus_areas": ["python", "package_dependencies"]
+        },
+        {
+          "name": "Docker Security",
+          "url": "https://docs.docker.com/engine/security/security/",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Docker container security guidance and updates",
+          "focus_areas": ["containers", "docker", "container_security"]
+        },
+        {
+          "name": "Kubernetes Security",
+          "url": "https://kubernetes.io/blog/index.xml",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "Kubernetes security updates and best practices",
+          "focus_areas": ["kubernetes", "container_orchestration", "cloud_native"]
+        },
+        {
+          "name": "OWASP News",
+          "url": "https://owasp.org/news/",
+          "priority": "medium",
+          "source_reliability": "B",
+          "description": "Open Web Application Security Project updates",
+          "focus_areas": ["web_security", "application_security", "development"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Source Code Repositories",
+        "CI/CD Pipelines",
+        "Customer Databases",
+        "API Gateway Systems",
+        "Cloud Infrastructure",
+        "Development Environments"
+      ]
+    },
+    "energy": {
+      "name": "Energy & Utilities",
+      "description": "Specialized feeds for power generation, oil & gas, and utility companies",
+      "feeds": [
+        {
+          "name": "NERC CIP Security",
+          "url": "https://www.nerc.com/news/rss.xml",
+          "priority": "critical",
+          "source_reliability": "A",
+          "description": "North American Electric Reliability Corporation cybersecurity",
+          "focus_areas": ["electric_grid", "critical_infrastructure", "nerc_cip"]
+        },
+        {
+          "name": "DOE Cybersecurity",
+          "url": "https://www.energy.gov/rss/energy-gov-cybersecurity-news.xml",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "US Department of Energy cybersecurity initiatives",
+          "focus_areas": ["energy_sector", "critical_infrastructure"]
+        },
+        {
+          "name": "API Oil & Gas Security",
+          "url": "https://www.api.org/rss/news",
+          "priority": "medium",
+          "source_reliability": "B",
+          "description": "American Petroleum Institute security guidance",
+          "focus_areas": ["oil_gas", "pipeline_security"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Generation Control Systems",
+        "Distribution Management Systems",
+        "Pipeline Control Systems",
+        "Energy Trading Systems",
+        "Customer Billing Systems"
+      ]
+    },
+    "government": {
+      "name": "Government & Public Sector",
+      "description": "Specialized feeds for federal, state, and local government agencies",
+      "feeds": [
+        {
+          "name": "CISA Government Advisories",
+          "url": "https://www.cisa.gov/binding-operational-directives",
+          "priority": "critical",
+          "source_reliability": "A",
+          "description": "CISA binding operational directives for federal agencies",
+          "focus_areas": ["federal_government", "compliance", "directives"]
+        },
+        {
+          "name": "FedRAMP Security",
+          "url": "https://www.fedramp.gov/rss/",
+          "priority": "high",
+          "source_reliability": "A",
+          "description": "Federal Risk and Authorization Management Program updates",
+          "focus_areas": ["cloud_compliance", "federal_authorization"]
+        },
+        {
+          "name": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/news-events/news/rss/cybersecurity",
+          "priority": "medium",
+          "source_reliability": "A",
+          "description": "NIST cybersecurity standards and guidance",
+          "focus_areas": ["standards", "frameworks", "guidance"]
+        }
+      ],
+      "crown_jewel_suggestions": [
+        "Citizen Data Systems",
+        "Government Service Portals",
+        "Emergency Response Systems",
+        "Public Safety Networks",
+        "Tax Processing Systems"
+      ]
+    }
+  },
+  "technology_stacks": {
+    "cloud_first": {
+      "name": "Cloud-First Organizations",
+      "description": "For organizations primarily using cloud infrastructure and SaaS",
+      "additional_feeds": [
+        "AWS Security Bulletins",
+        "Microsoft Azure Security",
+        "Google Cloud Security",
+        "Kubernetes Security"
+      ]
+    },
+    "microsoft_shop": {
+      "name": "Microsoft-Centric Organizations",
+      "description": "For organizations heavily using Microsoft products and services",
+      "additional_feeds": [
+        "Microsoft Security Response Center",
+        "Microsoft 365 Security",
+        "Windows Security",
+        "Azure Active Directory Security"
+      ]
+    },
+    "open_source": {
+      "name": "Open Source Heavy Organizations",
+      "description": "For organizations using primarily open source technologies",
+      "additional_feeds": [
+        "GitHub Security Advisories",
+        "Linux Security Advisories",
+        "Apache Software Foundation Security",
+        "OWASP Updates"
+      ]
+    }
+  },
+  "compliance_focused": {
+    "sox_compliance": {
+      "name": "SOX Compliance",
+      "description": "Additional feeds for Sarbanes-Oxley compliance requirements",
+      "feeds": ["SEC Cybersecurity Guidance", "PCAOB Auditing Updates"]
+    },
+    "hipaa_compliance": {
+      "name": "HIPAA Compliance",
+      "description": "Additional feeds for healthcare data protection",
+      "feeds": ["HHS HIPAA Updates", "OCR Data Breach Reports"]
+    },
+    "pci_compliance": {
+      "name": "PCI DSS Compliance",
+      "description": "Additional feeds for payment card security",
+      "feeds": ["PCI Security Standards Council", "Card Brand Security Updates"]
+    }
+  },
+  "template_metadata": {
+    "total_templates": 6,
+    "industry_templates": 6,
+    "technology_stacks": 3,
+    "compliance_frameworks": 3,
+    "last_updated": "2025-09-22T00:00:00Z"
+  }
+}
