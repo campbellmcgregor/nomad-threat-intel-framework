@@ -54,5 +54,40 @@
     "response_style": "professional",
     "max_threats_per_query": 10,
     "cache_duration_hours": 6
+  },
+  "verification_settings": {
+    "method": "hybrid",
+    "enabled": true,
+    "providers": {
+      "structured_apis": {
+        "enabled": true,
+        "sources": ["nvd", "cisa_kev", "first_epss", "vendor_apis"],
+        "weight": 0.6,
+        "timeout_seconds": 5,
+        "use_cache": true
+      },
+      "jina_grounding": {
+        "enabled": true,
+        "api_key": "",
+        "confidence_threshold": 0.7,
+        "max_sources": 5,
+        "weight": 0.4,
+        "monthly_budget_usd": 10,
+        "current_month_usage_usd": 0
+      }
+    },
+    "confidence_thresholds": {
+      "min_display": 50,
+      "min_critical": 70,
+      "min_actionable": 60
+    },
+    "fallback_behavior": "cache_only",
+    "show_verification_details": true,
+    "cache_duration_hours": 24,
+    "cost_tracking": {
+      "enabled": true,
+      "alert_threshold_usd": 8,
+      "hard_limit_usd": 10
+    }
   }
 }

@@ -24,21 +24,31 @@ For each threat with CVEs:
    - `null`: Status unknown
 
 ### Risk Assessment Logic
+
+#### Verification-Aware Processing
+Adjust risk scores based on verification confidence:
+- Confidence 95-100%: No adjustment to risk score
+- Confidence 80-94%: Reduce risk score by 5%
+- Confidence 70-79%: Reduce risk score by 10%
+- Confidence 50-69%: Reduce risk score by 20%
+- Below 50%: Mark as "Unverified Risk" and reduce score by 40%
+
 Apply NOMAD routing rules in this exact order:
 
 1. **AUTO-DROP** if:
+   - Verification confidence < min_display threshold (default 50%)
    - Admiralty source reliability is E or F
    - Admiralty info credibility is 5 or 6
    - Age > 30 days for non-critical items
 
 2. **CRITICAL PRIORITY** if:
-   - KEV-listed vulnerabilities
-   - EPSS score ≥ 0.70
+   - KEV-listed vulnerabilities (with verification ≥ 70%)
+   - EPSS score ≥ 0.70 (with verification ≥ 70%)
    - Exploit status = ITW with HIGH/MEDIUM asset exposure
-   - CVSS v3.1 score ≥ 9.0
+   - CVSS v3.1 score ≥ 9.0 (with verification ≥ min_critical)
 
 3. **HIGH PRIORITY** if:
-   - CVSS v3.1 score ≥ 7.0 and < 9.0
+   - CVSS v3.1 score ≥ 7.0 and < 9.0 (with verification ≥ 60%)
    - EPSS score ≥ 0.30 and < 0.70
    - Affects user's crown jewel systems
    - Active threat actor campaigns
@@ -47,11 +57,13 @@ Apply NOMAD routing rules in this exact order:
    - CVSS v3.1 score ≥ 4.0 and < 7.0
    - Industry-relevant threats
    - Supply chain implications
+   - Verification confidence ≥ min_actionable (60%)
 
 5. **WATCHLIST** if:
    - Credible but not immediately actionable
    - Emerging threats without clear impact
    - Information gathering value
+   - Verification confidence between 50-69%
 
 ### Asset Correlation
 Match threats against user's environment:
@@ -96,9 +108,17 @@ When threat actor attribution is available:
         "priority_level": "critical",
         "routing_decision": "TECHNICAL_ALERT",
         "risk_score": 9.2,
+        "adjusted_risk_score": 8.74,
         "business_impact": "high",
         "exploitability": "high",
         "asset_relevance": "crown_jewel_match"
+      },
+      "verification_status": {
+        "verified": true,
+        "confidence": 95,
+        "method": "hybrid",
+        "sources": ["nvd", "cisa", "jina"],
+        "timestamp": "2025-01-28T10:30:00Z"
       },
       "user_context": {
         "affects_crown_jewels": ["Customer Database", "Authentication Systems"],

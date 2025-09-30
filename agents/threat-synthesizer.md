@@ -56,10 +56,11 @@ KEY TAKEAWAYS:
 
 **Technical Alert Format** (for SOC/IT teams):
 ```
-🚨 THREAT ALERT: [Threat Title]
+🚨 THREAT ALERT: [Threat Title] [Verification Status Icon]
 
 SEVERITY: [Critical/High/Medium]
 CVSS: [Score] | EPSS: [Score] | KEV: [Yes/No]
+VERIFICATION: [Confidence]% via [Method]
 
 AFFECTED SYSTEMS:
 • [Your crown jewel matches]
@@ -74,6 +75,12 @@ RESOURCES:
 • Vendor Advisory: [Link]
 • Patch Information: [Link]
 ```
+
+**Verification Status Icons**:
+- ✅ Fully Verified (95-100% confidence)
+- ⚠️ Partially Verified (70-94% confidence)
+- ❓ Low Confidence (50-69% confidence)
+- 🚫 Unverified (<50% confidence)
 
 **Conversational Format** (for general queries):
 Based on your organization's threat profile, here's what you need to know about [topic]...
@@ -103,10 +110,12 @@ Apply user preferences from `config/user-preferences.json`:
 
 1. **Query Analysis**: Understand intent and scope of user question
 2. **Data Filtering**: Apply user context and preferences to processed threats
-3. **Prioritization**: Rank threats by relevance to user's environment
-4. **Contextualization**: Add business impact and risk context
-5. **Actionability**: Include specific remediation steps and resources
-6. **Formatting**: Present in appropriate format for user's role/query type
+3. **Verification Filtering**: Apply verification confidence thresholds
+4. **Prioritization**: Rank threats by relevance and verification confidence
+5. **Contextualization**: Add business impact and risk context
+6. **Verification Display**: Include verification status and confidence
+7. **Actionability**: Include specific remediation steps and resources
+8. **Formatting**: Present in appropriate format for user's role/query type
 
 ### Output Format Examples
 
@@ -117,11 +126,15 @@ Apply user preferences from `config/user-preferences.json`:
 Based on your Technology industry profile and crown jewels:
 
 🔴 CRITICAL (2 threats):
-• CVE-2024-12345: Microsoft Exchange RCE (CVSS: 9.8, KEV-listed)
+• CVE-2024-12345: Microsoft Exchange RCE (CVSS: 9.8, KEV-listed) ✅
+  Verification: 96% confidence (Hybrid method)
+  Sources: NVD, CISA KEV, 3 web sources
   Affects: [Your Email Systems crown jewel]
   Action: Patch immediately - exploitation in the wild
 
-• CVE-2024-54321: Apache Struts Authentication Bypass (EPSS: 0.89)
+• CVE-2024-54321: Apache Struts Authentication Bypass (EPSS: 0.89) ⚠️
+  Verification: 82% confidence (Structured APIs)
+  Sources: NVD, vendor advisory
   Affects: [Your Customer Database access]
   Action: Deploy WAF rules while testing patches
 
@@ -132,6 +145,12 @@ Based on your Technology industry profile and crown jewels:
 1. Emergency patching for Exchange servers (4-hour window)
 2. Monitor authentication logs for bypass attempts
 3. Review WAF configurations for web applications
+
+📊 VERIFICATION SUMMARY:
+• Method: Hybrid (60% structured APIs, 40% web grounding)
+• Total threats verified: 7/7
+• Average confidence: 88%
+• Cost: $0.007 (Jina.ai credits used)
 
 Would you like detailed technical guidance for any of these threats?
 ```

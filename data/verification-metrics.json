@@ -1,0 +1,77 @@
+{
+  "_comment": "NOMAD Verification Metrics - Tracks performance, costs, and quality of verification system",
+  "summary": {
+    "total_verifications": 0,
+    "successful_verifications": 0,
+    "failed_verifications": 0,
+    "unverifiable_threats": 0,
+    "average_confidence_score": 0.0,
+    "cache_hit_rate": 0.0,
+    "total_api_calls": 0,
+    "total_jina_calls": 0,
+    "total_cost_usd": 0.00,
+    "average_response_time_ms": 0
+  },
+  "monthly_stats": {
+    "2025-01": {
+      "verifications": 0,
+      "jina_requests": 0,
+      "cost_usd": 0.00,
+      "api_failures": 0,
+      "average_confidence": 0.0
+    }
+  },
+  "api_performance": {
+    "nvd": {
+      "total_calls": 0,
+      "successful": 0,
+      "failed": 0,
+      "average_response_ms": 0,
+      "last_error": null
+    },
+    "cisa_kev": {
+      "total_calls": 0,
+      "successful": 0,
+      "failed": 0,
+      "average_response_ms": 0,
+      "last_error": null
+    },
+    "jina": {
+      "total_calls": 0,
+      "successful": 0,
+      "failed": 0,
+      "average_response_ms": 0,
+      "total_cost": 0.00,
+      "last_error": null
+    }
+  },
+  "confidence_distribution": {
+    "0-25": 0,
+    "26-50": 0,
+    "51-75": 0,
+    "76-100": 0
+  },
+  "top_unverifiable_sources": [],
+  "cost_tracking": {
+    "current_month": "2025-01",
+    "current_month_spent": 0.00,
+    "budget_remaining": 10.00,
+    "projected_monthly_cost": 0.00,
+    "cost_per_verification": 0.00
+  },
+  "performance_trends": {
+    "last_24h": {
+      "verifications": 0,
+      "avg_confidence": 0.0,
+      "cache_hits": 0,
+      "api_errors": 0
+    },
+    "last_7d": {
+      "verifications": 0,
+      "avg_confidence": 0.0,
+      "cache_hits": 0,
+      "api_errors": 0
+    }
+  },
+  "last_updated": "2025-01-01T00:00:00Z"
+}

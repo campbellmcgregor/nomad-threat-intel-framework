@@ -56,9 +56,9 @@ route_to_setup_wizard(setup_state):
 For completed setups, classify user queries into these categories:
 
 **Data Collection Requests**:
-- "Update threat feeds" → Execute threat-collector agent
-- "Refresh intelligence" → Run collection + processing pipeline
-- "Check for new threats" → Validate cache age, trigger updates if needed
+- "Update threat feeds" → Execute threat-collector agent → truth-verifier agent
+- "Refresh intelligence" → Run collection + processing + verification pipeline
+- "Check for new threats" → Validate cache age, trigger updates + verify if needed
 
 **Current Intelligence Queries**:
 - "Show latest threats" → Use threat-synthesizer with recent data
@@ -93,10 +93,11 @@ For completed setups, classify user queries into these categories:
 **Standard Query Flow**:
 1. Parse user intent and parameters
 2. Check data freshness (default: 6 hours for cache)
-3. If stale data: Execute threat-collector → intelligence-processor
+3. If stale data: Execute threat-collector → intelligence-processor → truth-verifier
 4. Apply query filters and context
-5. Execute threat-synthesizer with personalized parameters
-6. Return formatted response
+5. Filter threats based on verification confidence thresholds
+6. Execute threat-synthesizer with personalized and verified parameters
+7. Return formatted response with verification indicators
 
 **Complex Query Flow**:
 1. Break down multi-part queries into components
@@ -262,8 +263,18 @@ generate_follow_ups(response, setup_state):
 
 **Data Pipeline Execution**:
 ```
-threat-collector (RSS feeds) → intelligence-processor (enrichment) → threat-synthesizer (response)
+threat-collector (RSS feeds) → intelligence-processor (enrichment) → truth-verifier (validation) → threat-synthesizer (response)
 ```
+
+**Verification Integration**:
+When processing threat queries:
+1. After threat collection, invoke truth-verifier agent
+2. Pass user's verification_settings from preferences to verifier
+3. Handle verification results:
+   - If confidence < min_display (50%): Filter out threat
+   - If verification failed: Apply fallback_behavior setting
+   - If cost limit reached: Switch to structured_only method
+4. Pass verification metadata through pipeline to synthesizer
 
 **Parallel Processing**:
 For complex queries, coordinate multiple agents simultaneously:
