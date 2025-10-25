@@ -1,0 +1,29 @@
+{
+  "id": "test-threat-001",
+  "source_type": "vendor",
+  "source_name": "Microsoft MSRC",
+  "title": "Critical Remote Code Execution Vulnerability in Microsoft Exchange Server",
+  "summary": "A critical remote code execution vulnerability has been identified in Microsoft Exchange Server versions 2016 and 2019. The vulnerability allows an authenticated attacker to execute arbitrary code with SYSTEM privileges.",
+  "published_utc": "2024-10-20T14:30:00Z",
+  "admiralty_source_reliability": "A",
+  "admiralty_info_credibility": 1,
+  "cves": ["CVE-2024-12345"],
+  "cvss_v3": 9.8,
+  "epss": 0.85,
+  "kev_listed": true,
+  "affected_products": [
+    {
+      "vendor": "Microsoft",
+      "product": "Exchange Server",
+      "versions": ["2016", "2019"]
+    }
+  ],
+  "attack_vectors": ["network"],
+  "threat_actors": ["APT-28"],
+  "industries_targeted": ["finance", "healthcare", "government"],
+  "source_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-12345",
+  "vendor_advisory_ids": ["MS24-OCT-001"],
+  "tags": ["rce", "exchange", "critical"],
+  "severity": "critical",
+  "confidence": 0.95
+}

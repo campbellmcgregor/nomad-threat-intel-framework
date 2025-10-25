@@ -1,0 +1,6 @@
+{
+  "title": "Some security vulnerability discovered",
+  "description": "CVE-2024-99999 affects multiple versions of popular software. Also see CVE-2024-88888 for related issues.",
+  "source_name": "SecurityBlog",
+  "published": "2024-10-22"
+}

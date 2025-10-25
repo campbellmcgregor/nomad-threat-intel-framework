@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>NOMAD Test Security Feeds</title>
+    <dateCreated>2024-10-24T00:00:00Z</dateCreated>
+    <ownerName>NOMAD Testing</ownerName>
+  </head>
+  <body>
+    <outline text="Government Sources">
+      <outline text="CISA Cybersecurity Advisories"
+               xmlUrl="https://www.cisa.gov/cybersecurity-advisories/all.xml"
+               htmlUrl="https://www.cisa.gov"
+               type="rss"
+               description="Official US government cybersecurity advisories"/>
+      <outline text="NCSC UK Advisories"
+               xmlUrl="https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml"
+               htmlUrl="https://www.ncsc.gov.uk"
+               type="rss"
+               description="UK National Cyber Security Centre advisories"/>
+      <outline text="US-CERT Current Activity"
+               xmlUrl="https://www.cisa.gov/uscert/ncas/current-activity.xml"
+               type="rss"
+               description="Current cybersecurity activities and alerts"/>
+    </outline>
+    <outline text="Vendor Advisories">
+      <outline text="Microsoft Security Response Center"
+               xmlUrl="https://api.msrc.microsoft.com/update-guide/rss"
+               htmlUrl="https://msrc.microsoft.com"
+               type="rss"
+               description="Microsoft security updates and vulnerabilities"/>
+      <outline text="Cisco Security Advisories"
+               xmlUrl="https://sec.cloudapps.cisco.com/security/center/publicationService.x?i=100"
+               htmlUrl="https://sec.cloudapps.cisco.com"
+               type="rss"
+               description="Cisco security advisories and updates"/>
+    </outline>
+    <outline text="Security Research">
+      <outline text="SANS Internet Storm Center"
+               xmlUrl="https://isc.sans.edu/rssfeed.xml"
+               htmlUrl="https://isc.sans.edu"
+               type="rss"
+               description="SANS Institute threat intelligence"/>
+    </outline>
+  </body>
+</opml>

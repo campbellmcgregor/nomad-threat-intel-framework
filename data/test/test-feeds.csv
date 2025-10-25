@@ -1,0 +1,6 @@
+name,url,priority,description,category
+"CISA Cybersecurity Advisories","https://www.cisa.gov/cybersecurity-advisories/all.xml","critical","Official US government cybersecurity advisories","government"
+"Microsoft Security Response Center","https://api.msrc.microsoft.com/update-guide/rss","high","Microsoft security updates and vulnerabilities","vendor"
+"NCSC UK Advisories","https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml","high","UK National Cyber Security Centre advisories","government"
+"Cisco Security Advisories","https://sec.cloudapps.cisco.com/security/center/publicationService.x?i=100","high","Cisco security advisories and updates","vendor"
+"Test Invalid Feed","http://invalid-test-url.local/rss","medium","This feed should fail validation","custom"
