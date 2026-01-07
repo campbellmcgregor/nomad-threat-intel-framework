@@ -1,5 +1,6 @@
 {
-  "_comment": "NOMAD v2.0 User Preferences - Customize these settings for personalized threat intelligence",
+  "_comment": "NOMAD v2.1 User Preferences - Customize these settings for personalized threat intelligence",
+  "_setup_instructions": "Run /setup to configure these settings interactively, or edit this file directly",
   "organization": {
     "name": "Your Organization",
     "industry": "Technology",
@@ -10,11 +11,11 @@
     ]
   },
   "crown_jewels": [
-    "Customer Database",
-    "Authentication Systems",
-    "Payment Processing",
-    "Intellectual Property",
-    "Email Systems"
+    "Web Application Servers",
+    "Database Systems",
+    "Authentication Infrastructure",
+    "Cloud Platform",
+    "Source Code Repositories"
   ],
   "asset_exposure": [
     "Internet-facing services",
@@ -31,7 +32,6 @@
       "Supply chain attacks"
     ],
     "exclude_categories": [
-      "DoS/DDoS",
       "Physical security"
     ],
     "alert_thresholds": {
@@ -56,7 +56,7 @@
     "cache_duration_hours": 6
   },
   "verification_settings": {
-    "method": "hybrid",
+    "method": "structured",
     "enabled": true,
     "providers": {
       "structured_apis": {
@@ -67,7 +67,7 @@
         "use_cache": true
       },
       "jina_grounding": {
-        "enabled": true,
+        "enabled": false,
         "api_key": "",
         "confidence_threshold": 0.7,
         "max_sources": 5,

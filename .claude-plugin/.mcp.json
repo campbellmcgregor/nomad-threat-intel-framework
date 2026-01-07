@@ -1,0 +1,213 @@
+{
+  "$schema": "https://claude.ai/schemas/mcp.json",
+  "version": "1.0.0",
+  "description": "NOMAD MCP Server Configuration for Real-time Threat Intelligence",
+
+  "servers": {
+    "nvd-api": {
+      "name": "NVD Vulnerability Database",
+      "description": "NIST National Vulnerability Database API for CVE data",
+      "type": "http",
+      "config": {
+        "baseUrl": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "rateLimit": {
+          "requestsPerMinute": 5,
+          "requestsPerMinuteWithKey": 50
+        }
+      },
+      "tools": [
+        {
+          "name": "nvd_get_cve",
+          "description": "Retrieve detailed CVE information from NVD",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "cveId": {
+                "type": "string",
+                "description": "CVE identifier (e.g., CVE-2024-12345)",
+                "pattern": "^CVE-[0-9]{4}-[0-9]{4,}$"
+              }
+            },
+            "required": ["cveId"]
+          }
+        },
+        {
+          "name": "nvd_search_cves",
+          "description": "Search CVEs by keyword, vendor, or product",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "keywordSearch": {
+                "type": "string",
+                "description": "Keywords to search for"
+              },
+              "cpeName": {
+                "type": "string",
+                "description": "CPE name to filter by"
+              },
+              "cvssV3Severity": {
+                "type": "string",
+                "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+              },
+              "pubStartDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pubEndDate": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    "epss-api": {
+      "name": "EPSS Exploit Prediction",
+      "description": "FIRST EPSS API for exploit probability scoring",
+      "type": "http",
+      "config": {
+        "baseUrl": "https://api.first.org/data/v1/epss",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "rateLimit": {
+          "requestsPerMinute": 100
+        }
+      },
+      "tools": [
+        {
+          "name": "epss_get_score",
+          "description": "Get EPSS exploit probability score for a CVE",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "cve": {
+                "type": "string",
+                "description": "CVE identifier"
+              }
+            },
+            "required": ["cve"]
+          }
+        },
+        {
+          "name": "epss_get_scores_bulk",
+          "description": "Get EPSS scores for multiple CVEs",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "cves": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Array of CVE identifiers"
+              }
+            },
+            "required": ["cves"]
+          }
+        }
+      ]
+    },
+
+    "cisa-kev": {
+      "name": "CISA Known Exploited Vulnerabilities",
+      "description": "CISA KEV catalog for actively exploited vulnerabilities",
+      "type": "http",
+      "config": {
+        "baseUrl": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "cacheMinutes": 60,
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "tools": [
+        {
+          "name": "kev_get_catalog",
+          "description": "Get the full CISA KEV catalog",
+          "inputSchema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "kev_check_cve",
+          "description": "Check if a CVE is in the KEV catalog",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "cveId": {
+                "type": "string",
+                "description": "CVE identifier to check"
+              }
+            },
+            "required": ["cveId"]
+          }
+        }
+      ]
+    },
+
+    "jina-grounding": {
+      "name": "Jina.ai Web Grounding",
+      "description": "Jina.ai reader and search for web grounding verification",
+      "type": "http",
+      "config": {
+        "readerUrl": "https://r.jina.ai",
+        "searchUrl": "https://s.jina.ai",
+        "requiresApiKey": true,
+        "apiKeyEnvVar": "JINA_API_KEY"
+      },
+      "tools": [
+        {
+          "name": "jina_read_url",
+          "description": "Read and extract content from a URL",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to read"
+              }
+            },
+            "required": ["url"]
+          }
+        },
+        {
+          "name": "jina_search",
+          "description": "Search the web for threat intelligence",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query"
+              }
+            },
+            "required": ["query"]
+          }
+        }
+      ]
+    }
+  },
+
+  "defaultServer": "nvd-api",
+
+  "authentication": {
+    "nvd-api": {
+      "type": "header",
+      "headerName": "apiKey",
+      "envVar": "NVD_API_KEY",
+      "optional": true
+    },
+    "jina-grounding": {
+      "type": "bearer",
+      "envVar": "JINA_API_KEY",
+      "optional": true
+    }
+  }
+}
