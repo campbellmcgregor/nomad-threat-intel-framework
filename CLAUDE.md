@@ -103,6 +103,12 @@ Real-time threat intelligence APIs:
 - **CISA KEV**: Known exploited vulnerabilities
 - **Jina.ai**: Web grounding for verification
 
+### Data Flow
+1. User query → Query Handler (routes to appropriate agents)
+2. Threat collection → RSS feeds parsed → Intelligence processing
+3. Enrichment → Deduplication → Asset correlation
+4. Synthesis → Personalized response generation
+
 ## Key Configuration Files
 
 - **config/user-preferences.json**: Organization profile, crown jewels, verification settings
