@@ -1,5 +1,6 @@
 {
-  "_comment": "NOMAD v2.0 User Preferences - Customize these settings for personalized threat intelligence",
+  "_comment": "NOMAD v2.1 User Preferences - Customize these settings for personalized threat intelligence",
+  "_setup_instructions": "Run /setup to configure these settings interactively, or edit this file directly",
   "organization": {
     "name": "Your Organization",
     "industry": "Technology",
@@ -10,11 +11,11 @@
     ]
   },
   "crown_jewels": [
-    "Customer Database",
-    "Authentication Systems",
-    "Payment Processing",
-    "Intellectual Property",
-    "Email Systems"
+    "Web Application Servers",
+    "Database Systems",
+    "Authentication Infrastructure",
+    "Cloud Platform",
+    "Source Code Repositories"
   ],
   "asset_exposure": [
     "Internet-facing services",
@@ -31,7 +32,6 @@
       "Supply chain attacks"
     ],
     "exclude_categories": [
-      "DoS/DDoS",
       "Physical security"
     ],
     "alert_thresholds": {
@@ -54,5 +54,40 @@
     "response_style": "professional",
     "max_threats_per_query": 10,
     "cache_duration_hours": 6
+  },
+  "verification_settings": {
+    "method": "structured",
+    "enabled": true,
+    "providers": {
+      "structured_apis": {
+        "enabled": true,
+        "sources": ["nvd", "cisa_kev", "first_epss", "vendor_apis"],
+        "weight": 0.6,
+        "timeout_seconds": 5,
+        "use_cache": true
+      },
+      "jina_grounding": {
+        "enabled": false,
+        "api_key": "",
+        "confidence_threshold": 0.7,
+        "max_sources": 5,
+        "weight": 0.4,
+        "monthly_budget_usd": 10,
+        "current_month_usage_usd": 0
+      }
+    },
+    "confidence_thresholds": {
+      "min_display": 50,
+      "min_critical": 70,
+      "min_actionable": 60
+    },
+    "fallback_behavior": "cache_only",
+    "show_verification_details": true,
+    "cache_duration_hours": 24,
+    "cost_tracking": {
+      "enabled": true,
+      "alert_threshold_usd": 8,
+      "hard_limit_usd": 10
+    }
   }
 }

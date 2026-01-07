@@ -1,0 +1,117 @@
+{
+  "structured_apis": {
+    "nvd": {
+      "enabled": true,
+      "base_url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+      "api_key": null,
+      "rate_limit": 50,
+      "timeout": 10,
+      "weight": 0.4,
+      "description": "NIST National Vulnerability Database - Official CVE source"
+    },
+    "cisa_kev": {
+      "enabled": true,
+      "base_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "api_key": null,
+      "rate_limit": 10,
+      "timeout": 10,
+      "weight": 0.3,
+      "description": "CISA Known Exploited Vulnerabilities - Active exploitation tracking"
+    },
+    "mitre_cve": {
+      "enabled": true,
+      "base_url": "https://cveawg.mitre.org/api/cve",
+      "api_key": null,
+      "rate_limit": 30,
+      "timeout": 10,
+      "weight": 0.2,
+      "description": "MITRE CVE database - CVE numbering authority"
+    },
+    "vendor_apis": {
+      "microsoft": {
+        "enabled": true,
+        "base_url": "https://api.msrc.microsoft.com/cvrf/v2.0",
+        "rate_limit": 100,
+        "timeout": 10,
+        "weight": 0.1
+      },
+      "redhat": {
+        "enabled": true,
+        "base_url": "https://access.redhat.com/hydra/rest/securitydata",
+        "rate_limit": 60,
+        "timeout": 10,
+        "weight": 0.1
+      },
+      "github": {
+        "enabled": true,
+        "base_url": "https://api.github.com/advisories",
+        "rate_limit": 60,
+        "timeout": 10,
+        "weight": 0.1
+      }
+    }
+  },
+  "jina_grounding": {
+    "enabled": false,
+    "base_url": "https://api.jina.ai/v1/grounding",
+    "api_key": null,
+    "cost_per_request": 0.001,
+    "timeout": 30,
+    "max_sources": 10,
+    "search_depth": "comprehensive",
+    "verification_prompts": {
+      "cve_verification": "Verify CVE {cve_id} details, exploitation status, affected products, and patches from authoritative security sources",
+      "threat_validation": "Validate security threat: {threat_title}. Find official advisories, vendor statements, and credible security analysis",
+      "exploit_confirmation": "Confirm active exploitation of {cve_id}. Search for POC code, incident reports, and threat actor usage"
+    }
+  },
+  "verification_rules": {
+    "cache_duration_hours": 24,
+    "parallel_requests": 5,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 2,
+    "fallback_on_failure": true,
+    "require_multiple_sources": true,
+    "minimum_source_count": 2
+  },
+  "confidence_weights": {
+    "nvd_match": 40,
+    "cisa_kev_listed": 30,
+    "vendor_advisory": 20,
+    "cert_database": 10,
+    "web_sources_per_hit": 5,
+    "web_maximum_points": 40,
+    "consensus_bonus": 10
+  },
+  "source_credibility": {
+    "tier1": [
+      "nvd.nist.gov",
+      "cisa.gov",
+      "mitre.org",
+      "*.vendor.com",
+      "cert.org",
+      "us-cert.gov"
+    ],
+    "tier2": [
+      "cve.org",
+      "exploit-db.com",
+      "securityfocus.com",
+      "rapid7.com",
+      "tenable.com"
+    ],
+    "tier3": [
+      "bleepingcomputer.com",
+      "thehackernews.com",
+      "zdnet.com",
+      "arstechnica.com",
+      "securityweek.com"
+    ]
+  },
+  "api_status": {
+    "last_check": "2025-01-01T00:00:00Z",
+    "nvd": "operational",
+    "cisa_kev": "operational",
+    "mitre_cve": "operational",
+    "jina": "not_configured"
+  }
+}

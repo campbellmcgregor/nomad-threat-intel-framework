@@ -4,87 +4,156 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-NOMAD (Notable Object Monitoring And Analysis Director) v2.0 is a Claude Code-native threat intelligence framework designed for conversational interaction. It processes threat data from RSS feeds, vendor advisories, and security bulletins into actionable intelligence using a multi-agent architecture.
+NOMAD (Notable Object Monitoring And Analysis Director) v2.1 is a Claude Code-native threat intelligence framework designed for conversational interaction. It processes threat data from RSS feeds, vendor advisories, and security bulletins into actionable intelligence using a modern multi-agent plugin architecture.
 
-## Core Architecture
+## Architecture (v2.1 Plugin System)
 
-The framework uses a multi-agent pipeline with specialized agents defined as markdown prompt templates in the `agents/` directory:
+NOMAD v2.1 uses the modern Claude Code plugin architecture with:
 
-### Primary Agents
-- **query-handler.md**: Main orchestration agent that routes natural language queries
-- **threat-collector.md**: Collects and normalizes threat data from configured sources
-- **intelligence-processor.md**: Enriches and validates collected threats
-- **threat-synthesizer.md**: Generates personalized briefings and responses
-- **feed-manager.md**: Manages RSS/threat feed subscriptions and optimizations
-- **feed-quality-monitor.md**: Tracks feed performance and health metrics
-- **setup-wizard.md**: Guides initial configuration and customization
+### Directory Structure
+```
+.claude-plugin/
+├── plugin.json           # Main plugin manifest
+├── README.md             # Plugin documentation
+├── agents/               # 8 specialized agents with YAML frontmatter
+├── skills/               # 5 skill groups (21 commands)
+│   ├── threat-intelligence/
+│   ├── feed-management/
+│   ├── configuration/
+│   ├── reporting/
+│   └── system/
+├── hooks/                # Validation and security hooks
+│   ├── hooks.json
+│   └── scripts/
+└── .mcp.json             # MCP server configuration
 
-### Claude Code Skills
-NOMAD v2.0 includes 8 specialized skills in `.claude/skills/` for high-performance operations:
-- **cve-analyzer.md**: Parallel CVE enrichment (6x faster than sequential)
-- **threat-validator.md**: Schema enforcement and data quality scoring
-- **csv-handler.md**: CSV import/export for feeds and threat data
-- **opml-processor.md**: OPML import/export for RSS feed management
-- **pdf-report-generator.md**: Executive-ready PDF reports with charts
-- **excel-generator.md**: Multi-worksheet Excel workbooks with analytics
-- **feed-quality-analyzer.md**: Feed performance monitoring and optimization
-- **threat-pattern-analyzer.md**: Trend detection, campaign correlation, predictions
+.claude/
+├── settings.json         # Project permissions and environment
+└── commands-legacy/      # Archived v2.0 commands
+```
 
-See `.claude/skills/README.md` for detailed skill documentation.
+### Agent System (8 Agents)
+Agents are invoked via the Task tool with YAML frontmatter defining behavior:
+
+| Agent | Purpose | Color |
+|-------|---------|-------|
+| `query-handler` | Main orchestration, query routing | blue |
+| `threat-collector` | RSS/feed data collection | green |
+| `intelligence-processor` | CVSS/EPSS enrichment | orange |
+| `threat-synthesizer` | Response generation | purple |
+| `truth-verifier` | CVE verification | red |
+| `feed-manager` | Feed subscriptions | cyan |
+| `feed-quality-monitor` | Feed health tracking | yellow |
+| `setup-wizard` | Progressive onboarding | magenta |
+
+### Skills System (21 Skills in 5 Groups)
+
+Skills are invoked with `/command` syntax:
+
+**Threat Intelligence:**
+- `/threats` - Latest personalized briefing
+- `/critical` - Critical and KEV-listed threats
+- `/cve [CVE-ID]` - Detailed CVE analysis
+- `/crown-jewel [system]` - Threats to specific systems
+- `/trending` - Trending threats and vectors
+
+**Feed Management:**
+- `/add-feeds [industry]` - Add industry-specific feeds
+- `/feed-quality` - Feed performance dashboard
+- `/import-feeds` - Import OPML/JSON/CSV
+- `/refresh` - Force intelligence refresh
+
+**Configuration:**
+- `/setup` - Interactive setup wizard
+- `/configure [setting]` - Quick config updates
+- `/add-crown-jewel` - Add critical system
+- `/update-profile` - Update organization info
+
+**Reporting:**
+- `/executive-brief` - Executive summary
+- `/technical-alert` - SOC/IT alert format
+- `/weekly-summary` - Weekly threat landscape
+
+**System:**
+- `/status` - System health dashboard
+- `/export [format]` - Export data/config
+- `/help [command]` - Command reference
+- `/setup-verification` - Verification settings
+- `/verification-status` - Verification metrics
+
+### Hooks System
+
+NOMAD uses hooks for validation and security:
+
+| Hook | Event | Purpose |
+|------|-------|---------|
+| `load-nomad-context` | SessionStart | Load config, check cache |
+| `validate-cve-format` | UserPromptSubmit | Validate CVE identifiers |
+| `check-setup-completion` | UserPromptSubmit | Ensure setup before ops |
+| `verify-threat-source` | PreToolUse (WebFetch) | Verify legitimate sources |
+| `check-api-keys` | PreToolUse (WebFetch) | Check API key config |
+| `log-threat-query` | PostToolUse (WebFetch) | Audit logging |
+| `verify-cache-saved` | Stop | Cache integrity check |
+
+### MCP Server Integration
+
+Real-time threat intelligence APIs:
+- **NVD API**: CVE lookup and search
+- **EPSS API**: Exploit probability scoring
+- **CISA KEV**: Known exploited vulnerabilities
+- **Jina.ai**: Web grounding for verification
 
 ### Data Flow
 1. User query → Query Handler (routes to appropriate agents)
 2. Threat collection → RSS feeds parsed → Intelligence processing
-3. Enrichment → Deduplication → Asset correlation → **Skills invoked for optimization**
-4. Synthesis → Personalized response generation → **Skills for report generation**
+3. Enrichment → Deduplication → Asset correlation
+4. Synthesis → Personalized response generation
 
 ## Key Configuration Files
 
-- **config/user-preferences.json**: Organization profile, crown jewels, alert preferences
+- **config/user-preferences.json**: Organization profile, crown jewels, verification settings
 - **config/threat-sources.json**: Active RSS/threat feed configurations
 - **config/threat-sources-premium.json**: 30+ premium feed templates
 - **config/threat-sources-templates.json**: Industry-specific feed packages
 - **data/threats-cache.json**: Cached threat intelligence data
 - **data/feed-quality-metrics.json**: Feed performance tracking
+- **data/verification-cache.json**: CVE verification cache
+- **data/audit-log.json**: Threat query audit trail
 
-## Usage (Claude Code v2.0)
+## Usage
 
-### Zero Setup Required
+### Quick Start
 ```bash
-# Clone and launch - that's it!
 git clone <repository-url>
-cd nomad-threat-intel-framework
+cd nomad-actual
 claude code
+
+# First time setup
+/setup
+
+# Get your first briefing
+/threats
 ```
 
-### Core Interaction
-NOMAD v2.0 runs entirely within Claude Code using natural language:
-- No Python installation required
-- No dependencies to manage
-- No command-line scripts to run
-- Pure conversational interface
+### Natural Language Queries
 
-## Natural Language Query Patterns
+The system responds to natural language in addition to commands:
+- "What's critical today?" → `/critical`
+- "Tell me about CVE-2024-12345" → `/cve CVE-2024-12345`
+- "Threats to my web servers" → `/crown-jewel`
+- "Brief me for leadership" → `/executive-brief`
 
-The system responds to these query types:
+### Verification Methods
 
-### Data Collection
-- "Update threat feeds" / "Refresh intelligence" / "Check for new threats"
+NOMAD supports three verification methods:
 
-### Current Intelligence
-- "Show latest threats" / "What's critical?" / "Brief me on threats"
+| Method | Cost | Best For |
+|--------|------|----------|
+| `structured` | Free | NVD/CISA APIs only |
+| `jina` | ~$0.001/req | Web grounding |
+| `hybrid` | ~$5-10/mo | Production (recommended) |
 
-### Specific Searches
-- "Tell me about CVE-YYYY-XXXXX" / "[Vendor] threats" / "[Threat type] this week"
-
-### Asset-Specific
-- "Threats to [crown jewel]" / "[Technology] vulnerabilities" / "Internet-facing risks"
-
-### Feed Management
-- "Add [industry] feeds" / "Import my OPML" / "Show feed quality" / "Optimize feeds"
-
-### Configuration
-- "Update preferences" / "Add crown jewel" / "Configure for [industry]"
+Configure with `/setup-verification`.
 
 ## Key Data Schemas
 
@@ -100,7 +169,12 @@ The system responds to these query types:
   "epss": 0.0,
   "kev_listed": true|false,
   "affected_products": [...],
-  "admiralty_credibility": "A1-F6"
+  "admiralty_credibility": "A1-F6",
+  "verification": {
+    "confidence": 0.85,
+    "sources": ["nvd", "cisa"],
+    "last_verified": "2024-01-01T00:00:00Z"
+  }
 }
 ```
 
@@ -110,83 +184,36 @@ The system responds to these query types:
 - **WATCHLIST**: Credible but not immediately actionable
 - **DROP**: Low reliability (E/F rating) or credibility ≥5
 
-## Development Workflow
+## Development
 
-1. **User makes natural language query** → Query handler interprets intent
-2. **Agents are invoked** → Each agent follows its markdown prompt template
-3. **Data flows through pipeline** → Collection → Processing → Synthesis
-4. **Response generated** → Personalized to user's organization profile
+### Adding New Agent
+1. Create markdown file in `.claude-plugin/agents/`
+2. Add YAML frontmatter with name, description, model, color, tools
+3. Include `<example>` blocks in description for discovery
+4. Define clear input/output schemas in body
 
-## Testing Approach
+### Adding New Skill
+1. Create markdown file in appropriate `.claude-plugin/skills/[group]/`
+2. Add YAML frontmatter with name, description, argument-hint
+3. Update group's `SKILL.md` trigger patterns if needed
 
-- Agent behavior is defined by markdown prompt templates in `agents/`
-- Test by making natural language queries to Claude Code
-- Feed quality monitoring built into the system
-- No external testing framework required
-
-## Important Implementation Notes
-
-1. **v2.0 Design**: Optimized for Claude Code interaction, not standalone Python execution
-2. **Agent Templates**: Markdown files in `agents/` define behavior, not Python code
-3. **Conversational Interface**: Primary interaction through natural language, not CLI commands
-4. **Feed Management**: 30+ premium feeds pre-configured, industry templates available
-5. **Crown Jewels Focus**: Intelligence filtering based on critical business assets
-6. **Admiralty Grading**: All intelligence rated A-F (source) and 1-6 (information)
-
-## Common Development Tasks
-
-### Adding New Threat Feeds
-1. Edit `config/threat-sources.json` or use "Add [source] feed" query
-2. Premium templates available in `config/threat-sources-premium.json`
-3. Industry packages in `config/threat-sources-templates.json`
-
-### Customizing Organization Profile
-1. Update `config/user-preferences.json`
-2. Define crown jewels (critical systems)
-3. Set industry sectors for targeted intelligence
-
-### Implementing New Agent
-1. Create markdown prompt template in `agents/`
-2. Define clear input/output schemas
-3. Update query-handler routing logic
-4. Test with example queries
-
-### Debugging Feed Issues
-- Ask: "Show feed quality" for performance analysis
-- Ask: "Check feed status" for accessibility issues
-- Ask: "Optimize my feeds" for recommendations
-
-### Working with Skills
-Skills are reusable components in `.claude/skills/` that provide optimized implementations for common operations:
-
-1. **Skills are automatically invoked** by agents and slash commands as needed
-2. **Key skills**:
-   - `cve-analyzer`: 6x faster CVE enrichment (parallel NVD/EPSS/KEV fetching)
-   - `threat-validator`: Ensures data quality and schema compliance
-   - `csv-handler` / `opml-processor`: Feed import/export automation
-   - `pdf-report-generator` / `excel-generator`: Professional reporting
-   - `feed-quality-analyzer`: Performance monitoring and optimization
-   - `threat-pattern-analyzer`: Trend detection and predictions
-
-3. **Agents invoke skills** when specialized operations are needed:
-   - Intelligence processor → Uses `cve-analyzer` for CVE enrichment
-   - Threat collector → Uses `threat-validator` for data quality
-   - Feed manager → Uses `opml-processor` and `csv-handler` for imports
-   - Threat synthesizer → Uses report generators for output
-
-4. **Skills vs Agents**:
-   - Agents: Orchestrate workflows, handle conversation, maintain context
-   - Skills: Perform specific technical operations, optimized for performance
-
-See `.claude/skills/README.md` for detailed documentation of all skills.
+### Adding New Hook
+1. Add hook definition to `.claude-plugin/hooks/hooks.json`
+2. Create shell script in `.claude-plugin/hooks/scripts/`
+3. Make script executable: `chmod +x script.sh`
 
 ## Performance Considerations
 
 - Designed for 1000+ items/hour processing
 - Threat cache refreshed every 4 hours by default
+- Verification cache reduces API calls by ~60%
 - Deduplication reduces alerts by ~70%
 - Feed quality monitoring identifies problematic sources
-- **Skills provide performance optimizations**:
-  - CVE analysis: 30-60s → 5-10s (6x faster with parallel fetching)
-  - Feed validation: Automated with 95%+ accuracy
-  - Report generation: Professional PDF/Excel in 3-5 seconds
+
+## Admiralty Rating System
+
+All intelligence is rated using the NATO Admiralty Code:
+- **Source Reliability**: A (Completely reliable) to F (Cannot be judged)
+- **Information Credibility**: 1 (Confirmed) to 6 (Cannot be judged)
+
+Example: "A2" = Completely reliable source, probably true information

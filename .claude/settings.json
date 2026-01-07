@@ -1,0 +1,85 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "name": "NOMAD Threat Intelligence Framework",
+  "version": "2.1.0",
+  "description": "Notable Object Monitoring And Analysis Director - Enterprise threat intelligence orchestration",
+
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nvd.nist.gov)",
+      "WebFetch(domain:services.nvd.nist.gov)",
+      "WebFetch(domain:cisa.gov)",
+      "WebFetch(domain:us-cert.cisa.gov)",
+      "WebFetch(domain:api.first.org)",
+      "WebFetch(domain:msrc.microsoft.com)",
+      "WebFetch(domain:security.microsoft.com)",
+      "WebFetch(domain:support.apple.com)",
+      "WebFetch(domain:advisories.cisco.com)",
+      "WebFetch(domain:tools.cisco.com)",
+      "WebFetch(domain:fortiguard.com)",
+      "WebFetch(domain:paloaltonetworks.com)",
+      "WebFetch(domain:access.redhat.com)",
+      "WebFetch(domain:security.debian.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:security.snyk.io)",
+      "WebFetch(domain:ncsc.gov.uk)",
+      "WebFetch(domain:cert.europa.eu)",
+      "WebFetch(domain:r.jina.ai)",
+      "WebFetch(domain:s.jina.ai)",
+      "WebFetch(domain:bleepingcomputer.com)",
+      "WebFetch(domain:thehackernews.com)",
+      "WebFetch(domain:krebsonsecurity.com)",
+      "WebFetch(domain:darkreading.com)",
+      "WebFetch(domain:threatpost.com)",
+      "WebFetch(domain:securityweek.com)",
+      "WebFetch(domain:therecord.media)",
+      "WebFetch(domain:feeds.feedburner.com)",
+      "WebFetch(domain:cvedetails.com)",
+      "WebFetch(domain:exploit-db.com)",
+      "WebFetch(domain:first.org)",
+      "WebFetch(domain:mitre.org)",
+      "WebFetch(domain:attack.mitre.org)",
+      "Write(path:data/*)",
+      "Write(path:config/user-preferences.json)",
+      "Write(path:config/threat-sources.json)",
+      "Read(path:*)",
+      "Glob(path:*)",
+      "Grep(path:*)",
+      "Bash(jq:*)",
+      "Bash(date:*)",
+      "Bash(stat:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [
+      "Write(path:.env*)",
+      "Write(path:*.key)",
+      "Write(path:*.pem)",
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+
+  "environment": {
+    "NOMAD_VERSION": "2.1.0",
+    "NOMAD_DATA_DIR": "data",
+    "NOMAD_CONFIG_DIR": "config",
+    "NOMAD_CACHE_TTL_HOURS": "4",
+    "NOMAD_MAX_THREATS_PER_BRIEFING": "25",
+    "NOMAD_DEFAULT_VERIFICATION": "structured"
+  },
+
+  "defaultModel": "claude-sonnet-4-20250514",
+
+  "agentDefaults": {
+    "timeout": 120000,
+    "maxTurns": 50
+  },
+
+  "features": {
+    "autoSuggestSkills": true,
+    "parallelAgents": true,
+    "auditLogging": true,
+    "cacheManagement": true
+  }
+}
