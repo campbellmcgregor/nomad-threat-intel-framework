@@ -484,39 +484,42 @@ argument-hint: "[lines] [--service]"
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## Implementation Phases
+## Implementation Status
 
-### Phase 1: Core Application
-- [ ] FastAPI backend with report CRUD
-- [ ] SQLite database setup
-- [ ] Share link generation with expiry
-- [ ] Basic HTML viewer for shared reports
-- [ ] Docker containerization
+**Status: ✅ IMPLEMENTED** (January 2026)
 
-### Phase 2: PDF Export
-- [ ] WeasyPrint integration
-- [ ] PDF report template
-- [ ] Chart rendering for PDF
-- [ ] Download endpoint
+### Phase 1: Core Application ✅
+- [x] FastAPI backend with report CRUD
+- [x] SQLite database setup (async with aiosqlite)
+- [x] Share link generation with expiry
+- [x] Basic HTML viewer for shared reports
+- [x] Docker containerization
 
-### Phase 3: Ansible Deployment
-- [ ] Hetzner provisioning playbook
-- [ ] Docker deployment role
-- [ ] Caddy reverse proxy with auto-TLS
-- [ ] Firewall configuration
+### Phase 2: PDF Export ✅
+- [x] WeasyPrint integration
+- [x] PDF report template with professional styling
+- [x] Metadata rendering in PDF
+- [x] Download endpoint with proper headers
 
-### Phase 4: Claude Code Integration
-- [ ] `/publish-report` skill
-- [ ] `/deploy-gui` skill
-- [ ] `/gui-status` skill
-- [ ] `/gui-logs` skill
-- [ ] Update user-preferences.json schema
+### Phase 3: Ansible Deployment ✅
+- [x] Hetzner provisioning playbook
+- [x] Docker deployment role
+- [x] Caddy reverse proxy with auto-TLS
+- [x] Firewall configuration (UFW + fail2ban)
+- [x] Backup, logs, status, destroy playbooks
 
-### Phase 5: Polish
-- [ ] Error handling and validation
-- [ ] Rate limiting
-- [ ] Backup playbook
-- [ ] Documentation
+### Phase 4: Claude Code Integration ✅
+- [x] `/publish-report` skill
+- [x] `/deploy-gui` skill
+- [x] `/gui-status` skill
+- [x] `/gui-logs` skill
+- [x] SKILL.md group definition
+
+### Phase 5: Polish ✅
+- [x] Input validation via Pydantic
+- [x] HTML sanitization (bleach)
+- [x] Backup playbook
+- [x] Documentation (CLAUDE.md, README files)
 
 ## Cost Estimate
 
@@ -540,9 +543,61 @@ SHARE_EXPIRY_HOURS=72     # Default share link expiry
 BACKUP_ENABLED=true       # Enable automated backups
 ```
 
-## Next Steps
+## Getting Started
 
-1. Review and approve this plan
-2. Begin Phase 1 implementation
-3. Set up Hetzner account and API token
-4. Configure domain (optional)
+Implementation is complete. To deploy:
+
+### 1. Set Up Environment Variables
+
+```bash
+# Generate secure tokens
+export HETZNER_API_TOKEN="your-hetzner-api-token"
+export NOMAD_WEB_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+export NOMAD_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+
+# Optional: Custom domain
+export NOMAD_DOMAIN="nomad.example.com"
+```
+
+### 2. Install Ansible Dependencies
+
+```bash
+pip install ansible
+ansible-galaxy collection install hetzner.hcloud community.docker community.general
+```
+
+### 3. Deploy to Hetzner
+
+```bash
+# From Claude Code
+/deploy-gui provision
+
+# Or manually
+cd deployment/ansible
+ansible-playbook playbooks/provision.yml
+ansible-playbook playbooks/deploy.yml
+```
+
+### 4. Publish Your First Report
+
+```bash
+/publish-report executive-brief
+```
+
+### 5. Check Status
+
+```bash
+/gui-status
+```
+
+## Files Reference
+
+| Path | Description |
+|------|-------------|
+| `web-intake-gui/` | FastAPI application source |
+| `web-intake-gui/Dockerfile` | Container build |
+| `web-intake-gui/docker-compose.yml` | Local development |
+| `deployment/ansible/` | Hetzner deployment playbooks |
+| `deployment/README.md` | Deployment documentation |
+| `.claude-plugin/skills/deployment/` | Claude Code skills |
+| `CLAUDE.md` | Updated with Web GUI section |

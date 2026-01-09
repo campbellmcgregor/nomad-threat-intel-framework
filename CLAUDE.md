@@ -16,12 +16,13 @@ NOMAD v2.1 uses the modern Claude Code plugin architecture with:
 ├── plugin.json           # Main plugin manifest
 ├── README.md             # Plugin documentation
 ├── agents/               # 8 specialized agents with YAML frontmatter
-├── skills/               # 5 skill groups (21 commands)
+├── skills/               # 6 skill groups (25 commands)
 │   ├── threat-intelligence/
 │   ├── feed-management/
 │   ├── configuration/
 │   ├── reporting/
-│   └── system/
+│   ├── system/
+│   └── deployment/       # Web GUI deployment skills
 ├── hooks/                # Validation and security hooks
 │   ├── hooks.json
 │   └── scripts/
@@ -30,6 +31,18 @@ NOMAD v2.1 uses the modern Claude Code plugin architecture with:
 .claude/
 ├── settings.json         # Project permissions and environment
 └── commands-legacy/      # Archived v2.0 commands
+
+web-intake-gui/           # Docker-based report sharing web app
+├── app/                  # FastAPI application
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
+
+deployment/               # Hetzner Cloud deployment via Ansible
+└── ansible/
+    ├── playbooks/        # provision, deploy, destroy, backup, logs, status
+    ├── inventory/
+    └── templates/
 ```
 
 ### Agent System (8 Agents)
@@ -80,6 +93,12 @@ Skills are invoked with `/command` syntax:
 - `/help [command]` - Command reference
 - `/setup-verification` - Verification settings
 - `/verification-status` - Verification metrics
+
+**Deployment (Web GUI):**
+- `/deploy-gui [action]` - Provision, update, or destroy Hetzner server
+- `/gui-status` - Check deployment health and metrics
+- `/gui-logs [lines]` - View application logs
+- `/publish-report [type]` - Push report to web GUI and get share link
 
 ### Hooks System
 
@@ -209,6 +228,71 @@ Configure with `/setup-verification`.
 - Verification cache reduces API calls by ~60%
 - Deduplication reduces alerts by ~70%
 - Feed quality monitoring identifies problematic sources
+
+## Web Intake GUI
+
+A Docker-based web application for sharing threat intelligence reports with stakeholders.
+
+### Features
+- **Link-only access**: Reports only viewable with share links (not browsable)
+- **PDF export**: Professional formatting via WeasyPrint
+- **Password protection**: Optional for sensitive reports
+- **Expiring links**: Configurable TTL (default 72 hours)
+- **Hetzner deployment**: Automated via Ansible (~€4.50/month)
+
+### Architecture
+```
+┌──────────────┐         ┌─────────────────────────────────────┐
+│ Claude Code  │  POST   │     Hetzner CX22 (~€4.50/mo)        │
+│              │────────►│  ┌─────────────────────────────┐    │
+│ /publish-    │         │  │ FastAPI + SQLite            │    │
+│  report      │         │  │ - Report storage            │    │
+│              │         │  │ - Share link generation     │    │
+│              │         │  │ - PDF rendering             │    │
+└──────────────┘         │  └─────────────────────────────┘    │
+                         │  Caddy (auto-TLS)                   │
+                         └─────────────────────────────────────┘
+```
+
+### Quick Start
+```bash
+# Set up environment
+export HETZNER_API_TOKEN="your-token"
+export NOMAD_WEB_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+
+# Deploy to Hetzner
+/deploy-gui provision
+
+# Publish a report
+/publish-report executive-brief
+
+# Check status
+/gui-status
+```
+
+### API Endpoints
+
+| Endpoint | Auth | Description |
+|----------|------|-------------|
+| `POST /api/v1/reports` | Token | Submit report |
+| `GET /api/v1/reports` | Token | List reports |
+| `POST /api/v1/reports/{id}/share` | Token | Create share link |
+| `GET /s/{token}` | None | View shared report |
+| `GET /s/{token}/pdf` | None | Download PDF |
+
+### Configuration
+
+Add to `config/user-preferences.json`:
+```json
+{
+  "web_gui": {
+    "enabled": true,
+    "base_url": "https://nomad.example.com",
+    "api_token": "${NOMAD_WEB_API_TOKEN}",
+    "default_share_hours": 72
+  }
+}
+```
 
 ## Admiralty Rating System
 
