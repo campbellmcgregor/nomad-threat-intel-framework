@@ -1,0 +1,152 @@
+---
+# Provision a new Hetzner server for NOMAD Web GUI
+- name: Provision Hetzner Cloud Server
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  tasks:
+    - name: Validate Hetzner API token
+      ansible.builtin.assert:
+        that:
+          - hetzner.api_token | length > 0
+        fail_msg: "HETZNER_API_TOKEN environment variable is required"
+
+    - name: Create firewall
+      hetzner.hcloud.firewall:
+        api_token: "{{ hetzner.api_token }}"
+        name: "{{ hetzner.firewall_name }}"
+        rules:
+          - description: SSH
+            direction: in
+            protocol: tcp
+            port: "22"
+            source_ips:
+              - 0.0.0.0/0
+              - ::/0
+          - description: HTTP
+            direction: in
+            protocol: tcp
+            port: "80"
+            source_ips:
+              - 0.0.0.0/0
+              - ::/0
+          - description: HTTPS
+            direction: in
+            protocol: tcp
+            port: "443"
+            source_ips:
+              - 0.0.0.0/0
+              - ::/0
+        state: present
+      register: firewall
+
+    - name: Create server
+      hetzner.hcloud.server:
+        api_token: "{{ hetzner.api_token }}"
+        name: "{{ hetzner.server_name }}"
+        server_type: "{{ hetzner.server_type }}"
+        image: "{{ hetzner.image }}"
+        location: "{{ hetzner.location }}"
+        ssh_keys:
+          - "{{ hetzner.ssh_key_name }}"
+        firewalls:
+          - "{{ hetzner.firewall_name }}"
+        state: present
+      register: server
+
+    - name: Wait for server to be ready
+      ansible.builtin.wait_for:
+        host: "{{ server.hcloud_server.ipv4_address }}"
+        port: 22
+        delay: 10
+        timeout: 300
+
+    - name: Add server to inventory
+      ansible.builtin.add_host:
+        name: "{{ hetzner.server_name }}"
+        ansible_host: "{{ server.hcloud_server.ipv4_address }}"
+        ansible_user: root
+        groups: nomad_servers
+
+    - name: Update inventory file
+      ansible.builtin.blockinfile:
+        path: ../inventory/hosts.yml
+        marker: "# {mark} MANAGED BY ANSIBLE - {{ hetzner.server_name }}"
+        block: |
+          # Added by provision.yml on {{ ansible_date_time.iso8601 | default('unknown') }}
+                {{ hetzner.server_name }}:
+                  ansible_host: {{ server.hcloud_server.ipv4_address }}
+                  ansible_user: root
+        insertafter: "hosts:"
+
+    - name: Display server information
+      ansible.builtin.debug:
+        msg: |
+          Server provisioned successfully!
+
+          Name: {{ hetzner.server_name }}
+          IP: {{ server.hcloud_server.ipv4_address }}
+          Type: {{ hetzner.server_type }}
+          Location: {{ hetzner.location }}
+
+          Next step: Run 'ansible-playbook playbooks/deploy.yml'
+
+- name: Initial server setup
+  hosts: nomad_servers
+  become: yes
+  gather_facts: yes
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install essential packages
+      ansible.builtin.apt:
+        name:
+          - curl
+          - git
+          - vim
+          - htop
+          - ufw
+          - fail2ban
+        state: present
+
+    - name: Configure UFW defaults
+      community.general.ufw:
+        direction: "{{ item.direction }}"
+        policy: "{{ item.policy }}"
+      loop:
+        - { direction: 'incoming', policy: 'deny' }
+        - { direction: 'outgoing', policy: 'allow' }
+
+    - name: Allow SSH through UFW
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+
+    - name: Allow HTTP through UFW
+      community.general.ufw:
+        rule: allow
+        port: "80"
+        proto: tcp
+
+    - name: Allow HTTPS through UFW
+      community.general.ufw:
+        rule: allow
+        port: "443"
+        proto: tcp
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+
+    - name: Set timezone to UTC
+      community.general.timezone:
+        name: UTC

@@ -1,0 +1,42 @@
+---
+# Fetch logs from NOMAD Web GUI
+- name: Fetch Application Logs
+  hosts: nomad_servers
+  become: yes
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  vars:
+    log_lines: "{{ lines | default(100) }}"
+    log_service: "{{ service | default('all') }}"
+
+  tasks:
+    - name: Get application logs
+      community.docker.docker_container_exec:
+        container: "{{ docker.container_name }}"
+        command: "tail -n {{ log_lines }} /proc/1/fd/1"
+      register: app_logs
+      when: log_service in ['all', 'app']
+      ignore_errors: yes
+
+    - name: Get Caddy logs
+      community.docker.docker_container_exec:
+        container: nomad-caddy
+        command: "tail -n {{ log_lines }} /proc/1/fd/1"
+      register: caddy_logs
+      when: log_service in ['all', 'caddy']
+      ignore_errors: yes
+
+    - name: Display application logs
+      ansible.builtin.debug:
+        msg: |
+          === Application Logs (last {{ log_lines }} lines) ===
+          {{ app_logs.stdout | default('No logs available') }}
+      when: log_service in ['all', 'app']
+
+    - name: Display Caddy logs
+      ansible.builtin.debug:
+        msg: |
+          === Caddy Logs (last {{ log_lines }} lines) ===
+          {{ caddy_logs.stdout | default('No logs available') }}
+      when: log_service in ['all', 'caddy']

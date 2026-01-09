@@ -1,0 +1,45 @@
+---
+# Destroy NOMAD Web GUI Hetzner server
+- name: Destroy Hetzner Server
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  vars_prompt:
+    - name: confirm_destroy
+      prompt: "Are you sure you want to destroy the server '{{ hetzner.server_name }}'? Type 'yes' to confirm"
+      private: no
+
+  tasks:
+    - name: Validate confirmation
+      ansible.builtin.assert:
+        that:
+          - confirm_destroy == 'yes'
+        fail_msg: "Destruction cancelled. You must type 'yes' to confirm."
+
+    - name: Delete server
+      hetzner.hcloud.server:
+        api_token: "{{ hetzner.api_token }}"
+        name: "{{ hetzner.server_name }}"
+        state: absent
+      register: server_result
+
+    - name: Delete firewall
+      hetzner.hcloud.firewall:
+        api_token: "{{ hetzner.api_token }}"
+        name: "{{ hetzner.firewall_name }}"
+        state: absent
+
+    - name: Remove from inventory file
+      ansible.builtin.blockinfile:
+        path: ../inventory/hosts.yml
+        marker: "# {mark} MANAGED BY ANSIBLE - {{ hetzner.server_name }}"
+        state: absent
+
+    - name: Display result
+      ansible.builtin.debug:
+        msg: |
+          Server '{{ hetzner.server_name }}' has been destroyed.
+
+          Note: Local backups in {{ backup.local_destination }} were preserved.
