@@ -5,6 +5,15 @@
 CACHE_FILE="data/threats-cache.json"
 METRICS_FILE="data/feed-quality-metrics.json"
 
+# OS-aware file modification time (detect once, use efficiently)
+get_mtime() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        stat -f %m "$1" 2>/dev/null
+    else
+        stat -c %Y "$1" 2>/dev/null
+    fi
+}
+
 ISSUES=""
 
 # Check threats cache
@@ -14,7 +23,7 @@ if [ -f "$CACHE_FILE" ]; then
         ISSUES="$ISSUES\n- Threats cache is corrupted (invalid JSON)"
     else
         CACHE_SIZE=$(jq '. | length' "$CACHE_FILE" 2>/dev/null)
-        CACHE_AGE=$(( ($(date +%s) - $(stat -f %m "$CACHE_FILE" 2>/dev/null || stat -c %Y "$CACHE_FILE" 2>/dev/null)) / 60 ))
+        CACHE_AGE=$(( ($(date +%s) - $(get_mtime "$CACHE_FILE")) / 60 ))
         echo "Threats cache: $CACHE_SIZE items, modified ${CACHE_AGE}m ago"
     fi
 else

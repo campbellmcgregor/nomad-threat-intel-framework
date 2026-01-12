@@ -75,10 +75,11 @@ APPROVED_DOMAINS=(
 # Extract domain from URL
 DOMAIN=$(echo "$URL" | sed -E 's|^https?://([^/]+).*|\1|' | sed 's/^www\.//')
 
-# Check if domain is approved
+# Check if domain is approved (secure suffix matching to prevent subdomain spoofing)
 APPROVED=false
 for APPROVED_DOMAIN in "${APPROVED_DOMAINS[@]}"; do
-    if [[ "$DOMAIN" == *"$APPROVED_DOMAIN"* ]] || [[ "$APPROVED_DOMAIN" == *"$DOMAIN"* ]]; then
+    # Exact match OR valid subdomain (domain ends with .approved_domain)
+    if [[ "$DOMAIN" == "$APPROVED_DOMAIN" ]] || [[ "$DOMAIN" == *."$APPROVED_DOMAIN" ]]; then
         APPROVED=true
         break
     fi

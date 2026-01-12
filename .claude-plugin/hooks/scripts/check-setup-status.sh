@@ -5,11 +5,11 @@
 PROMPT="$1"
 CONFIG_FILE="config/user-preferences.json"
 
-# Keywords that indicate operational queries (require setup)
-OPERATIONAL_KEYWORDS="threats|critical|briefing|cve|crown-jewel|trending|executive|technical|weekly|refresh"
+# Keywords that indicate operational queries (require setup) - with word boundaries
+OPERATIONAL_KEYWORDS='\b(threats|critical|briefing|cve|crown-jewel|trending|executive|technical|weekly|refresh)\b'
 
-# Keywords that are configuration-related (don't require setup)
-CONFIG_KEYWORDS="setup|configure|help|status|import|add-feeds"
+# Keywords that are configuration-related (don't require setup) - with word boundaries
+CONFIG_KEYWORDS='\b(setup|configure|help|status|import|add-feeds)\b'
 
 # Check if this is an operational query
 IS_OPERATIONAL=$(echo "$PROMPT" | grep -iE "$OPERATIONAL_KEYWORDS" | head -1)

@@ -8,23 +8,23 @@ CONFIG_FILE="config/user-preferences.json"
 # Extract domain from URL
 DOMAIN=$(echo "$URL" | sed -E 's|^https?://([^/]+).*|\1|' | sed 's/^www\.//')
 
-# Domains that require API keys
-declare -A API_KEY_DOMAINS
-API_KEY_DOMAINS=(
-    ["r.jina.ai"]="jina_api_key"
-    ["s.jina.ai"]="jina_api_key"
-    ["api.first.org"]="first_api_key"
-    ["services.nvd.nist.gov"]="nvd_api_key"
-)
+# Get required API key for domain (bash 3.2 compatible - no associative arrays)
+get_required_key() {
+    local domain="$1"
+    case "$domain" in
+        r.jina.ai|s.jina.ai)
+            echo "jina_api_key" ;;
+        api.first.org)
+            echo "first_api_key" ;;
+        services.nvd.nist.gov)
+            echo "nvd_api_key" ;;
+        *)
+            echo "" ;;
+    esac
+}
 
 # Check if this domain requires an API key
-REQUIRED_KEY=""
-for KEY_DOMAIN in "${!API_KEY_DOMAINS[@]}"; do
-    if [[ "$DOMAIN" == *"$KEY_DOMAIN"* ]]; then
-        REQUIRED_KEY="${API_KEY_DOMAINS[$KEY_DOMAIN]}"
-        break
-    fi
-done
+REQUIRED_KEY=$(get_required_key "$DOMAIN")
 
 # If no API key required, exit
 if [ -z "$REQUIRED_KEY" ]; then
