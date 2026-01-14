@@ -23,7 +23,8 @@
     "./skills/feed-management",
     "./skills/configuration",
     "./skills/reporting",
-    "./skills/system"
+    "./skills/system",
+    "./skills/deployment"
   ],
   "agents": [
     "./agents"

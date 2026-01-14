@@ -1,3 +1,12 @@
+---
+name: Deployment Skills
+description: |
+  Use this skill group when the user wants to "deploy the GUI", "provision server", "publish report", "share report", "check gui status", "view gui logs", or mentions Hetzner deployment, web intake GUI, report sharing, or server management.
+
+  This skill group manages the NOMAD Web Intake GUI deployment on Hetzner Cloud (~€4.50/month).
+version: 2.1.0
+---
+
 # Deployment Skills
 
 This skill group manages the NOMAD Web Intake GUI deployment on Hetzner Cloud.
