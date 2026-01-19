@@ -6,7 +6,7 @@
       "name": "load-nomad-context",
       "event": "SessionStart",
       "description": "Load NOMAD configuration and check cache freshness on session start",
-      "command": "bash .claude-plugin/hooks/scripts/load-nomad-context.sh",
+      "command": "bash hooks/scripts/load-nomad-context.sh",
       "timeout": 5000,
       "failureMode": "warn"
     },
@@ -14,7 +14,7 @@
       "name": "validate-cve-format",
       "event": "UserPromptSubmit",
       "description": "Validate CVE identifiers in user queries and suggest corrections",
-      "command": "bash .claude-plugin/hooks/scripts/validate-cve-format.sh \"$PROMPT\"",
+      "command": "bash hooks/scripts/validate-cve-format.sh \"$PROMPT\"",
       "timeout": 1000,
       "failureMode": "warn"
     },
@@ -22,7 +22,7 @@
       "name": "check-setup-completion",
       "event": "UserPromptSubmit",
       "description": "Check if NOMAD setup is complete before operational queries",
-      "command": "bash .claude-plugin/hooks/scripts/check-setup-status.sh \"$PROMPT\"",
+      "command": "bash hooks/scripts/check-setup-status.sh \"$PROMPT\"",
       "timeout": 1000,
       "failureMode": "warn"
     },
@@ -31,7 +31,7 @@
       "event": "PreToolUse",
       "toolPattern": "WebFetch",
       "description": "Verify WebFetch targets are legitimate threat intelligence sources",
-      "command": "bash .claude-plugin/hooks/scripts/verify-threat-source.sh \"$URL\"",
+      "command": "bash hooks/scripts/verify-threat-source.sh \"$URL\"",
       "timeout": 2000,
       "failureMode": "warn"
     },
@@ -40,7 +40,7 @@
       "event": "PostToolUse",
       "toolPattern": "WebFetch",
       "description": "Log threat intelligence queries for audit trail",
-      "command": "bash .claude-plugin/hooks/scripts/log-threat-query.sh \"$URL\" \"$STATUS\"",
+      "command": "bash hooks/scripts/log-threat-query.sh \"$URL\" \"$STATUS\"",
       "timeout": 1000,
       "failureMode": "ignore"
     },
@@ -49,7 +49,7 @@
       "event": "PreToolUse",
       "toolPattern": "WebFetch",
       "description": "Check if required API keys are configured for premium sources",
-      "command": "bash .claude-plugin/hooks/scripts/check-api-keys.sh \"$URL\"",
+      "command": "bash hooks/scripts/check-api-keys.sh \"$URL\"",
       "timeout": 1000,
       "failureMode": "warn"
     },
@@ -57,7 +57,7 @@
       "name": "verify-cache-saved",
       "event": "Stop",
       "description": "Verify threat cache was properly saved before session end",
-      "command": "bash .claude-plugin/hooks/scripts/verify-cache-saved.sh",
+      "command": "bash hooks/scripts/verify-cache-saved.sh",
       "timeout": 3000,
       "failureMode": "warn"
     }

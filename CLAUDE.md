@@ -12,22 +12,26 @@ NOMAD v2.1 uses the modern Claude Code plugin architecture with:
 
 ### Directory Structure
 ```
+# Plugin components (auto-discovered at root level)
+agents/                   # 8 specialized agents with YAML frontmatter
+skills/                   # 6 skill groups (25 commands)
+├── threat-intelligence/
+├── feed-management/
+├── configuration/
+├── reporting/
+├── system/
+└── deployment/           # Web GUI deployment skills
+hooks/                    # Validation and security hooks
+├── hooks.json
+└── scripts/
+
+# Plugin manifest
 .claude-plugin/
-├── plugin.json           # Main plugin manifest
+├── plugin.json           # Main plugin manifest (metadata only)
 ├── README.md             # Plugin documentation
-├── agents/               # 8 specialized agents with YAML frontmatter
-├── skills/               # 6 skill groups (25 commands)
-│   ├── threat-intelligence/
-│   ├── feed-management/
-│   ├── configuration/
-│   ├── reporting/
-│   ├── system/
-│   └── deployment/       # Web GUI deployment skills
-├── hooks/                # Validation and security hooks
-│   ├── hooks.json
-│   └── scripts/
 └── .mcp.json             # MCP server configuration
 
+# Claude Code settings
 .claude/
 ├── settings.json         # Project permissions and environment
 └── commands-legacy/      # Archived v2.0 commands

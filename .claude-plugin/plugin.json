@@ -1,6 +1,6 @@
 {
   "name": "nomad-threat-intelligence",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "NOMAD - Notable Object Monitoring And Analysis Director. A Claude Code-native threat intelligence framework for personalized security briefings.",
   "author": {
     "name": "NOMAD Team"
@@ -17,17 +17,5 @@
     "epss",
     "cvss",
     "cybersecurity"
-  ],
-  "commands": [
-    "./skills/threat-intelligence",
-    "./skills/feed-management",
-    "./skills/configuration",
-    "./skills/reporting",
-    "./skills/system",
-    "./skills/deployment"
-  ],
-  "agents": [
-    "./agents"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
