@@ -1,6 +1,7 @@
 """Dashboard API endpoints for threat intelligence visualization."""
 
 from datetime import datetime, timedelta
+from pathlib import Path
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, text

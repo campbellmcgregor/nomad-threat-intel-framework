@@ -3,6 +3,7 @@
 import json
 import smtplib
 import ssl
+import html
 from abc import ABC, abstractmethod
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -12,6 +13,13 @@ import urllib.request
 import urllib.error
 
 from .models import Alert, DeliveryResult, DeliveryStatus
+
+
+def escape_html(text) -> str:
+    """Escape HTML special characters to prevent injection."""
+    if text is None:
+        return ''
+    return html.escape(str(text))
 
 
 class NotificationChannel(ABC):
@@ -484,8 +492,18 @@ Link: {alert.source_url or alert.report_url or 'N/A'}
 Sent by NOMAD Threat Intelligence
 """
         
-        # HTML version
-        html = f"""
+        # HTML version - escape all user-controlled data
+        safe_title = escape_html(alert.title)
+        safe_summary = escape_html(alert.summary)
+        safe_source = escape_html(alert.source_name)
+        safe_cves = ', '.join(escape_html(c) for c in alert.cves) if alert.cves else 'None'
+        safe_crown_jewels = ''.join(f'<li>{escape_html(cj)}</li>' for cj in alert.affected_crown_jewels) if alert.affected_crown_jewels else ''
+        # Validate URL to prevent javascript: injection
+        link_url = alert.source_url or alert.report_url or '#'
+        if not link_url.startswith(('http://', 'https://', '#')):
+            link_url = '#'
+        
+        html_content = f"""
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
@@ -496,13 +514,13 @@ Sent by NOMAD Threat Intelligence
         </h1>
     </div>
     <div style="padding: 20px; background: #f9fafb;">
-        <h2 style="margin-top: 0; color: #1f2937;">{alert.title}</h2>
-        <p style="color: #4b5563; line-height: 1.6;">{alert.summary}</p>
+        <h2 style="margin-top: 0; color: #1f2937;">{safe_title}</h2>
+        <p style="color: #4b5563; line-height: 1.6;">{safe_summary}</p>
         
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
             <tr>
                 <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>CVSS</strong></td>
-                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{alert.cvss_score or 'N/A'}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{escape_html(alert.cvss_score) if alert.cvss_score else 'N/A'}</td>
             </tr>
             <tr>
                 <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>EPSS</strong></td>
@@ -510,25 +528,25 @@ Sent by NOMAD Threat Intelligence
             </tr>
             <tr>
                 <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>KEV Listed</strong></td>
-                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{'<span style="color: #dc2626;">Yes ⚠️</span>' if alert.kev_listed else 'No'}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{'<span style="color: #dc2626;">Yes</span>' if alert.kev_listed else 'No'}</td>
             </tr>
             <tr>
                 <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>CVEs</strong></td>
-                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{', '.join(alert.cves) if alert.cves else 'None'}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">{safe_cves}</td>
             </tr>
         </table>
         
-        {'<h3>Affected Systems</h3><ul>' + ''.join(f'<li>{cj}</li>' for cj in alert.affected_crown_jewels) + '</ul>' if alert.affected_crown_jewels else ''}
+        {'<h3>Affected Systems</h3><ul>' + safe_crown_jewels + '</ul>' if safe_crown_jewels else ''}
         
         <div style="margin-top: 20px;">
-            <a href="{alert.source_url or alert.report_url or '#'}" 
+            <a href="{escape_html(link_url)}" 
                style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
                 View Full Details
             </a>
         </div>
         
         <p style="margin-top: 20px; font-size: 12px; color: #6b7280;">
-            Source: {alert.source_name}<br>
+            Source: {safe_source}<br>
             Sent by NOMAD Threat Intelligence
         </p>
     </div>
@@ -537,7 +555,7 @@ Sent by NOMAD Threat Intelligence
 """
         
         msg.attach(MIMEText(text, "plain"))
-        msg.attach(MIMEText(html, "html"))
+        msg.attach(MIMEText(html_content, "html"))
         
         return msg
     

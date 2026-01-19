@@ -245,6 +245,14 @@
             });
         }
 
+        // HTML escape function to prevent XSS
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+
         function updateCrownJewelHeatMap(crownJewels) {
             const container = document.getElementById('crownJewelHeatMap');
             
@@ -264,16 +272,16 @@
                 return `
                     <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
                         <div class="flex-1">
-                            <div class="text-sm font-medium text-gray-700">${cj.crown_jewel}</div>
+                            <div class="text-sm font-medium text-gray-700">${escapeHtml(cj.crown_jewel)}</div>
                             <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
                                 <div class="${colorClass} h-2 rounded-full" style="width: ${percentage}%"></div>
                             </div>
                         </div>
                         <div class="ml-4 text-right">
-                            <div class="text-lg font-semibold text-gray-800">${cj.threat_count}</div>
+                            <div class="text-lg font-semibold text-gray-800">${escapeHtml(cj.threat_count)}</div>
                             <div class="text-xs text-gray-500">
-                                ${cj.critical_count > 0 ? `${cj.critical_count} crit` : ''}
-                                ${cj.high_count > 0 ? `${cj.high_count} high` : ''}
+                                ${cj.critical_count > 0 ? `${escapeHtml(cj.critical_count)} crit` : ''}
+                                ${cj.high_count > 0 ? `${escapeHtml(cj.high_count)} high` : ''}
                             </div>
                         </div>
                     </div>
@@ -290,18 +298,21 @@
             }
             
             container.innerHTML = alerts.map(alert => {
-                const priorityClass = `priority-${alert.priority}`;
+                const priorityClass = `priority-${escapeHtml(alert.priority)}`;
                 const kevBadge = alert.kev_listed ? '<span class="px-2 py-0.5 text-xs bg-red-100 text-red-800 rounded">KEV</span>' : '';
-                const cves = alert.cves?.slice(0, 2).join(', ') || '';
+                const cves = alert.cves?.slice(0, 2).map(c => escapeHtml(c)).join(', ') || '';
+                const title = escapeHtml(alert.title || '');
+                const source = escapeHtml(alert.source || '');
+                const priority = escapeHtml(alert.priority || '');
                 
                 return `
                     <div class="p-3 bg-gray-50 rounded-lg ${priorityClass} hover:bg-gray-100">
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
-                                <div class="font-medium text-gray-800 text-sm">${alert.title.substring(0, 80)}${alert.title.length > 80 ? '...' : ''}</div>
+                                <div class="font-medium text-gray-800 text-sm">${title.substring(0, 80)}${title.length > 80 ? '...' : ''}</div>
                                 <div class="text-xs text-gray-500 mt-1">
                                     ${cves ? `<span class="font-mono">${cves}</span> · ` : ''}
-                                    ${alert.source} · ${new Date(alert.published).toLocaleDateString()}
+                                    ${source} · ${alert.published ? new Date(alert.published).toLocaleDateString() : 'N/A'}
                                 </div>
                             </div>
                             <div class="ml-3 flex flex-col items-end space-y-1">
@@ -310,9 +321,9 @@
                                     alert.priority === 'high' ? 'bg-orange-100 text-orange-800' :
                                     alert.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
                                     'bg-green-100 text-green-800'
-                                }">${alert.priority.toUpperCase()}</span>
+                                }">${priority.toUpperCase()}</span>
                                 ${kevBadge}
-                                ${alert.cvss ? `<span class="text-xs text-gray-500">CVSS ${alert.cvss}</span>` : ''}
+                                ${alert.cvss ? `<span class="text-xs text-gray-500">CVSS ${escapeHtml(alert.cvss)}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -348,12 +359,13 @@
                                     feed.status === 'degraded' ? 'text-yellow-500' : 'text-red-500';
                 const statusIcon = feed.status === 'healthy' ? '✓' :
                                    feed.status === 'degraded' ? '⚠' : '✗';
+                const feedName = escapeHtml(feed.name || '').substring(0, 25);
                 
                 return `
                     <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                         <div class="flex items-center space-x-2">
                             <span class="${statusColor}">${statusIcon}</span>
-                            <span class="text-sm text-gray-700">${feed.name.substring(0, 25)}</span>
+                            <span class="text-sm text-gray-700">${feedName}</span>
                         </div>
                         <span class="text-sm text-gray-500">${feed.overall_score?.toFixed(0) || '-'}%</span>
                     </div>
