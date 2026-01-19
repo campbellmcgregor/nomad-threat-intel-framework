@@ -4,7 +4,8 @@ from datetime import datetime, date
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+import bleach
 
 
 class ReportType(str, Enum):
@@ -32,6 +33,31 @@ class ReportContent(BaseModel):
     markdown: str = Field(..., description="Markdown formatted report content")
     html: str | None = Field(None, description="Pre-rendered HTML content")
     raw_data: dict[str, Any] | None = Field(None, description="Structured threat data")
+
+    @model_validator(mode='after')
+    def sanitize_content(self):
+        """Sanitize markdown content to prevent XSS."""
+        if self.markdown:
+            self.markdown = bleach.clean(
+                self.markdown,
+                tags=bleach.sanitizer.ALLOWED_TAGS + [
+                    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
+                    'p', 'br', 'hr', 
+                    'ul', 'ol', 'li', 
+                    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                    'strong', 'b', 'em', 'i', 'u', 's', 'strike',
+                    'code', 'pre', 'blockquote', 
+                    'a', 'img'
+                ],
+                attributes={
+                    'a': ['href', 'title', 'target'],
+                    'img': ['src', 'alt', 'title', 'width', 'height'],
+                    '*': ['class', 'id']
+                },
+                protocols=['http', 'https', 'mailto'],
+                strip=True
+            )
+        return self
 
 
 class ReportMetadata(BaseModel):
