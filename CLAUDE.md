@@ -13,8 +13,8 @@ NOMAD v2.1 uses the modern Claude Code plugin architecture with:
 ### Directory Structure
 ```
 # Plugin components (auto-discovered at root level)
-agents/                   # 8 specialized agents with YAML frontmatter
-skills/                   # 6 skill groups (25 commands)
+agents/                   # 10 specialized agents with YAML frontmatter
+skills/                   # 5 skill groups (25 commands)
 ├── threat-intelligence/
 ├── feed-management/
 ├── configuration/
@@ -25,31 +25,38 @@ hooks/                    # Validation and security hooks
 ├── hooks.json
 └── scripts/
 
-# Plugin manifest
-.claude-plugin/
-├── plugin.json           # Main plugin manifest (metadata only)
-├── README.md             # Plugin documentation
-└── .mcp.json             # MCP server configuration
+# Core Infrastructure
+src/
+├── cache/                # SQLite threat database & FTS5
+└── notifications/        # Alert dispatching logic
 
-# Claude Code settings
-.claude/
-├── settings.json         # Project permissions and environment
-└── commands-legacy/      # Archived v2.0 commands
-
+# Web Intake GUI
 web-intake-gui/           # Docker-based report sharing web app
 ├── app/                  # FastAPI application
 ├── Dockerfile
 ├── docker-compose.yml
 └── requirements.txt
 
+# Deployment
 deployment/               # Hetzner Cloud deployment via Ansible
 └── ansible/
     ├── playbooks/        # provision, deploy, destroy, backup, logs, status
     ├── inventory/
     └── templates/
+
+# Plugin manifest (metadata only)
+.claude-plugin/
+├── plugin.json
+├── README.md
+└── .mcp.json
+
+# Claude Code settings
+.claude/
+├── settings.json         # Project permissions and environment
+└── commands-legacy/      # Archived v2.0 commands
 ```
 
-### Agent System (8 Agents)
+### Agent System (10 Agents)
 Agents are invoked via the Task tool with YAML frontmatter defining behavior:
 
 | Agent | Purpose | Color |
@@ -62,8 +69,10 @@ Agents are invoked via the Task tool with YAML frontmatter defining behavior:
 | `feed-manager` | Feed subscriptions | cyan |
 | `feed-quality-monitor` | Feed health tracking | yellow |
 | `setup-wizard` | Progressive onboarding | magenta |
+| `notification-dispatcher` | Alert routing & dispatch | blue |
+| `threat-hunter` | Proactive threat analysis | red |
 
-### Skills System (21 Skills in 5 Groups)
+### Skills System (25 Skills in 5 Groups)
 
 Skills are invoked with `/command` syntax:
 
@@ -73,6 +82,7 @@ Skills are invoked with `/command` syntax:
 - `/cve [CVE-ID]` - Detailed CVE analysis
 - `/crown-jewel [system]` - Threats to specific systems
 - `/trending` - Trending threats and vectors
+- `/hunt` - Run proactive threat hunting sweeps
 
 **Feed Management:**
 - `/add-feeds [industry]` - Add industry-specific feeds
@@ -85,11 +95,14 @@ Skills are invoked with `/command` syntax:
 - `/configure [setting]` - Quick config updates
 - `/add-crown-jewel` - Add critical system
 - `/update-profile` - Update organization info
+- `/alert-config` - Configure notification channels
 
-**Reporting:**
+**Reporting & Actions:**
 - `/executive-brief` - Executive summary
 - `/technical-alert` - SOC/IT alert format
 - `/weekly-summary` - Weekly threat landscape
+- `/create-ticket` - Create tickets in Jira/ServiceNow
+- `/compliance-map` - Map threats to compliance frameworks
 
 **System:**
 - `/status` - System health dashboard
@@ -289,11 +302,24 @@ export NOMAD_WEB_API_TOKEN="$(python -c 'import secrets; print(secrets.token_url
 Add to `config/user-preferences.json`:
 ```json
 {
+  "notifications": {
+    "channels": {
+      "slack": { "webhook_url": "..." },
+      "email": { "recipients": ["team@example.com"] }
+    },
+    "routing": {
+      "critical": ["slack", "pagerduty"],
+      "high": ["email"]
+    }
+  },
   "web_gui": {
     "enabled": true,
     "base_url": "https://nomad.example.com",
     "api_token": "${NOMAD_WEB_API_TOKEN}",
     "default_share_hours": 72
+  },
+  "integrations": {
+    "jira": { "url": "...", "project": "SEC" }
   }
 }
 ```

@@ -86,10 +86,13 @@ When deploying NOMAD:
 NOMAD includes several security features:
 
 - **Input validation**: All agent inputs are validated against schemas
+- **XSS Prevention**: Dashboard HTML escaping for all user-controlled data
+- **Injection Protection**: HTML injection prevention in email notifications
 - **Rate limiting**: API calls are rate-limited to prevent abuse
 - **Audit logging**: All routing decisions are logged
 - **Evidence chain**: Maintains custody chain for threat artifacts
 - **Admiralty grading**: Credibility assessment for all sources
+- **Secure Configuration**: No hardcoded secrets; environment variable support
 
 ## Compliance
 

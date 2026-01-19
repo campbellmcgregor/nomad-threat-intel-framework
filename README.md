@@ -12,11 +12,13 @@ NOMAD (Notable Object Monitoring And Analysis Director) is a Claude Code-native 
 
 ### Key Features
 
-- 🎯 **21 Skills** organized into 5 groups (threats, feeds, config, reporting, system)
-- 🤖 **8 Specialized Agents** for multi-step threat intelligence workflows
+- 🎯 **25 Skills** organized into 5 groups (threats, feeds, config, reporting, system)
+- 🤖 **10 Specialized Agents** for multi-step threat intelligence workflows
 - 🔗 **7 Hooks** for validation, security, and audit logging
+- 🔔 **Multi-Channel Notifications** (Slack, Teams, Discord, Email, PagerDuty)
+- 📊 **Interactive Threat Dashboard** with heat maps and trend analysis
+- 🕵️ **Proactive Threat Hunting** with MITRE ATT&CK mapping
 - 🌐 **MCP Integration** for real-time NVD, EPSS, and CISA KEV data
-- 📊 **Admiralty Rating System** for source reliability grading
 - 👑 **Crown Jewel Correlation** for asset-specific threat prioritization
 
 ## Quick Start
@@ -41,21 +43,24 @@ claude
 ## Architecture
 
 ```
-.claude-plugin/
-├── plugin.json           # Plugin manifest
-├── agents/               # 8 specialized agents
-├── skills/               # 21 commands in 5 groups
+nomad-actual/
+├── agents/               # 10 specialized agents
+├── skills/               # 25 commands in 5 groups
 │   ├── threat-intelligence/
 │   ├── feed-management/
 │   ├── configuration/
 │   ├── reporting/
-│   └── system/
+│   ├── system/
+│   └── deployment/
 ├── hooks/                # Validation & security
-└── .mcp.json             # API integrations
-
-.claude/
-├── settings.json         # Permissions & environment
-└── commands-legacy/      # Archived v2.0 commands
+├── src/                  # Core infrastructure
+│   ├── cache/            # SQLite threat database
+│   └── notifications/    # Alert dispatching
+├── web-intake-gui/       # Dashboard & Reports
+│   ├── app/              # FastAPI application
+│   └── docker-compose.yml
+├── deployment/           # Ansible automation
+└── config/               # User configuration
 ```
 
 ## Commands
@@ -68,6 +73,7 @@ claude
 | `/cve [CVE-ID]` | Detailed CVE analysis |
 | `/crown-jewel [system]` | Asset-specific threats |
 | `/trending` | Trending attack vectors |
+| `/hunt` | **NEW** Run proactive threat hunting sweeps |
 
 ### Feed Management
 | Command | Description |
@@ -84,13 +90,16 @@ claude
 | `/configure [setting]` | Quick config updates |
 | `/add-crown-jewel` | Add critical system |
 | `/update-profile` | Update organization info |
+| `/alert-config` | **NEW** Configure notification channels |
 
-### Reporting
+### Reporting & Actions
 | Command | Description |
 |---------|-------------|
 | `/executive-brief` | Executive summary |
 | `/technical-alert` | SOC/IT alert format |
 | `/weekly-summary` | Weekly threat landscape |
+| `/create-ticket` | **NEW** Create Jira/ServiceNow tickets |
+| `/compliance-map` | **NEW** Map threats to NIST/CIS/ISO |
 
 ### System
 | Command | Description |
@@ -99,6 +108,13 @@ claude
 | `/export [format]` | Export data/config |
 | `/help [command]` | Command reference |
 | `/verification-status` | Verification metrics |
+
+### Web GUI & Deployment
+| Command | Description |
+|---------|-------------|
+| `/deploy-gui` | Deploy dashboard to Hetzner |
+| `/publish-report` | Push report to Web GUI |
+| `/gui-status` | Check dashboard health |
 
 ## Natural Language Interface
 
@@ -178,7 +194,7 @@ NOMAD includes 7 hooks for validation and security:
 
 ## Multi-Agent Architecture
 
-NOMAD uses 8 specialized agents:
+NOMAD uses 10 specialized agents:
 
 | Agent | Purpose |
 |-------|---------|
@@ -190,6 +206,8 @@ NOMAD uses 8 specialized agents:
 | `feed-manager` | Feed subscriptions |
 | `feed-quality-monitor` | Feed health tracking |
 | `setup-wizard` | Progressive onboarding |
+| `notification-dispatcher` | **NEW** Multi-channel alerting |
+| `threat-hunter` | **NEW** Proactive analysis |
 
 ## Admiralty Rating System
 
