@@ -3,7 +3,6 @@
   "name": "NOMAD Threat Intelligence Framework",
   "version": "2.1.0",
   "description": "Notable Object Monitoring And Analysis Director - Enterprise threat intelligence orchestration",
-
   "permissions": {
     "allow": [
       "WebFetch(domain:nvd.nist.gov)",
@@ -52,34 +51,19 @@
     ],
     "deny": [
       "Write(.env*)",
-      "Write(**.key)",
-      "Write(**.pem)",
+      "Write(**/*.key)",
+      "Write(**/*.pem)",
       "Bash(rm -rf:*)",
       "Bash(curl:*)",
       "Bash(wget:*)"
     ]
   },
-
-  "environment": {
+  "env": {
     "NOMAD_VERSION": "2.1.0",
     "NOMAD_DATA_DIR": "data",
     "NOMAD_CONFIG_DIR": "config",
     "NOMAD_CACHE_TTL_HOURS": "4",
     "NOMAD_MAX_THREATS_PER_BRIEFING": "25",
     "NOMAD_DEFAULT_VERIFICATION": "structured"
-  },
-
-  "defaultModel": "claude-sonnet-4-20250514",
-
-  "agentDefaults": {
-    "timeout": 120000,
-    "maxTurns": 50
-  },
-
-  "features": {
-    "autoSuggestSkills": true,
-    "parallelAgents": true,
-    "auditLogging": true,
-    "cacheManagement": true
   }
 }

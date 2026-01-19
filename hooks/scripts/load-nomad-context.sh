@@ -6,6 +6,15 @@ CONFIG_FILE="config/user-preferences.json"
 CACHE_FILE="data/threats-cache.json"
 METRICS_FILE="data/feed-quality-metrics.json"
 
+# OS-aware file modification time (detect once, use efficiently)
+get_mtime() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        stat -f %m "$1" 2>/dev/null
+    else
+        stat -c %Y "$1" 2>/dev/null
+    fi
+}
+
 # Check if config exists
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "NOMAD_STATUS=unconfigured"
@@ -20,7 +29,7 @@ CROWN_JEWELS_COUNT=$(jq -r '.crown_jewels | length // 0' "$CONFIG_FILE" 2>/dev/n
 
 # Check cache freshness
 if [ -f "$CACHE_FILE" ]; then
-    CACHE_AGE_HOURS=$(( ($(date +%s) - $(stat -f %m "$CACHE_FILE" 2>/dev/null || stat -c %Y "$CACHE_FILE" 2>/dev/null)) / 3600 ))
+    CACHE_AGE_HOURS=$(( ($(date +%s) - $(get_mtime "$CACHE_FILE")) / 3600 ))
     THREAT_COUNT=$(jq -r '. | length // 0' "$CACHE_FILE" 2>/dev/null)
 
     if [ "$CACHE_AGE_HOURS" -gt 4 ]; then
