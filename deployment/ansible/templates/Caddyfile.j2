@@ -1,0 +1,13 @@
+{
+    email {{ admin_email | default('admin@example.com') }}
+}
+
+{% if app.domain %}
+{{ app.domain }} {
+    reverse_proxy app:8080
+}
+{% else %}
+:80 {
+    reverse_proxy app:8080
+}
+{% endif %}

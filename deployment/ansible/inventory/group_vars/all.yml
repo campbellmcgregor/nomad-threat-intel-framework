@@ -1,0 +1,32 @@
+# Global variables for NOMAD deployment
+
+# Application settings
+app:
+  domain: "" # Set this if you have a domain, e.g., "nomad.example.com"
+  name: "NOMAD Web Intake GUI"
+
+# Paths on the remote server
+paths:
+  app: "/opt/nomad-web"
+  data: "/opt/nomad-web/data"
+  backups: "/opt/nomad-web/backups"
+
+# Docker settings
+docker:
+  image_name: "nomad-web-gui"
+  image_tag: "latest"
+  container_name: "nomad-web"
+
+# Hetzner Cloud settings
+hetzner:
+  api_token: "{{ lookup('env', 'HETZNER_API_TOKEN') }}"
+  server_name: "nomad-web-01"
+  server_type: "cx22" # 2 vCPU, 4GB RAM (~4.50 EUR/mo)
+  location: "nbg1" # Nuremberg
+  image: "ubuntu-22.04"
+  ssh_key_name: "nomad-deploy-key"
+  firewall_name: "nomad-web-fw"
+
+# Security
+security:
+  nomad_web_api_token: "{{ lookup('env', 'NOMAD_WEB_API_TOKEN') }}"

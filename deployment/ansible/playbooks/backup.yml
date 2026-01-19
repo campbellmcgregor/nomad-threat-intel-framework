@@ -1,0 +1,45 @@
+---
+# Backup NOMAD Web GUI data
+- name: Backup Application Data
+  hosts: nomad_servers
+  become: yes
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  tasks:
+    - name: Create backup filename
+      ansible.builtin.set_fact:
+        backup_filename: "nomad-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}.tar.gz"
+
+    - name: Create backup archive on server
+      community.general.archive:
+        path: "{{ paths.data }}"
+        dest: "{{ paths.backups }}/{{ backup_filename }}"
+        format: gz
+
+    - name: Fetch backup to local machine
+      ansible.builtin.fetch:
+        src: "{{ paths.backups }}/{{ backup_filename }}"
+        dest: "{{ backup.local_destination }}"
+        flat: yes
+
+    - name: Clean old backups on server
+      ansible.builtin.find:
+        paths: "{{ paths.backups }}"
+        age: "{{ backup.retention_days }}d"
+        recurse: no
+      register: old_backups
+
+    - name: Remove old backups
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ old_backups.files }}"
+
+    - name: Display backup information
+      ansible.builtin.debug:
+        msg: |
+          Backup complete!
+
+          File: {{ backup.local_destination }}{{ backup_filename }}
+          Size: {{ (paths.backups + '/' + backup_filename) | filesize | default('unknown') }}

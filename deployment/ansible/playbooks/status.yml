@@ -1,0 +1,65 @@
+---
+# Check NOMAD Web GUI deployment status
+- name: Check Deployment Status
+  hosts: nomad_servers
+  become: yes
+  vars_files:
+    - ../inventory/group_vars/all.yml
+
+  tasks:
+    - name: Get container status
+      community.docker.docker_container_info:
+        name: "{{ docker.container_name }}"
+      register: app_container
+
+    - name: Get Caddy container status
+      community.docker.docker_container_info:
+        name: nomad-caddy
+      register: caddy_container
+      ignore_errors: yes
+
+    - name: Check application health
+      ansible.builtin.uri:
+        url: "http://localhost:8080/health"
+        method: GET
+      register: health_check
+      ignore_errors: yes
+
+    - name: Get disk usage
+      ansible.builtin.command: df -h {{ paths.app }}
+      register: disk_usage
+      changed_when: false
+
+    - name: Get data directory size
+      ansible.builtin.command: du -sh {{ paths.data }}
+      register: data_size
+      changed_when: false
+
+    - name: Count reports in database
+      ansible.builtin.shell: |
+        sqlite3 {{ paths.data }}/nomad_web.db "SELECT COUNT(*) FROM reports;" 2>/dev/null || echo "0"
+      register: report_count
+      changed_when: false
+
+    - name: Display status
+      ansible.builtin.debug:
+        msg: |
+          === NOMAD Web GUI Status ===
+
+          Server: {{ inventory_hostname }} ({{ ansible_host }})
+          URL: {{ 'https://' + app.domain if app.domain else 'http://' + ansible_host + ':8080' }}
+
+          === Containers ===
+          App Container: {{ app_container.container.State.Status | default('not found') }}
+          Caddy Container: {{ caddy_container.container.State.Status | default('not found') }}
+
+          === Health ===
+          API Health: {{ health_check.json.status | default('unhealthy') }}
+          Database: {{ health_check.json.components.database | default('unknown') }}
+
+          === Storage ===
+          {{ disk_usage.stdout_lines | join('\n') }}
+          Data Size: {{ data_size.stdout }}
+
+          === Reports ===
+          Total Reports: {{ report_count.stdout | trim }}

@@ -1,0 +1,41 @@
+services:
+  app:
+    image: {{ docker.image_name }}:{{ docker.image_tag }}
+    container_name: {{ docker.container_name }}
+    restart: always
+    env_file: .env
+    volumes:
+      - {{ paths.data }}:/app/data
+    networks:
+      - nomad_net
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8080/health/live')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - nomad_net
+    depends_on:
+      - app
+
+networks:
+  nomad_net:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
