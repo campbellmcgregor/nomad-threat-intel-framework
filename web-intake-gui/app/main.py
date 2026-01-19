@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import get_settings
 from app.database import init_db
-from app.api import reports_router, sharing_router, health_router
+from app.api import reports_router, sharing_router, health_router, dashboard_router
 
 
 @asynccontextmanager
@@ -85,6 +85,7 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(reports_router)
 app.include_router(sharing_router)
+app.include_router(dashboard_router)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

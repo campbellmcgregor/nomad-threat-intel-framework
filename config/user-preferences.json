@@ -89,5 +89,129 @@
       "alert_threshold_usd": 8,
       "hard_limit_usd": 10
     }
+  },
+  "notifications": {
+    "enabled": false,
+    "channels": {
+      "slack": {
+        "enabled": false,
+        "webhook_url": "",
+        "channel": "#security-alerts",
+        "mention_on_critical": "@channel"
+      },
+      "teams": {
+        "enabled": false,
+        "webhook_url": "",
+        "mention_on_critical": ""
+      },
+      "discord": {
+        "enabled": false,
+        "webhook_url": "",
+        "role_id_critical": ""
+      },
+      "email": {
+        "enabled": false,
+        "smtp_host": "",
+        "smtp_port": 587,
+        "smtp_user": "",
+        "smtp_password": "",
+        "from_address": "",
+        "recipients": [],
+        "use_tls": true,
+        "digest_enabled": true,
+        "digest_time": "09:00"
+      },
+      "pagerduty": {
+        "enabled": false,
+        "routing_key": "",
+        "severity_threshold": "critical"
+      }
+    },
+    "rules": [
+      {
+        "name": "KEV Alert",
+        "condition": "kev_listed == true",
+        "channels": ["slack", "pagerduty", "email"],
+        "priority": "critical",
+        "enabled": true
+      },
+      {
+        "name": "Critical CVSS",
+        "condition": "cvss_v3 >= 9.0",
+        "channels": ["slack", "email"],
+        "priority": "critical",
+        "enabled": true
+      },
+      {
+        "name": "High EPSS",
+        "condition": "epss_score >= 0.7",
+        "channels": ["slack"],
+        "priority": "high",
+        "enabled": true
+      },
+      {
+        "name": "Crown Jewel Threat",
+        "condition": "affected_crown_jewels.length > 0",
+        "channels": ["slack", "email"],
+        "priority": "high",
+        "enabled": true
+      }
+    ],
+    "rate_limits": {
+      "critical": {"max_per_hour": -1, "max_per_day": -1},
+      "high": {"max_per_hour": 10, "max_per_day": 50},
+      "medium": {"max_per_hour": 5, "max_per_day": 20},
+      "low": {"max_per_hour": 2, "max_per_day": 10}
+    },
+    "quiet_hours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00",
+      "timezone": "UTC",
+      "override_for_critical": true
+    }
+  },
+  "integrations": {
+    "jira": {
+      "enabled": false,
+      "url": "",
+      "project_key": "SEC",
+      "default_issue_type": "Task",
+      "api_token": "",
+      "email": ""
+    },
+    "servicenow": {
+      "enabled": false,
+      "instance_url": "",
+      "username": "",
+      "password": "",
+      "assignment_group": "Security Operations"
+    },
+    "pagerduty": {
+      "enabled": false,
+      "routing_key": "",
+      "service_id": ""
+    },
+    "misp": {
+      "enabled": false,
+      "url": "",
+      "api_key": "",
+      "publish_threats": false,
+      "pull_indicators": true
+    }
+  },
+  "compliance": {
+    "frameworks": ["nist", "cis"],
+    "primary_framework": "nist",
+    "auto_map_threats": true,
+    "gap_alert_threshold": 5,
+    "report_schedule": "monthly"
+  },
+  "web_gui": {
+    "enabled": true,
+    "base_url": "",
+    "api_token": "",
+    "default_share_hours": 72,
+    "auto_publish": false
   }
 }
